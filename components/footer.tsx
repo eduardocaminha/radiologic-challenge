@@ -20,7 +20,7 @@ export function Footer({ locale, dictionary }: FooterProps) {
       <AsciiWake />
       <div className="grid grid-cols-2 gap-x-6 gap-y-8 py-10 text-sm text-muted-foreground sm:grid-cols-3">
         <div className="flex flex-col gap-3">
-          <Link href={`/${locale}`} aria-label={dictionary.home.title} className="w-fit text-foreground">
+          <Link href={`/${locale}`} aria-label={dictionary.home.title} className="-m-2 w-fit p-2 text-foreground">
             <Logo className="size-5" aria-hidden="true" />
           </Link>
           <span>© {new Date().getFullYear()} Radiologic</span>
