@@ -1,5 +1,8 @@
 export const ASCII_RAMP = " .:-=+*#%@";
 
+// Brilho máximo comum aos dois desenhos em caracteres.
+export const ASCII_MAX_ALPHA = 0.58;
+
 export const WINDOW_LEVEL_REST = { window: 2000, level: 0 };
 
 // Janela de mediastino: em caracteres é a que melhor mostra a anatomia do tórax.

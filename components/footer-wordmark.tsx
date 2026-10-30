@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { ASCII_RAMP as RAMP, WINDOW_LEVEL_REST as REST, windowLevelFromPointer } from "@/lib/window-level";
+import { ASCII_MAX_ALPHA, ASCII_RAMP as RAMP, WINDOW_LEVEL_REST as REST, windowLevelFromPointer } from "@/lib/window-level";
 
 const WORD = "Radiologic";
 const REVEAL_MS = 800;
@@ -90,7 +90,7 @@ function paint(canvas: HTMLCanvasElement, cells: Cell[], cellHeight: number, win
     else buckets.set(index, [cell]);
   }
   for (const [index, bucket] of buckets) {
-    const alpha = (index / (RAMP.length - 1)) * (restAlpha + narrowing * 0.06);
+    const alpha = (index / (RAMP.length - 1)) * (restAlpha + narrowing * (ASCII_MAX_ALPHA - restAlpha));
     context.fillStyle = `oklch(1 0 0 / ${alpha})`;
     const glyph = RAMP[index] ?? " ";
     for (const cell of bucket) context.fillText(glyph, cell.x, cell.y);
