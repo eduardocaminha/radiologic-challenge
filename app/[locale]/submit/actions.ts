@@ -152,12 +152,9 @@ export async function deleteSubmission(_previousState: SubmissionActionState, fo
   if (screenshots.error) return rpcError(screenshots.error);
   const screenshotRows = (screenshots.data ?? []) as Array<{ path?: unknown }>;
   const paths = screenshotRows.map((screenshot) => screenshot.path).filter((path): path is string => typeof path === "string");
-  if (paths.length > 0) {
-    const removed = await removeScreenshotObjects(paths);
-    if (removed) return { ok: false, errorCode: "SUB48" };
-  }
   const deleted = await createSecretSupabaseClient().rpc("delete_submission_for_owner", { p_submission_id: parsedId.data, p_owner_id: ownerId });
   if (deleted.error) return rpcError(deleted.error);
+  await removeOrphanObjects(paths);
 
   revalidatePath(`/${locale}/me`);
   return successState();
@@ -197,6 +194,12 @@ export type ScreenshotActionState = { ok: true; screenshot?: RegisteredScreensho
 
 async function removeScreenshotObject(path: string) {
   return removeScreenshotObjects([path]);
+}
+
+// O registro sai antes do arquivo: se a exclusão falhar, nenhum registro aponta para um arquivo que sumiu.
+async function removeOrphanObjects(paths: string[]) {
+  const removed = await removeScreenshotObjects(paths);
+  if (removed) console.error("Falha ao apagar arquivos de imagem", paths, removed);
 }
 
 export async function registerScreenshot(input: unknown): Promise<ScreenshotActionState> {
@@ -239,10 +242,9 @@ export async function deleteScreenshot(input: unknown): Promise<ScreenshotAction
   const current = await supabase.rpc("my_screenshot", { p_screenshot_id: parsed.data.screenshotId });
   const path = current.data?.[0]?.path;
   if (current.error || typeof path !== "string") return rpcError(current.error ?? { code: "SUB04" }) as ScreenshotActionState;
-  const removed = await removeScreenshotObjects([path]);
-  if (removed) return { ok: false, errorCode: "SUB48" };
   const deleted = await createSecretSupabaseClient().rpc("delete_screenshot_for_owner", { p_screenshot_id: parsed.data.screenshotId, p_owner_id: ownerId });
   if (deleted.error) return rpcError(deleted.error) as ScreenshotActionState;
+  await removeOrphanObjects([path]);
 
   revalidatePath(`/${parsed.data.locale}/submit`);
   return { ok: true };

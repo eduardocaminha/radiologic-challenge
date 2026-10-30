@@ -75,7 +75,7 @@ Todas `security definer`, `search_path = ''`, com erro tipado.
 - **Leitura pública:** `ranking()` devolve viewers aprovados com contagem total e do mês corrente, sem expor `user_id`.
 - **Snapshot:** `snapshot_month(month)` idempotente, agendada no `pg_cron` para o primeiro dia de cada mês.
 - **Submissão:** `create_submission` (cria `draft`), `update_submission`, `submit_submission` (`draft` para `pending`), `resubmit_submission` (`rejected` para `pending`), `delete_submission`. Teto de 3 submissões em `draft` ou `pending` por usuário.
-- **Moderação (só admin):** `moderate_submission(id, action, reason)`, `moderate_screenshot(id, action)`.
+- **Moderação (só admin):** `moderate_submission(id, action, expected_status, reason, expected_updated_at)`, `moderate_screenshot(id, action)`, `withdraw_screenshot(id)`.
 - **Integridade (só admin):** `vote_report(submission_id)`, `void_votes(user_id)`, `ban_voter(user_id, reason)`, `recompute_month(month)`.
 - **Intake:** `intake_github_issue(...)` e `claim_github_submissions()`.
 
@@ -89,7 +89,7 @@ Todas `security definer`, `search_path = ''`, com erro tipado.
 
 ## Moderação e aviso
 
-- Primeira publicação e toda imagem passam por aprovação. Aprovar uma submissão exige ao menos uma imagem aprovada.
+- Primeira publicação e toda imagem passam por aprovação. Aprovar uma submissão exige ao menos uma imagem aprovada. A aprovação vale para a versão revisada: se ficha ou imagens mudaram, falha com `SUB25`. Imagem pode ser retirada a qualquer momento, sem remover o projeto: vira `rejected` e o arquivo é apagado.
 - Edição de texto em viewer aprovado entra direto. Mudança de URL em viewer aprovado entra direto e grava evento.
 - `GET /api/cron/digest` roda uma vez por dia pelo cron da Vercel, exige `Authorization: Bearer $CRON_SECRET`, consulta pendências e envia um e-mail por `fetch` à API do Resend. Sem `RESEND_API_KEY` vira no-op logado. A consulta diária também mantém o projeto Supabase ativo.
 

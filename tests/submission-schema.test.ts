@@ -73,7 +73,8 @@ describe("submission-schema", () => {
     expect(changes.ai_tools).toBeNull();
     expect(changes.features).toBeNull();
     expect(changes.modalities).toBeNull();
-    expect(changes.rules_version).toBeNull();
-    expect(changes.rules_accepted_at).toBeNull();
+    expect(changes.rules_accepted).toBe(false);
+    expect(changes).not.toHaveProperty("rules_version");
+    expect(changes).not.toHaveProperty("rules_accepted_at");
   });
 });

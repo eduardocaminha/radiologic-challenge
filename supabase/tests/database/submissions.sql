@@ -9,12 +9,12 @@ select has_function('public'::name, 'update_submission'::name, array['uuid'::nam
 select has_function('public'::name, 'submit_submission'::name, array['uuid'::name]);
 select has_function('public'::name, 'resubmit_submission'::name, array['uuid'::name]);
 select has_function('public'::name, 'delete_submission'::name, array['uuid'::name]);
-select has_function('public'::name, 'moderate_submission'::name, array['uuid'::name, 'text'::name, 'text'::name, 'text'::name]);
+select has_function('public'::name, 'moderate_submission'::name, array['uuid'::name, 'text'::name, 'text'::name, 'text'::name, 'timestamptz'::name]);
 select has_function('public'::name, 'get_submission'::name, array['text'::name]);
 select has_function('public'::name, 'my_submissions'::name, array[]::name[]);
 
 select ok((select prosecdef from pg_proc where oid = 'public.create_submission(text)'::regprocedure), 'create_submission is security definer');
-select ok((select prosecdef from pg_proc where oid = 'public.moderate_submission(uuid,text,text,text)'::regprocedure), 'moderate_submission is security definer');
+select ok((select prosecdef from pg_proc where oid = 'public.moderate_submission(uuid,text,text,text,timestamptz)'::regprocedure), 'moderate_submission is security definer');
 select ok((select replace(replace(coalesce(proconfig[1], ''), 'search_path=', ''), chr(34), '') = '' from pg_proc where oid = 'public.create_submission(text)'::regprocedure), 'create_submission has an empty search_path');
 select is(has_function_privilege('anon', 'public.create_submission(text)', 'EXECUTE'), false, 'anon cannot create submissions');
 select is(has_function_privilege('authenticated', 'public.create_submission(text)', 'EXECUTE'), true, 'authenticated can create submissions');
@@ -54,7 +54,7 @@ select public.delete_submission((select id from public.submissions where name = 
 select set_config('request.jwt.claim.sub', 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', false);
 select throws_ok($$select public.update_submission((select id from public.submissions where name = 'Viewer Ágil'), '{"name":"Other"}'::jsonb)$$, 'SUB05', 'only the submission owner can update it', 'update_submission rejects another owner');
 select set_config('request.jwt.claim.sub', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', false);
-select public.update_submission((select id from public.submissions where name = 'Viewer Ágil'), '{"tagline":"Tagline","description":"Description","differential":"Different","lang":"pt","platforms":["web"],"workflow_parts":["viewer"],"requires_install":false,"repo_url":"https://example.test/repo","license":"MIT","base_tech":"scratch","data_source":"Synthetic","data_license":"CC0","external_api":false,"rules_version":"1","rules_accepted_at":"2026-10-11T12:00:00Z"}'::jsonb);
+select public.update_submission((select id from public.submissions where name = 'Viewer Ágil'), '{"tagline":"Tagline","description":"Description","differential":"Different","lang":"pt","platforms":["web"],"workflow_parts":["viewer"],"requires_install":false,"repo_url":"https://example.test/repo","license":"MIT","base_tech":"scratch","data_source":"Synthetic","data_license":"CC0","external_api":false,"rules_accepted":true}'::jsonb);
 select ok((select tagline = 'Tagline' and demo_url is null from public.submissions where name = 'Viewer Ágil'), 'update_submission updates owner fields');
 select public.update_submission((select id from public.submissions where name = 'Viewer Ágil'), '{"lang":"es"}'::jsonb);
 select ok((select lang = 'es' from public.submissions where name = 'Viewer Ágil'), 'lang accepts es');

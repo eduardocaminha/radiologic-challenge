@@ -35,6 +35,8 @@ Todo comando de verificação precisa ser hermético: sem segredo, sem OAuth rea
 - Tabelas com RLS ligado e `revoke all` de `anon` e `authenticated`. Nenhuma escrita direta pelo cliente.
 - Toda escrita passa por função `security definer` com `search_path = ''`. A função carrega a regra (um voto por conta, transições de estado, limites). A server action só valida com Zod e chama a função.
 - Depois da moderação, a submissão não perde campo obrigatório e projeto removido não é editado (`guard_submission_edit`). Edição em aprovado grava evento e entra no resumo diário.
+- Aprovar compara `updated_at` com a versão revisada (`SUB25`), e registrar, excluir ou reordenar imagem muda essa versão. Versão e data do aceite do regulamento vêm do servidor (`current_rules_version()`): o cliente só envia `rules_accepted`.
+- Registro de imagem sai antes do arquivo, nunca o contrário. Caminho já registrado não aceita novo upload (`can_upload_screenshot`), que também limita a 8 arquivos por submissão e 50 por conta. `withdraw_screenshot` retira a imagem sozinha e apaga o arquivo, o que invalida as URLs assinadas.
 - Autorização nunca lê `user_metadata` nem e-mail. Admin é linha na tabela `admins`. O menu de conta do header mostra nome, e-mail e provedor só para exibir, com a inicial no lugar da foto, para não enviar o IP do usuário ao provedor.
 - Chaves do Supabase: só `publishable` e `secret`. A `secret` fica em módulo com `server-only`.
 - Toda migration traz `grant` explícito do que precisa ser exposto.
@@ -76,7 +78,7 @@ Valem para copy, dicionários, docs, comentários e commits.
 
 - Não adicionar biblioteca de i18n, ORM, Redis, BotID, SDK do Resend ou `issue-ops/parser`.
 - Não redigir texto legal. O regulamento e a política de privacidade vêm de `docs/drafts/`, revisados pelo dono.
-- O nome público é Radiologic Workstation. "Viewer" só para o componente de imagem; a submissão é "workstation" ou "projeto". Slugs, rotas `/v/[slug]` e o repo mantêm o nome antigo.
+- O nome público é Radiologic Workstation. "Viewer" só para o componente de imagem; a submissão é "workstation" ou "projeto". Slugs e rotas `/v/[slug]` mantêm o nome antigo.
 - Demo pública não chama LLM ao vivo.
 - Não listar produtos comerciais de mercado. Só projetos submetidos pelo público.
 - Não usar `--no-verify` nem force push.

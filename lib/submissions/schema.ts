@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { RULES_VERSION, WORKFLOW_PARTS } from "@/lib/submissions/constants";
+import { WORKFLOW_PARTS } from "@/lib/submissions/constants";
 
 const optionalText = (max: number) =>
   z.preprocess(
@@ -259,7 +259,6 @@ export function submissionChanges(values: SubmissionFormValues) {
     author_profile: values.author_profile ?? null,
     country: values.country ?? null,
     limitations: values.limitations ?? null,
-    rules_version: values.rules_accepted ? RULES_VERSION : null,
-    rules_accepted_at: values.rules_accepted ? new Date().toISOString() : null,
+    rules_accepted: values.rules_accepted === true,
   };
 }

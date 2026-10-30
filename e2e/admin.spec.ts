@@ -91,6 +91,16 @@ test("restringe a fila a admins e permite moderar a ficha e cada imagem", async 
   await approved.getByRole("button", { name: "Restaurar na galeria" }).click();
   await expect(approved.getByText("Viewer publicado")).toBeVisible();
 
+  await approved.getByRole("button", { name: "Retirar imagem" }).click();
+  await page.getByRole("alertdialog").getByRole("button", { name: "Retirar", exact: true }).click();
+  await expect(approved.getByText("Imagem 1, rejeitada")).toBeVisible();
+  await expect(approved.getByText("Imagem indisponível")).toBeVisible();
+  await expect(approved.getByText("Viewer publicado")).toBeVisible();
+  const { url, secretKey } = localEnv();
+  const storage = createClient(url, secretKey, { auth: { autoRefreshToken: false, persistSession: false } }).storage.from("screenshots");
+  const removed = await storage.download(`${adminId}/${approvedId}/${approvedScreenshotId}.png`);
+  expect(removed.error).not.toBeNull();
+
   const rejected = page.getByRole("region", { name: "Pendências" }).getByRole("article").filter({ has: page.getByRole("heading", { name: "Viewer para rejeitar" }) });
   await rejected.getByLabel("Motivo da rejeição").fill("A ficha precisa de uma demonstração mais clara.");
   await rejected.getByRole("button", { name: "Rejeitar", exact: true }).click();

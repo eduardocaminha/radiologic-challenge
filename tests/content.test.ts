@@ -33,14 +33,14 @@ describe("textos legais", () => {
     expect(new Set(versions)).toEqual(new Set([RULES_VERSION]));
   });
 
-  it("o intake do GitHub grava o mesmo rules_version", () => {
+  it("o banco grava o mesmo rules_version", () => {
     const dir = join(process.cwd(), "supabase", "migrations");
     const latest = readdirSync(dir)
       .sort()
       .map((file) => readFileSync(join(dir, file), "utf8"))
-      .filter((sql) => sql.includes("v_rules_version :="))
+      .filter((sql) => sql.includes("function public.current_rules_version()"))
       .at(-1);
-    expect(latest).toContain(`v_rules_version := '${RULES_VERSION}'`);
+    expect(latest).toContain(`select '${RULES_VERSION}'::text`);
   });
 
   it("rejeita documento sem linha de versão", () => {

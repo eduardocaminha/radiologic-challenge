@@ -50,7 +50,7 @@ export default async function Submit({ params, searchParams }: PageProps) {
     const signedUrls = await createScreenshotSignedUrls(screenshotRows.map((screenshot) => screenshot.path));
     submission = {
       ...(result.data[0] as SubmissionRecord),
-      screenshots: screenshotRows.map((screenshot) => ({ ...screenshot, url: signedUrls.get(screenshot.path) ?? screenshot.path })),
+      screenshots: screenshotRows.map((screenshot) => ({ ...screenshot, url: signedUrls.get(screenshot.path) ?? "" })),
     };
   }
 

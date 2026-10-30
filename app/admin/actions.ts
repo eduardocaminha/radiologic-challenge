@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
+import { removeScreenshotObjects } from "@/lib/storage/server";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 
 export interface AdminActionState {
@@ -16,6 +17,12 @@ const moderationSchema = z.object({
   expectedStatus: z.enum(["pending", "approved", "rejected", "removed"]),
   reason: z.string().max(500).optional(),
   slug: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/).optional(),
+  expectedUpdatedAt: z.string().max(40).optional(),
+});
+
+const withdrawSchema = z.object({
+  screenshotId: z.string().uuid(),
+  slug: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/).nullish(),
 });
 
 const recomputeSchema = z.object({
@@ -43,6 +50,8 @@ function functionErrorMessage(code?: string) {
       return "Informe um motivo de rejeição com até 500 caracteres.";
     case "SUB24":
       return "A submissão precisa ter ao menos uma imagem aprovada.";
+    case "SUB25":
+      return "A submissão mudou durante a revisão. Atualize a fila e revise de novo.";
     case "SUB46":
       return "A ação para esta imagem não é válida.";
     case "SUB47":
@@ -127,6 +136,7 @@ export async function moderateAdminItem(
     expectedStatus: formValue(formData, "expectedStatus"),
     reason: formValue(formData, "reason") || undefined,
     slug: formValue(formData, "slug") || undefined,
+    expectedUpdatedAt: formValue(formData, "expectedUpdatedAt") || undefined,
   });
 
   if (!parsed.success) {
@@ -152,6 +162,7 @@ export async function moderateAdminItem(
         p_action: parsed.data.action,
         p_expected_status: parsed.data.expectedStatus,
         p_reason: parsed.data.reason?.trim() || null,
+        p_expected_updated_at: parsed.data.expectedUpdatedAt ?? null,
       })
     : await supabase.rpc("moderate_screenshot", {
         p_screenshot_id: parsed.data.itemId,
@@ -171,6 +182,33 @@ export async function moderateAdminItem(
   }
 
   return { ok: true, message: "Ação aplicada. A fila foi atualizada." };
+}
+
+export async function withdrawAdminScreenshot(input: unknown): Promise<AdminActionState> {
+  const parsed = withdrawSchema.safeParse(input);
+  if (!parsed.success) return { ok: false, message: "Revise os dados da ação e tente novamente." };
+
+  const supabase = await createServerSupabaseClient();
+  const { data: claims } = await supabase.auth.getClaims();
+  if (typeof claims?.claims?.sub !== "string") {
+    return { ok: false, message: "Entre na sua conta para continuar." };
+  }
+
+  const result = await supabase.rpc("withdraw_screenshot", { p_screenshot_id: parsed.data.screenshotId });
+  if (result.error || typeof result.data !== "string") {
+    return { ok: false, message: functionErrorMessage(result.error?.code) };
+  }
+
+  const removed = await removeScreenshotObjects([result.data]);
+
+  revalidatePath("/admin");
+  for (const locale of ["pt", "en", "es"]) {
+    revalidatePath(`/${locale}`);
+    if (parsed.data.slug) revalidatePath(`/${locale}/v/${parsed.data.slug}`);
+  }
+
+  if (removed) return { ok: false, message: "A imagem saiu do site, mas o arquivo não foi apagado. Tente de novo." };
+  return { ok: true, message: "Imagem retirada e arquivo apagado." };
 }
 
 export async function recomputeMonthlyHighlights(

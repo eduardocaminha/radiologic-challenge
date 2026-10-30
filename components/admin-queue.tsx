@@ -1,10 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import { useActionState } from "react";
-import { moderateAdminItem, type AdminActionState } from "@/app/admin/actions";
+import { useActionState, useState, useTransition } from "react";
+import { moderateAdminItem, withdrawAdminScreenshot, type AdminActionState } from "@/app/admin/actions";
 import { AdminHighlights } from "@/components/admin-highlights";
 import { AdminIntegrity } from "@/components/admin-integrity";
+import { ConfirmAction } from "@/components/confirm-action";
 import type { AdminEvent, AdminIntegrityReport, AdminQueue as AdminQueueData, AdminScreenshot, AdminSubmission } from "@/lib/admin/types";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -39,11 +40,13 @@ function ActionForm({
   action,
   label,
   reason,
+  expectedUpdatedAt,
 }: {
   kind: "submission" | "screenshot";
   itemId: string;
   slug?: string | null;
   expectedStatus: AdminSubmission["status"] | AdminScreenshot["status"];
+  expectedUpdatedAt?: string;
   action: "approve" | "reject" | "remove" | "restore";
   label: string;
   reason?: boolean;
@@ -56,6 +59,7 @@ function ActionForm({
       <input type="hidden" name="itemId" value={itemId} />
       <input type="hidden" name="expectedStatus" value={expectedStatus} />
       {slug ? <input type="hidden" name="slug" value={slug} /> : null}
+      {expectedUpdatedAt ? <input type="hidden" name="expectedUpdatedAt" value={expectedUpdatedAt} /> : null}
       {reason ? (
         <label className="flex min-w-56 flex-1 flex-col gap-1 text-sm">
           <span>Motivo da rejeição</span>
@@ -77,7 +81,7 @@ function SubmissionActions({ submission }: { submission: AdminSubmission }) {
     return (
       <div className="flex flex-col gap-3">
         <div className="flex flex-wrap gap-2">
-          <ActionForm kind="submission" itemId={submission.id} slug={submission.slug} expectedStatus={submission.status} action="approve" label="Aprovar" />
+          <ActionForm kind="submission" itemId={submission.id} slug={submission.slug} expectedStatus={submission.status} action="approve" label="Aprovar" expectedUpdatedAt={submission.updated_at} />
         </div>
         <ActionForm kind="submission" itemId={submission.id} slug={submission.slug} expectedStatus={submission.status} action="reject" label="Rejeitar" reason />
       </div>
@@ -96,6 +100,25 @@ function SubmissionActions({ submission }: { submission: AdminSubmission }) {
   );
 }
 
+function WithdrawScreenshot({ screenshotId, slug }: { screenshotId: string; slug?: string | null }) {
+  const [state, setState] = useState<AdminActionState>(initialActionState);
+  const [pending, startTransition] = useTransition();
+
+  return (
+    <div className="flex flex-col items-end gap-1">
+      <ConfirmAction
+        label="Retirar imagem"
+        question="Retirar esta imagem e apagar o arquivo? Não dá para desfazer."
+        confirmLabel="Retirar"
+        cancelLabel="Cancelar"
+        disabled={pending}
+        onConfirm={() => startTransition(async () => setState(await withdrawAdminScreenshot({ screenshotId, slug })))}
+      />
+      {state.message ? <p role={state.ok ? "status" : "alert"} className={`text-sm ${state.ok ? "text-muted-foreground" : "text-destructive"}`}>{state.message}</p> : null}
+    </div>
+  );
+}
+
 function ScreenshotItem({ screenshot, slug }: { screenshot: AdminScreenshot; slug?: string | null }) {
   return (
     <li className="flex flex-col gap-3 rounded-lg bg-muted p-3 sm:p-4">
@@ -111,7 +134,7 @@ function ScreenshotItem({ screenshot, slug }: { screenshot: AdminScreenshot; slu
             <ActionForm kind="screenshot" itemId={screenshot.id} slug={slug} expectedStatus={screenshot.status} action="approve" label="Aprovar imagem" />
             <ActionForm kind="screenshot" itemId={screenshot.id} slug={slug} expectedStatus={screenshot.status} action="reject" label="Rejeitar imagem" />
           </div>
-        ) : null}
+        ) : <WithdrawScreenshot screenshotId={screenshot.id} slug={slug} />}
       </div>
     </li>
   );
