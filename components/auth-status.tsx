@@ -58,7 +58,7 @@ export function AuthStatus({ locale, signedInLabel, signInLabel, signOutLabel }:
 
   if (!ready || !signedIn) {
     return (
-      <Button variant="ghost" size="sm" className="max-sm:px-1.5" render={<Link href={`/${locale}/login`} />}>
+      <Button variant="outline" size="sm" render={<Link href={`/${locale}/login`} />}>
         {signInLabel}
       </Button>
     );

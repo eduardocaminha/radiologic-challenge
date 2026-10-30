@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Menu, MenuLinkItem, MenuPopup, MenuTrigger } from "@/components/ui/menu";
 
-// Abaixo de lg os links do site não cabem no header e ficam neste menu.
+// Abaixo de lg os links do header ficam neste menu, junto com o envio.
 export function SiteMenu({ label, links }: { label: string; links: { href: string; label: string }[] }) {
   return (
     <Menu>

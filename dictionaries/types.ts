@@ -13,6 +13,7 @@ export interface Dictionary {
   nav: {
     menu: string;
     label: string;
+    footerLabel: string;
     languageLabel: string;
     highlights: string;
   };

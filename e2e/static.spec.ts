@@ -31,11 +31,12 @@ test.describe("páginas estáticas", () => {
     test(`navegação do site em ${locale}`, async ({ page }) => {
       await page.goto(`/${locale}`);
       const nav = page.getByRole("banner").getByRole("navigation", { name: locale === "pt" ? "Navegação do site" : "Site navigation" });
+      const footer = page.getByRole("contentinfo");
       await expect(nav.getByRole("link", { name: rulesTitle })).toHaveAttribute("href", `/${locale}/rules`);
-      await expect(nav.getByRole("link", { name: privacyTitle })).toHaveAttribute("href", `/${locale}/privacy`);
       await expect(nav.getByRole("link", { name: locale === "pt" ? "Kit de dados" : "Data kit" })).toHaveAttribute("href", `/${locale}/kit`);
-      await expect(nav.getByRole("link", { name: locale === "pt" ? "Contato" : "Contact" })).toHaveAttribute("href", "mailto:caminha@radiologic.io");
-      await expect(nav.getByRole("link", { name: locale === "pt" ? "Código-fonte" : "Source code" })).toHaveAttribute("href", "https://github.com/eduardocaminha/radiologic-viewers");
+      await expect(footer.getByRole("link", { name: privacyTitle })).toHaveAttribute("href", `/${locale}/privacy`);
+      await expect(footer.getByRole("link", { name: locale === "pt" ? "Contato" : "Contact" })).toHaveAttribute("href", "mailto:caminha@radiologic.io");
+      await expect(footer.getByRole("link", { name: locale === "pt" ? "Código-fonte" : "Source code" })).toHaveAttribute("href", "https://github.com/eduardocaminha/radiologic-viewers");
     });
   }
 });
