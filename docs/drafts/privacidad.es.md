@@ -11,7 +11,7 @@ El controlador es Radiologic, marca de MEDLABZ CONSULTORIA LTDA, CNPJ 62.761.039
 - **Al iniciar sesión con Google o GitHub:** correo electrónico, nombre, foto de perfil y el identificador de la cuenta en el proveedor. No recibimos tu contraseña.
 - **Al votar:** qué cuenta votó por qué proyecto y cuándo.
 - **Al enviar un proyecto:** los datos de la ficha, las capturas de pantalla y, si el envío llega por un issue en GitHub, el número del issue y el identificador de tu cuenta de GitHub.
-- **Al navegar:** nada. El sitio no usa herramientas de métricas, de publicidad ni de rastreo. Vercel registra datos técnicos de cada acceso, como la dirección IP, para entregar la página y proteger el sitio.
+- **Al navegar:** métricas agregadas de acceso mediante Vercel Web Analytics, sin cookies y sin identificar a quien visita. El sitio no usa herramientas de publicidad ni de rastreo entre sitios. Vercel también registra datos técnicos de cada acceso, como la dirección IP, para entregar la página y proteger el sitio.
 
 No recopilamos datos de salud. El reglamento prohíbe el envío de estudios de pacientes reales fuera de bases públicas.
 
@@ -37,7 +37,7 @@ Tu correo electrónico y la lista de proyectos por los que votaste no son públi
 
 ## Con quién compartimos
 
-Usamos proveedores para operar el sitio: Supabase (base de datos, inicio de sesión y archivos), Vercel (alojamiento), Google y GitHub (inicio de sesión) y Resend (correo electrónico). Ellos tratan los datos en nuestro nombre y pueden almacenarlos fuera de Brasil. No vendemos datos ni los usamos para publicidad.
+Usamos proveedores para operar el sitio: Supabase (base de datos, inicio de sesión y archivos), Vercel (alojamiento y métricas), Google y GitHub (inicio de sesión) y Resend (correo electrónico). Ellos tratan los datos en nuestro nombre y pueden almacenarlos fuera de Brasil. No vendemos datos ni los usamos para publicidad.
 
 ## Por cuánto tiempo
 

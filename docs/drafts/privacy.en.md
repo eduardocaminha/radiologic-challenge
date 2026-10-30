@@ -11,7 +11,7 @@ The controller is Radiologic, a brand of MEDLABZ CONSULTORIA LTDA, Brazilian CNP
 - **When you sign in with Google or GitHub:** email, name, profile picture and the account identifier at the provider. We never receive your password.
 - **When you vote:** which account voted for which project and when.
 - **When you submit a project:** the entry data, the screenshots and, if the submission comes through a GitHub issue, the issue number and your GitHub account identifier.
-- **When you browse:** nothing. The site uses no metrics, advertising or tracking tool. Vercel logs technical data for each request, such as the IP address, to deliver the page and protect the site.
+- **When you browse:** aggregate traffic metrics through Vercel Web Analytics, with no cookies and without identifying visitors. The site uses no advertising or cross-site tracking tool. Vercel also logs technical data for each request, such as the IP address, to deliver the page and protect the site.
 
 We do not collect health data. The rules forbid sending studies from real patients outside public datasets.
 
@@ -37,7 +37,7 @@ Your email and the list of projects you voted for are not public.
 
 ## Who we share it with
 
-We use providers to run the site: Supabase (database, sign-in and files), Vercel (hosting), Google and GitHub (sign-in) and Resend (email). They process data on our behalf and may store it outside Brazil. We do not sell data and do not use it for advertising.
+We use providers to run the site: Supabase (database, sign-in and files), Vercel (hosting and metrics), Google and GitHub (sign-in) and Resend (email). They process data on our behalf and may store it outside Brazil. We do not sell data and do not use it for advertising.
 
 ## How long we keep it
 
