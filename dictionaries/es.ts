@@ -15,6 +15,7 @@ const dictionary: Dictionary = {
   nav: {
     menu: "Menú",
     label: "Navegación del sitio",
+    footerLabel: "Enlaces del pie de página",
     languageLabel: "Idioma",
     highlights: "Destacados",
   },

@@ -25,7 +25,7 @@ export function LocaleSwitcher({ locale, label }: LocaleSwitcherProps) {
     <Select value={locale} onValueChange={change} items={locales.map((value) => ({ value, label: localeLabels[value] }))}>
       <SelectTrigger size="sm" aria-label={label} className="w-auto min-w-0 border-transparent bg-transparent text-muted-foreground shadow-none hover:bg-accent hover:text-foreground">
         <LanguagesIcon aria-hidden="true" className="size-4 opacity-80" />
-        <SelectValue className="uppercase sm:normal-case">{(value: Locale) => <><span className="sm:hidden">{value}</span><span className="max-sm:hidden">{localeLabels[value]}</span></>}</SelectValue>
+        <SelectValue className="uppercase">{(value: Locale) => value}</SelectValue>
       </SelectTrigger>
       <SelectPopup align="end" alignItemWithTrigger={false}>
         {locales.map((value) => <SelectItem key={value} value={value}>{localeLabels[value]}</SelectItem>)}
