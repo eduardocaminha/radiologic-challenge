@@ -79,7 +79,7 @@ function SubmissionItem({ locale, dictionary, submission, transitionAction, dele
           {submission.status === "draft" ? <TransitionForm locale={locale} id={submission.id} intent="submit" label={dictionary.submission.send} action={transitionAction} disabled={disabled} /> : null}
           {submission.status === "rejected" ? <TransitionForm locale={locale} id={submission.id} intent="resubmit" label={dictionary.submission.resend} action={transitionAction} disabled={disabled} /> : null}
           {submission.status === "approved" && submission.slug ? <BadgeMarkdown locale={locale} dictionary={dictionary} name={submission.name ?? dictionary.submission.title} slug={submission.slug} /> : null}
-          <Button variant="ghost" size="sm" render={<Link href={`/${locale}/submit?id=${submission.id}`} />}>{dictionary.submission.editTitle}</Button>
+          <Button variant="ghost" size="sm" className="text-muted-foreground" render={<Link href={`/${locale}/submit?id=${submission.id}`} />}>{dictionary.submission.editTitle}</Button>
           <form ref={deleteForm} action={deleteAction}>
             <input type="hidden" name="locale" value={locale} />
             <input type="hidden" name="submission_id" value={submission.id} />

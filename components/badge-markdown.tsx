@@ -31,7 +31,7 @@ export function BadgeMarkdown({ locale, dictionary, name, slug }: { locale: Loca
   }
 
   return (
-    <Button variant="ghost" size="sm" title={markdown} onClick={() => void copyMarkdown()}>
+    <Button variant="ghost" size="sm" className="text-muted-foreground" title={markdown} onClick={() => void copyMarkdown()}>
       {copied ? <CheckIcon aria-hidden="true" className="text-success" /> : <CopyIcon aria-hidden="true" />}
       {copied ? copy.badgeCopied : copy.badgeCopy}
     </Button>

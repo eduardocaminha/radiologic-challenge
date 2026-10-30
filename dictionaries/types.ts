@@ -7,8 +7,6 @@ export interface Dictionary {
     headlineNote: string;
     tagline: string;
     submit: string;
-    rules: string;
-    kit: string;
   };
   nav: {
     menu: string;
@@ -86,13 +84,11 @@ export interface Dictionary {
     all: string;
     emptyTitle: string;
     noResultsTitle: string;
-    submit: string;
     votes: string;
     clearFilters: string;
     parts: string;
     allPlatforms: string;
     viewerCount: string;
-    kit: string;
     aiShare: Record<string, string>;
   };
   viewer: {

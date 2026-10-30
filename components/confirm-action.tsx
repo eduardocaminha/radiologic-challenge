@@ -14,7 +14,7 @@ export function ConfirmAction({ label, question, confirmLabel, cancelLabel, disa
           <AlertDialogTitle>{question}</AlertDialogTitle>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogClose render={<Button variant="ghost" />}>{cancelLabel}</AlertDialogClose>
+          <AlertDialogClose render={<Button variant="outline" />}>{cancelLabel}</AlertDialogClose>
           <Button variant="destructive" onClick={() => { setOpen(false); onConfirm(); }}>{confirmLabel}</Button>
         </AlertDialogFooter>
       </AlertDialogPopup>

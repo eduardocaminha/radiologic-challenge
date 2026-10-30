@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { hasSupabaseConfig } from "@/lib/supabase/config";
 import { createBrowserSupabaseClient } from "@/lib/supabase/browser";
@@ -17,6 +17,7 @@ interface AuthStatusProps {
 
 export function AuthStatus({ locale, signedInLabel, signInLabel, signOutLabel }: AuthStatusProps) {
   const router = useRouter();
+  const pathname = usePathname();
   const [signedIn, setSignedIn] = useState(false);
   const [ready, setReady] = useState(() => !hasSupabaseConfig());
 
@@ -57,6 +58,7 @@ export function AuthStatus({ locale, signedInLabel, signInLabel, signOutLabel }:
   }
 
   if (!ready || !signedIn) {
+    if (pathname === `/${locale}/login`) return null;
     return (
       <Button variant="outline" size="sm" render={<Link href={`/${locale}/login`} />}>
         {signInLabel}
@@ -66,7 +68,7 @@ export function AuthStatus({ locale, signedInLabel, signInLabel, signOutLabel }:
 
   return (
     <div className="flex items-center gap-0.5 sm:gap-1">
-      <Button variant="ghost" size="sm" className="max-sm:px-1.5" render={<Link href={`/${locale}/me`} />}>
+      <Button variant="outline" size="sm" render={<Link href={`/${locale}/me`} />}>
         {signedInLabel}
       </Button>
       <Button variant="ghost" size="sm" className="text-muted-foreground max-sm:px-1.5" onClick={signOut}>
