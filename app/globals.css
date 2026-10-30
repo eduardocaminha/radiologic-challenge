@@ -288,3 +288,14 @@
     transition: none;
   }
 }
+
+/* Carregamento só aparece se demorar. */
+@keyframes reveal-delayed {
+  from {
+    opacity: 0;
+  }
+}
+
+.reveal-delayed {
+  animation: reveal-delayed 200ms ease-out 300ms both;
+}
