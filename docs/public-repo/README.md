@@ -1,3 +1,5 @@
+![Radiologic Workstation](.github/social-preview.png)
+
 # Radiologic Workstation
 
 [English below](#radiologic-workstation-1)
