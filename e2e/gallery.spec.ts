@@ -66,7 +66,16 @@ test("gallery mostra o estado publicado em 375 px", async ({ page }) => {
   await page.getByRole("link", { name: "Galeria Viewer" }).click();
   await expect(page).toHaveURL(/\/pt\/v\/galeria-viewer$/);
   await expect(page.getByRole("heading", { name: "Galeria Viewer" })).toBeVisible();
-  await expect(page.getByText("Uso não clínico")).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Uso não clínico" })).toBeVisible();
+});
+
+test("gallery guarda a ordenação na URL", async ({ page }) => {
+  await page.goto("/pt?sort=recent");
+  await expect(page.getByRole("button", { name: "Recentes" })).toHaveAttribute("aria-pressed", "true");
+  await page.getByRole("button", { name: "No mês" }).click();
+  await expect(page).toHaveURL(/\/pt\?sort=month$/);
+  await page.getByRole("button", { name: "Mais votados" }).click();
+  await expect(page).toHaveURL(/\/pt$/);
 });
 
 test("gallery mantém a ficha legível em 1280 px", async ({ page }) => {

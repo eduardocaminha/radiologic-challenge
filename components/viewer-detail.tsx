@@ -44,6 +44,8 @@ export function ViewerDetail({ locale, dictionary, viewer }: { locale: Locale; d
         </div>
       </header>
 
+      <ViewerAiStrip copy={copy} dictionary={dictionary} viewer={viewer} />
+
       {cover ? (
         <figure className="flex flex-col gap-3">
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -109,7 +111,6 @@ function ViewerAside({ copy, dictionary, links, viewer }: { copy: Dictionary["vi
           </ul>
         </section>
       ) : null}
-      <ViewerAiSection copy={copy} dictionary={dictionary} viewer={viewer} />
       <ViewerFacts copy={copy} dictionary={dictionary} viewer={viewer} />
     </aside>
   );
@@ -160,20 +161,24 @@ function ViewerUsageFacts({ copy, viewer }: { copy: Dictionary["viewer"]; viewer
   );
 }
 
-function ViewerAiSection({ copy, dictionary, viewer }: { copy: Dictionary["viewer"]; dictionary: Dictionary; viewer: PublicViewer }) {
-  const aiCodeShare = viewer.ai_code_share ? (dictionary.submission.select[viewer.ai_code_share] ?? viewer.ai_code_share) : null;
-  const timeSpent = viewer.time_spent ? (dictionary.submission.select[viewer.time_spent] ?? viewer.time_spent) : null;
-  const cost = viewer.cost ? (dictionary.submission.select[viewer.cost] ?? viewer.cost) : null;
-  const tools = viewer.ai_tools?.map((tool) => `${tool.name} ${tool.version}`).join(", ");
-  if (!tools && !aiCodeShare && !timeSpent && !cost) return null;
+function ViewerAiStrip({ copy, dictionary, viewer }: { copy: Dictionary["viewer"]; dictionary: Dictionary; viewer: PublicViewer }) {
+  const select = dictionary.submission.select;
+  const facts = [
+    [copy.aiTitle, viewer.ai_tools?.map((tool) => tool.name).join(", ")],
+    [copy.aiCodeShare, viewer.ai_code_share ? (select[viewer.ai_code_share] ?? viewer.ai_code_share) : null],
+    [copy.timeSpent, viewer.time_spent ? (select[viewer.time_spent] ?? viewer.time_spent) : null],
+    [copy.cost, viewer.cost ? (select[viewer.cost] ?? viewer.cost) : null],
+  ].filter((fact): fact is [string, string] => Boolean(fact[1]));
+  if (facts.length === 0) return null;
   return (
-    <section className="flex flex-col gap-3">
-      <h2 className="text-label-md">{copy.aiSection}</h2>
-      <dl className="flex flex-col text-sm">
-        {tools ? <Detail label={copy.aiTitle} value={tools} /> : null}
-        {aiCodeShare ? <Detail label={copy.aiCodeShare} value={aiCodeShare} /> : null}
-        {timeSpent ? <Detail label={copy.timeSpent} value={timeSpent} /> : null}
-        {cost ? <Detail label={copy.cost} value={cost} /> : null}
+    <section aria-label={copy.aiSection}>
+      <dl className="grid grid-cols-2 gap-x-6 gap-y-4 border-y border-border py-5 lg:grid-cols-4">
+        {facts.map(([label, value]) => (
+          <div key={label} className="flex min-w-0 flex-col gap-1">
+            <dt className="text-sm text-muted-foreground">{label}</dt>
+            <dd className="text-title-sm break-words">{value}</dd>
+          </div>
+        ))}
       </dl>
     </section>
   );

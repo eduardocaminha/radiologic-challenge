@@ -33,7 +33,7 @@ export default async function Me({ params }: PageProps) {
     <main className="mx-auto flex min-h-screen max-w-3xl flex-col gap-8 px-6 py-10 sm:py-14">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <h1 className="text-headline-lg sm:text-display-sm">{dictionary.auth.meTitle}</h1>
-        <Button render={<Link href={`/${locale}/submit`} />}>{dictionary.home.submit}</Button>
+        <Button size="lg" render={<Link href={`/${locale}/submit`} />}>{dictionary.home.submit}</Button>
       </div>
       <SubmissionList locale={locale} dictionary={dictionary} submissions={submissions.data ?? []} />
     </main>

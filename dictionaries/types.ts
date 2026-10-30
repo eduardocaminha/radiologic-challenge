@@ -8,6 +8,8 @@ export interface Dictionary {
     kit: string;
   };
   nav: {
+    menu: string;
+    label: string;
     languageLabel: string;
     highlights: string;
   };
@@ -26,12 +28,12 @@ export interface Dictionary {
     privacyDescription: string;
   };
   footer: {
-    label: string;
     rules: string;
     privacy: string;
     kit: string;
     contact: string;
     source: string;
+    nonClinical: string;
   };
   kit: {
     title: string;
@@ -72,7 +74,6 @@ export interface Dictionary {
     sortRecent: string;
     platform: string;
     baseTech: string;
-    country: string;
     all: string;
     emptyTitle: string;
     noResultsTitle: string;
@@ -80,6 +81,9 @@ export interface Dictionary {
     votes: string;
     clearFilters: string;
     allPlatforms: string;
+    viewerCount: string;
+    kit: string;
+    aiShare: Record<string, string>;
   };
   viewer: {
     back: string;

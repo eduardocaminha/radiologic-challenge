@@ -200,9 +200,9 @@ export function SubmissionForm({ locale, dictionary, idempotencyKey, submission 
       <input type="hidden" name="intent" value={submission?.status === "rejected" ? "resubmit" : "submit"} />
 
       <nav aria-label={submission ? dictionary.submission.editTitle : dictionary.submission.title} className="hidden lg:block lg:w-48 lg:shrink-0">
-        <ol className="sticky top-6 flex flex-col gap-1 text-sm">
+        <ol className="sticky top-6 flex flex-col gap-0.5">
           {sections.map(([id, label]) => (
-            <li key={id}><a href={`#${id}-heading`} className="block rounded-full px-3 py-1.5 text-muted-foreground transition-colors hover:bg-accent hover:text-foreground">{label}</a></li>
+            <li key={id}><Button variant="ghost" size="sm" className="w-full justify-start font-normal text-muted-foreground" render={<a href={`#${id}-heading`} />}>{label}</Button></li>
           ))}
         </ol>
       </nav>
@@ -389,7 +389,7 @@ function AiToolsInputs({ tools, nameLabel, versionLabel, addLabel, hasError }: {
         );
       })}
       {rows < 10 ? (
-        <Button variant="ghost" size="sm" className="-ms-2.5 w-fit text-muted-foreground" onClick={() => setRows((current) => current + 1)}>
+        <Button variant="ghost" className="-ms-3 w-fit text-muted-foreground" onClick={() => setRows((current) => current + 1)}>
           <PlusIcon aria-hidden="true" />
           {addLabel}
         </Button>
