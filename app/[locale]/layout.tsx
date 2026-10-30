@@ -1,3 +1,4 @@
+import { Analytics } from "@vercel/analytics/next";
 import { notFound } from "next/navigation";
 import type { Metadata, Viewport } from "next";
 import "../globals.css";
@@ -44,6 +45,7 @@ export default async function LocaleLayout({
         <Header locale={locale} dictionary={dictionary} />
         {children}
         <Footer locale={locale} dictionary={dictionary} />
+        <Analytics />
       </body>
     </html>
   );
