@@ -94,7 +94,7 @@ test("lista snapshots fechados, oculta o mês corrente e preserva registros sem 
 
 test("mostra o último snapshot na página inicial", async ({ page }) => {
   await page.goto("/pt");
-  await expect(page.getByRole("heading", { name: "Destaques mensais" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: /^Destaques de / })).toBeVisible();
   await expect(page.getByRole("link", { name: "Viewer em destaque" }).first()).toBeVisible();
 });
 
