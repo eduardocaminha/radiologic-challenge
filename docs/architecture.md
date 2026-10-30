@@ -102,3 +102,7 @@ No repo público `eduardocaminha/dicom-viewer-challenge`, o mesmo valor de `GITH
 ## Supabase local
 
 `supabase/config.toml` com `project_id = "radiologic-viewers"` e portas na faixa 553xx, para não colidir com o `reporter` (5432x). Testes de usuário usam contas locais com identidade `github` ou `google` semeada por SQL.
+
+## SEO
+
+Metadados de página passam por `pageMetadata` em `lib/seo.ts`, que define canonical, hreflang com `x-default` em `/pt` e Open Graph por idioma. `/login`, `/submit`, `/me` e `/admin` levam `noindex`. `app/sitemap.ts` lista as páginas públicas e os projetos aprovados nos 3 idiomas. Os ícones saem da marca em `app/icon.svg`, `app/favicon.ico`, `app/apple-icon.png` e `public/icon-*.png`.

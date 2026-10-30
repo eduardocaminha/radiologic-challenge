@@ -3,6 +3,8 @@ import type { Dictionary } from "./types";
 const dictionary: Dictionary = {
   home: {
     title: "Radiologic Workstation",
+    metaTitle: "Radiologic Workstation: workstations de radiologia em demo",
+    metaDescription: "Showcase aberto de workstations de radiologia: viewer, pilha de exames, IA, agente e laudo. Abra as demos, compare as ideias e vote na que você usaria.",
     headline: "Mostre a workstation",
     headlineNote: "que você queria usar para laudar.",
     tagline: "Showcase de workstations de radiologia: viewer, pilha de exames, IA, agente e laudo.",

@@ -4,6 +4,7 @@ import { LegalDocument } from "@/components/legal-document";
 import { getDictionary } from "@/dictionaries";
 import { isLocale } from "@/lib/i18n";
 import { getLegalDocument } from "@/lib/legal";
+import { pageMetadata } from "@/lib/seo";
 
 interface PageProps {
   params: Promise<{ locale: string }>;
@@ -16,11 +17,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!isLocale(locale)) notFound();
 
   const dictionary = await getDictionary(locale);
-  return {
-    title: getLegalDocument("privacy", locale).title,
-    description: dictionary.legal.privacyDescription,
-    alternates: { languages: { pt: "/pt/privacy", en: "/en/privacy", es: "/es/privacy" } },
-  };
+  return pageMetadata(locale, "/privacy", { title: getLegalDocument("privacy", locale).title, description: dictionary.legal.privacyDescription });
 }
 
 export default async function PrivacyPage({ params }: PageProps) {

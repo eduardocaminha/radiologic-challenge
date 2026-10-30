@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { randomUUID } from "node:crypto";
 import { notFound, redirect } from "next/navigation";
 import { getDictionary } from "@/dictionaries";
@@ -8,6 +9,7 @@ import { createScreenshotSignedUrls } from "@/lib/storage/server";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 import { SubmissionForm, type SubmissionRecord } from "@/components/submission-form";
 import type { ScreenshotRecord } from "@/components/screenshot-manager";
+import { noIndex } from "@/lib/seo";
 
 interface PageProps {
   params: Promise<{ locale: string }>;
@@ -15,6 +17,14 @@ interface PageProps {
 }
 
 export const dynamic = "force-dynamic";
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { locale } = await params;
+  if (!isLocale(locale)) notFound();
+
+  const dictionary = await getDictionary(locale);
+  return { title: dictionary.submission.title, robots: noIndex };
+}
 
 export default async function Submit({ params, searchParams }: PageProps) {
   const { locale: localeParam } = await params;

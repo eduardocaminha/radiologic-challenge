@@ -5,13 +5,16 @@ import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import { getDictionary } from "@/dictionaries";
 import { isLocale, locales } from "@/lib/i18n";
+import { SITE_NAME, SITE_URL } from "@/lib/seo";
 
 export const dynamicParams = false;
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://challenge.radiologic.io"),
+  metadataBase: new URL(SITE_URL),
+  title: { default: SITE_NAME, template: `%s | ${SITE_NAME}` },
+  applicationName: SITE_NAME,
   openGraph: {
-    siteName: "Radiologic Workstation",
+    siteName: SITE_NAME,
     type: "website",
   },
   twitter: { card: "summary_large_image" },
