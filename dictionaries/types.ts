@@ -7,6 +7,13 @@ export interface Dictionary {
     headlineNote: string;
     tagline: string;
     submit: string;
+    agent: {
+      label: string;
+      title: string;
+      prompt: string;
+      copy: string;
+      copied: string;
+    };
   };
   nav: {
     menu: string;

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
+import { AgentSubmit } from "@/components/agent-submit";
 import { Button } from "@/components/ui/button";
 import { MonthlyHighlights } from "@/components/monthly-highlights";
 import { ViewerGallery, ViewerGalleryWithParams } from "@/components/viewer-gallery";
@@ -48,7 +49,10 @@ export default async function Home({ params }: PageProps) {
       />
       <section className="hero-in flex flex-col gap-8">
         <h1 className="max-w-4xl text-display-sm text-balance sm:text-display-lg">{dictionary.home.headline} <span className="text-muted-foreground">{dictionary.home.headlineNote}</span></h1>
-        <Button size="lg" className="w-fit" render={<Link href={`/${locale}/submit`} />}>{dictionary.home.submit}</Button>
+        <div className="flex flex-wrap gap-2">
+          <Button size="lg" render={<Link href={`/${locale}/submit`} />}>{dictionary.home.submit}</Button>
+          <AgentSubmit copy={dictionary.home.agent} variant="outline" size="lg" />
+        </div>
       </section>
       {months[0] ? (
         <section className="flex flex-col gap-5" aria-labelledby="latest-highlights-heading">

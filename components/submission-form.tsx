@@ -18,6 +18,7 @@ import { saveSubmission, sendSubmission } from "@/app/[locale]/submit/actions";
 import type { Dictionary } from "@/dictionaries";
 import type { Locale } from "@/lib/i18n";
 import { ScreenshotManager, type ScreenshotRecord } from "@/components/screenshot-manager";
+import { AgentSubmit } from "@/components/agent-submit";
 import { FormNav } from "@/components/form-nav";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -276,6 +277,8 @@ export function SubmissionForm({ locale, dictionary, idempotencyKey, submission 
         <h1 className="text-headline-lg sm:text-display-sm">
           {submission ? dictionary.submission.editTitle : dictionary.submission.title}
         </h1>
+
+        {submission ? null : <AgentSubmit copy={dictionary.home.agent} variant="ghost" size="sm" className="-mt-8 -ms-2.5 w-fit text-muted-foreground" />}
 
         {error ? <p role="alert" className="rounded-lg border border-destructive/36 bg-destructive/8 px-4 py-3 text-sm text-destructive-foreground">{error}</p> : null}
 
