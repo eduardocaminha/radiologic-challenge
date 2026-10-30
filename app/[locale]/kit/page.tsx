@@ -26,8 +26,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 function Command({ children }: { children: string }) {
   return (
-    <pre className="overflow-x-auto rounded-2xl bg-surface px-4 py-3 font-sans text-label-md">
-      <code className="font-sans">{children}</code>
+    <pre className="overflow-x-auto rounded-2xl bg-surface px-4 py-3 font-mono text-sm">
+      <code>{children}</code>
     </pre>
   );
 }

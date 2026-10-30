@@ -265,3 +265,8 @@
     animation-name: row-fade;
   }
 }
+
+/* Página em tela cheia: esconde header e rodapé sem depender de JavaScript. */
+body:has([data-bare-page]) > :is(header, footer) {
+  display: none;
+}

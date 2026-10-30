@@ -1,8 +1,8 @@
 import Link from "next/link";
+import { FluidNav } from "@/components/fluid-nav";
 import { FooterWordmark } from "@/components/footer-wordmark";
 import { GithubIcon } from "@/components/github-icon";
 import { Logo } from "@/components/logo";
-import { Button } from "@/components/ui/button";
 import type { Dictionary } from "@/dictionaries";
 import type { Locale } from "@/lib/i18n";
 
@@ -25,14 +25,16 @@ export function Footer({ locale, dictionary }: FooterProps) {
           </Link>
           <span>© {new Date().getFullYear()} Radiologic</span>
         </div>
-        <nav aria-label={dictionary.nav.footerLabel} className="-ms-2.5 flex flex-col items-start gap-0.5">
-          <Button variant="ghost" size="sm" className="text-muted-foreground" render={<Link href={`/${locale}/privacy`} />}>{dictionary.footer.privacy}</Button>
-          <Button variant="ghost" size="sm" className="text-muted-foreground" render={<a href={`mailto:${CONTACT_EMAIL}`} />}>{dictionary.footer.contact}</Button>
-          <Button variant="ghost" size="sm" className="text-muted-foreground" render={<a href={SOURCE_URL} />}>
-            <GithubIcon />
-            {dictionary.footer.source}
-          </Button>
-        </nav>
+        <FluidNav
+          id="footer"
+          label={dictionary.nav.footerLabel}
+          className="-ms-2.5 flex-col items-start"
+          links={[
+            { href: `/${locale}/privacy`, label: dictionary.footer.privacy },
+            { href: `mailto:${CONTACT_EMAIL}`, label: dictionary.footer.contact },
+            { href: SOURCE_URL, label: dictionary.footer.source, icon: <GithubIcon /> },
+          ]}
+        />
         <span className="max-sm:col-span-2 sm:text-end">{dictionary.footer.nonClinical}</span>
       </div>
     </footer>
