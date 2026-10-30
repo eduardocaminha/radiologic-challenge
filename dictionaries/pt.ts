@@ -9,6 +9,13 @@ const dictionary: Dictionary = {
     headlineNote: "que você queria usar para laudar.",
     tagline: "Showcase de workstations de radiologia: viewer, pilha de exames, IA, agente e laudo.",
     submit: "Enviar workstation",
+    agent: {
+      label: "Enviar com agente",
+      title: "Cole no seu agente",
+      prompt: "Siga https://github.com/eduardocaminha/radiologic-challenge-submissions/blob/main/AGENTS.md e prepare o rascunho do meu projeto para o Radiologic Workstation.",
+      copy: "Copiar instrução",
+      copied: "Copiado",
+    },
   },
   nav: {
     menu: "Menu",

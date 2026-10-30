@@ -4,6 +4,7 @@ import { CheckIcon, CopyIcon } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import type { Dictionary } from "@/dictionaries";
+import { copyText } from "@/lib/clipboard";
 import type { Locale } from "@/lib/i18n";
 
 export function BadgeMarkdown({ locale, dictionary, name, slug }: { locale: Locale; dictionary: Dictionary; name: string; slug: string }) {
@@ -13,19 +14,7 @@ export function BadgeMarkdown({ locale, dictionary, name, slug }: { locale: Loca
   const [copied, setCopied] = useState(false);
 
   async function copyMarkdown() {
-    try {
-      await navigator.clipboard.writeText(markdown);
-    } catch {
-      const textarea = document.createElement("textarea");
-      textarea.value = markdown;
-      textarea.setAttribute("readonly", "true");
-      textarea.style.position = "fixed";
-      textarea.style.opacity = "0";
-      document.body.appendChild(textarea);
-      textarea.select();
-      document.execCommand("copy");
-      textarea.remove();
-    }
+    await copyText(markdown);
     setCopied(true);
     window.setTimeout(() => setCopied(false), 1800);
   }

@@ -5,6 +5,14 @@ test.describe("páginas estáticas", () => {
     ["pt", "Regulamento", "Privacidade", "Versão"],
     ["en", "Rules", "Privacy", "Version"],
   ] as const) {
+    test(`instrução para agente em ${locale}`, async ({ page }) => {
+      await page.goto(`/${locale}`);
+      await page.getByRole("button", { name: locale === "pt" ? "Enviar com agente" : "Submit with an agent" }).click();
+      await expect(page.getByText("radiologic-challenge-submissions/blob/main/AGENTS.md")).toBeVisible();
+      await page.getByRole("button", { name: locale === "pt" ? "Copiar instrução" : "Copy instruction" }).click();
+      await expect(page.getByText(locale === "pt" ? "Copiado" : "Copied")).toBeVisible();
+    });
+
     test(`regulamento e privacidade em ${locale}`, async ({ page }) => {
       await page.goto(`/${locale}/rules`);
       await expect(page.getByRole("heading", { level: 1, name: rulesTitle })).toBeVisible();
