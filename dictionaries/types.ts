@@ -30,6 +30,8 @@ export interface Dictionary {
     votes: string;
     position: string;
     view: string;
+    monthTitle: string;
+    allMonths: string;
   };
   legal: {
     versionLabel: string;

@@ -161,13 +161,13 @@ export function ViewerGallery({
           </>
         ) : null}
 
-        <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between sm:gap-8 sm:border-b sm:border-border">
-          <div className="flex items-end justify-between gap-4 max-sm:border-b max-sm:border-border">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between sm:gap-8">
+          <div className="flex items-end justify-between gap-4">
             <LineTabs id="sort" label={copy.sort} options={sortOptions} value={sort} onChange={(value) => onParamsChange?.({ sort: value === "total" ? null : value })} />
             {filtered && filteredViewers.length > 0 ? <Button variant="ghost" size="sm" className="mb-2 text-muted-foreground" onClick={clearFilters}>{copy.clearFilters}</Button> : null}
           </div>
           {platforms.length > 1 ? (
-            <LineTabs id="platform" label={copy.platform} className="max-sm:border-b max-sm:border-border" options={[[ALL, copy.allPlatforms], ...platforms.map((value): [string, string] => [value, select[value] ?? value])]} value={filterOf("platform")} onChange={(value) => setFilter("platform", value)} />
+            <LineTabs id="platform" label={copy.platform} options={[[ALL, copy.allPlatforms], ...platforms.map((value): [string, string] => [value, select[value] ?? value])]} value={filterOf("platform")} onChange={(value) => setFilter("platform", value)} />
           ) : null}
         </div>
 

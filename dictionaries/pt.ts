@@ -32,6 +32,8 @@ const dictionary: Dictionary = {
     votes: "votos",
     position: "lugar",
     view: "Ver ficha",
+    monthTitle: "Destaques de {month}",
+    allMonths: "Todos os meses",
   },
   legal: {
     versionLabel: "Versão",
