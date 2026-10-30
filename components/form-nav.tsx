@@ -55,8 +55,8 @@ export function FormNav({ sections }: { sections: readonly (readonly [id: string
   }, [active]);
 
   return (
-    <ol ref={list} className="sticky top-6 flex flex-col border-s border-border">
-      <svg aria-hidden="true" width={HOOK + 1} height={target.height} className="pointer-events-none absolute -start-px top-0 fill-none stroke-foreground">
+    <ol ref={list} className="sticky top-6 flex flex-col">
+      <svg aria-hidden="true" width={HOOK + 1} height={target.height} className="pointer-events-none absolute start-0 top-0 fill-none stroke-foreground">
         <motion.path
           initial={false}
           animate={{ d: `M ${RAIL_X} 0 V ${Math.max(0, target.y - HOOK)} Q ${RAIL_X} ${target.y} ${HOOK + RAIL_X} ${target.y}` }}
