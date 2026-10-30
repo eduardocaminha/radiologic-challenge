@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { ChevronDownIcon } from "lucide-react";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
 import { notFound } from "next/navigation";
 import { getDictionary } from "@/dictionaries";
 import { isLocale } from "@/lib/i18n";
@@ -66,7 +67,7 @@ export default async function KitPage({ params }: PageProps) {
         <ul className="flex list-disc flex-col gap-2 pl-5 leading-7 text-muted-foreground">
           {t.dataRules.map((rule) => <li key={rule}>{rule}</li>)}
         </ul>
-        <Link href={rulesHref} className="w-fit py-1 text-sm underline underline-offset-4">{t.rulesLink}</Link>
+        <Button variant="ghost" size="sm" className="-ms-2.5 w-fit text-muted-foreground" render={<Link href={rulesHref} />}>{t.rulesLink}</Button>
       </section>
 
       <section className="flex min-w-0 max-w-3xl flex-col gap-4" aria-labelledby="kit-install-heading">

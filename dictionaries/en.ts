@@ -9,8 +9,6 @@ const dictionary: Dictionary = {
     headlineNote: "you wish you had for reading.",
     tagline: "Showcase of radiology workstations: viewer, exam worklist, AI, agent and reporting.",
     submit: "Submit a workstation",
-    rules: "Rules",
-    kit: "Data kit",
   },
   nav: {
     menu: "Menu",
@@ -94,13 +92,11 @@ const dictionary: Dictionary = {
     all: "All",
     emptyTitle: "The gallery is waiting for its first workstation",
     noResultsTitle: "No workstations match these filters",
-    submit: "Submit a workstation",
     votes: "votes",
     clearFilters: "Clear filters",
     parts: "Parts",
     allPlatforms: "All",
     viewerCount: "workstations",
-    kit: "Data kit",
     aiShare: {
       none: "No AI",
       lt25: "AI <25%",

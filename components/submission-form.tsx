@@ -270,7 +270,7 @@ export function SubmissionForm({ locale, dictionary, idempotencyKey, submission 
       <nav aria-label={submission ? dictionary.submission.editTitle : dictionary.submission.title} className="hidden lg:block lg:w-48 lg:shrink-0">
         <ol className="sticky top-6 flex flex-col gap-0.5">
           {sections.map(([id, label]) => (
-            <li key={id}><Button variant="ghost" size="sm" className="w-full justify-start font-normal text-muted-foreground" render={<a href={`#${id}-heading`} />}>{label}</Button></li>
+            <li key={id}><Button variant="ghost" size="sm" className="w-full justify-start text-muted-foreground" render={<a href={`#${id}-heading`} />}>{label}</Button></li>
           ))}
         </ol>
       </nav>

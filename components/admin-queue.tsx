@@ -59,7 +59,7 @@ function ActionForm({
           <Textarea name="reason" required maxLength={500} rows={2} placeholder="Explique o que precisa ser ajustado" />
         </label>
       ) : null}
-      <Button type="submit" name="action" value={action} disabled={pending}>
+      <Button type="submit" name="action" value={action} variant={action === "approve" || action === "restore" ? "default" : "outline"} disabled={pending}>
         {pending ? "Aplicando..." : label}
       </Button>
       {state.message ? <p role={state.ok ? "status" : "alert"} className={`basis-full text-sm ${state.ok ? "text-muted-foreground" : "text-destructive"}`}>{state.message}</p> : null}
@@ -97,9 +97,9 @@ function ScreenshotItem({ screenshot, slug }: { screenshot: AdminScreenshot; slu
   return (
     <li className="flex flex-col gap-3 rounded-lg bg-muted p-3 sm:p-4">
       {screenshot.url ? (
-        <Image src={screenshot.url} loader={({ src }) => src} unoptimized width={1200} height={675} alt={`Captura ${screenshot.position}`} className="h-auto max-h-128 w-full rounded-md object-contain object-left" />
+        <Image src={screenshot.url} loader={({ src }) => src} unoptimized width={1200} height={675} alt={`Captura ${screenshot.position}`} className="h-auto max-h-128 w-full rounded-lg object-contain object-left" />
       ) : (
-        <div className="flex min-h-48 items-center justify-center rounded-md bg-background text-sm text-muted-foreground">Imagem indisponível</div>
+        <div className="flex min-h-48 items-center justify-center rounded-lg bg-background text-sm text-muted-foreground">Imagem indisponível</div>
       )}
       <div className="flex flex-wrap items-center justify-between gap-3 text-sm">
         <span>Imagem {screenshot.position}, {screenshot.status === "pending" ? "pendente" : screenshot.status === "approved" ? "aprovada" : "rejeitada"}</span>

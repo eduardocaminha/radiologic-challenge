@@ -149,7 +149,7 @@ export function ScreenshotManager({
         <ol className="flex flex-col">
           {screenshots.map((screenshot, index) => (
             <li key={screenshot.id} className="flex items-center gap-4 border-b border-border py-3 first:border-t">
-              <Image src={screenshot.url} loader={({ src }) => src} unoptimized width={112} height={63} alt={`${copy.title} ${index + 1}`} className="aspect-video w-28 shrink-0 rounded-md bg-muted object-cover" />
+              <Image src={screenshot.url} loader={({ src }) => src} unoptimized width={112} height={63} alt={`${copy.title} ${index + 1}`} className="aspect-video w-28 shrink-0 rounded-lg bg-muted object-cover" />
               <div className="flex min-w-0 flex-1 flex-col gap-0.5 text-sm">
                 <span className="tabular-nums text-muted-foreground">{index + 1} / 5</span>
                 <span className={screenshot.status === "approved" ? "text-success-foreground" : screenshot.status === "rejected" ? "text-destructive-foreground" : "text-warning-foreground"}>{copy.status[screenshot.status]}</span>

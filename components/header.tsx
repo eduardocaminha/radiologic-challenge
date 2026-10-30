@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Suspense } from "react";
 import { Button } from "@/components/ui/button";
+import { HeaderSubmit } from "@/components/header-submit";
 import { Logo } from "@/components/logo";
 import { LocaleSwitcher } from "@/components/locale-switcher";
 import { SiteMenu } from "@/components/site-menu";
@@ -46,7 +47,7 @@ export function Header({ locale, dictionary }: HeaderProps) {
           signInLabel={dictionary.auth.signIn}
           signOutLabel={dictionary.auth.signOut}
         />
-        <Button size="sm" className="max-sm:hidden" render={<Link href={submit.href} />}>{submit.label}</Button>
+        <HeaderSubmit locale={locale} label={submit.label} />
       </div>
     </header>
   );

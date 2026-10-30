@@ -24,7 +24,7 @@ function IntegrityAction({ account, action }: { account: VoteIntegrityAccount; a
         <span>Motivo</span>
         <Textarea name="reason" required maxLength={500} rows={2} placeholder="Registre o motivo da decisão" />
       </label>
-      <Button type="submit" disabled={pending}>
+      <Button type="submit" variant="destructive" disabled={pending}>
         {pending ? "Aplicando..." : action === "void" ? "Anular votos" : "Banir conta"}
       </Button>
       {state.message ? <p role={state.ok ? "status" : "alert"} className={`basis-full text-sm ${state.ok ? "text-muted-foreground" : "text-destructive"}`}>{state.message}</p> : null}
@@ -37,7 +37,7 @@ function Histogram({ values }: { values: VoteIntegrityReport["hourly_votes"] }) 
   return (
     <details className="group">
       <summary className="cursor-pointer text-label-md">Histograma de votos por hora, últimos 30 dias</summary>
-      <div className="mt-4 flex h-28 items-end gap-px overflow-x-auto rounded-md bg-muted p-2" aria-label="Histograma de votos por hora">
+      <div className="mt-4 flex h-28 items-end gap-px overflow-x-auto rounded-lg bg-muted p-2" aria-label="Histograma de votos por hora">
         {values.map((item) => (
           <span key={item.hour} title={`${date(item.hour)}, ${item.votes} votos`} className="h-(--bar) min-w-1 flex-1 bg-foreground" style={{ "--bar": `${Math.max(item.votes > 0 ? 6 : 1, (item.votes / max) * 100)}%` } as React.CSSProperties} />
         ))}

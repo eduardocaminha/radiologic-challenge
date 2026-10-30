@@ -23,7 +23,7 @@ export function LocaleSwitcher({ locale, label }: LocaleSwitcherProps) {
 
   return (
     <Select value={locale} onValueChange={change} items={locales.map((value) => ({ value, label: localeLabels[value] }))}>
-      <SelectTrigger size="sm" aria-label={label} className="w-auto min-w-0 border-transparent bg-transparent text-muted-foreground shadow-none hover:bg-accent hover:text-foreground">
+      <SelectTrigger size="sm" aria-label={label} className="w-auto min-w-0 border-transparent bg-transparent font-medium text-muted-foreground shadow-none hover:bg-accent hover:text-foreground dark:bg-transparent dark:hover:bg-accent">
         <LanguagesIcon aria-hidden="true" className="size-4 opacity-80" />
         <SelectValue className="uppercase">{(value: Locale) => value}</SelectValue>
       </SelectTrigger>

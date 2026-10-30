@@ -9,8 +9,6 @@ const dictionary: Dictionary = {
     headlineNote: "que te gustaría usar para informar.",
     tagline: "Showcase de workstations de radiología: viewer, pila de estudios, IA, agente e informe.",
     submit: "Enviar workstation",
-    rules: "Reglamento",
-    kit: "Kit de datos",
   },
   nav: {
     menu: "Menú",
@@ -94,13 +92,11 @@ const dictionary: Dictionary = {
     all: "Todos",
     emptyTitle: "La galería está esperando la primera workstation",
     noResultsTitle: "Ninguna workstation coincide con estos filtros",
-    submit: "Enviar workstation",
     votes: "votos",
     clearFilters: "Limpiar filtros",
     parts: "Partes",
     allPlatforms: "Todas",
     viewerCount: "workstations",
-    kit: "Kit de datos",
     aiShare: {
       none: "Sin IA",
       lt25: "IA <25%",

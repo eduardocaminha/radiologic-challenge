@@ -164,7 +164,7 @@ export function ViewerGallery({
         <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between sm:gap-8 sm:border-b sm:border-border">
           <div className="flex items-end justify-between gap-4 max-sm:border-b max-sm:border-border">
             <LineTabs id="sort" label={copy.sort} options={sortOptions} value={sort} onChange={(value) => onParamsChange?.({ sort: value === "total" ? null : value })} />
-            {filtered ? <Button variant="ghost" size="sm" className="mb-2 text-muted-foreground" onClick={clearFilters}>{copy.clearFilters}</Button> : null}
+            {filtered && filteredViewers.length > 0 ? <Button variant="ghost" size="sm" className="mb-2 text-muted-foreground" onClick={clearFilters}>{copy.clearFilters}</Button> : null}
           </div>
           {platforms.length > 1 ? (
             <LineTabs id="platform" label={copy.platform} className="max-sm:border-b max-sm:border-border" options={[[ALL, copy.allPlatforms], ...platforms.map((value): [string, string] => [value, select[value] ?? value])]} value={filterOf("platform")} onChange={(value) => setFilter("platform", value)} />
@@ -177,7 +177,7 @@ export function ViewerGallery({
               <EmptyTitle>{copy.noResultsTitle}</EmptyTitle>
             </EmptyHeader>
             <EmptyContent>
-              <Button size="lg" variant="outline" onClick={clearFilters}>{copy.clearFilters}</Button>
+              <Button size="lg" onClick={clearFilters}>{copy.clearFilters}</Button>
             </EmptyContent>
           </Empty>
         ) : (
@@ -255,12 +255,8 @@ function GalleryEmpty({ locale, dictionary }: { locale: Locale; dictionary: Dict
       >
         <span aria-hidden="true" className="absolute inset-x-0 top-1/2 h-px bg-foreground/8" />
         <span aria-hidden="true" className="absolute inset-y-0 left-1/2 w-px bg-foreground/8" />
-        <div className="relative flex flex-col items-center gap-6 bg-page-bg px-6 py-4 text-center">
+        <div className="relative bg-page-bg px-6 py-4 text-center">
           <h2 id="gallery-heading" className="max-w-md text-title-lg text-balance">{copy.emptyTitle}</h2>
-          <div className="flex flex-wrap items-center justify-center gap-2">
-            <Button size="lg" render={<Link href={`/${locale}/submit`} />}>{copy.submit}</Button>
-            <Button size="lg" variant="ghost" className="text-muted-foreground" render={<Link href={`/${locale}/kit`} />}>{copy.kit}</Button>
-          </div>
         </div>
       </ViewportFrame>
     </section>
