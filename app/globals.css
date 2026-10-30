@@ -307,6 +307,40 @@
   }
 }
 
+/* Blocos da landing entram depois do hero, um a um. Sem blur: nos blocos grandes ele custaria caro e não apareceria. */
+@keyframes block-in {
+  from {
+    opacity: 0;
+    translate: 0 12px;
+  }
+}
+
+.block-in {
+  animation: block-in 900ms var(--ease-out-strong) both;
+}
+
+.block-in-1 {
+  animation-delay: 350ms;
+}
+
+.block-in-2 {
+  animation-delay: 500ms;
+}
+
+.block-in-3 {
+  animation-delay: 650ms;
+}
+
+.block-in-4 {
+  animation-delay: 800ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .block-in {
+    animation-name: row-fade;
+  }
+}
+
 /* Header fixo só na landing: nas páginas de trabalho ele cobriria as âncoras e o trilho do formulário.
    A camada ocupa a largura da janela, e a máscara dissolve o blur em vez de terminar em linha reta. */
 body:has([data-sticky-header]) {

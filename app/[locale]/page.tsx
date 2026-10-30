@@ -35,7 +35,7 @@ export default async function Home({ params }: PageProps) {
   const [dictionary, viewers, months] = await Promise.all([getDictionary(locale), getPublicViewers(), getPublicHighlights()]);
 
   return (
-    <main data-sticky-header className="mx-auto flex min-h-screen max-w-6xl flex-col gap-16 px-6 py-12 sm:gap-20 sm:py-16">
+    <main data-sticky-header className="mx-auto flex min-h-screen max-w-6xl flex-col gap-20 px-6 py-12 sm:gap-32 sm:py-16">
       <JsonLd
         data={{
           "@context": "https://schema.org",

@@ -105,6 +105,7 @@ const dictionary: Dictionary = {
     noResultsTitle: "Nenhuma workstation combina com estes filtros",
     votes: "votos",
     clearFilters: "Limpar filtros",
+    showMore: "Ver mais",
     parts: "Partes",
     allPlatforms: "Todas",
     aiShare: {

@@ -97,6 +97,7 @@ export interface Dictionary {
     noResultsTitle: string;
     votes: string;
     clearFilters: string;
+    showMore: string;
     parts: string;
     allPlatforms: string;
     aiShare: Record<string, string>;

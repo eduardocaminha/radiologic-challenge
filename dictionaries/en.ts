@@ -105,6 +105,7 @@ const dictionary: Dictionary = {
     noResultsTitle: "No workstations match these filters",
     votes: "votes",
     clearFilters: "Clear filters",
+    showMore: "Show more",
     parts: "Parts",
     allPlatforms: "All",
     aiShare: {
