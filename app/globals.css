@@ -361,6 +361,7 @@ body:has([data-sticky-header]) > header::before {
    Versão monocromática: o voto usa a cor da tinta do tema, porque o verde
    fica reservado a sucesso e nenhum outro lugar do site tem cor. */
 .lk {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 8px;
@@ -388,6 +389,15 @@ body:has([data-sticky-header]) > header::before {
 
 .lk:active {
   scale: 0.96;
+}
+
+/* No toque, a área clicável chega a 44px sem mudar o desenho do botão. */
+@media (pointer: coarse) {
+  .lk::after {
+    content: "";
+    position: absolute;
+    inset: -4px 0;
+  }
 }
 
 .lk:focus-visible {
