@@ -1,6 +1,6 @@
 ![Radiologic Workstation](docs/public-repo/.github/social-preview.png)
 
-# radiologic-viewers
+# radiologic-challenge
 
 Site `challenge.radiologic.io`: showcase permanente e trilíngue de workstations de radiologia submetidas pelo público, com ranking por voto popular e destaques mensais.
 

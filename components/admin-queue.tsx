@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 
 const initialActionState: AdminActionState = { ok: true };
-const issueBaseUrl = "https://github.com/eduardocaminha/dicom-viewer-challenge/issues";
+const issueBaseUrl = "https://github.com/eduardocaminha/radiologic-challenge-submissions/issues";
 
 function date(value: string | null) {
   if (!value) return "Não informado";

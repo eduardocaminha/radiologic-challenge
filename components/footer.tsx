@@ -7,7 +7,7 @@ import type { Dictionary } from "@/dictionaries";
 import type { Locale } from "@/lib/i18n";
 
 const CONTACT_EMAIL = "caminha@radiologic.io";
-const SOURCE_URL = "https://github.com/eduardocaminha/radiologic-viewers";
+const SOURCE_URL = "https://github.com/eduardocaminha/radiologic-challenge";
 
 interface FooterProps {
   locale: Locale;
