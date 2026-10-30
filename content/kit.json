@@ -23,41 +23,6 @@
       "download": "idc download 1.3.6.1.4.1.14519.5.2.1.6279.6001.210460865401632134346677582159"
     },
     {
-      "collection": "NSCLC Radiogenomics",
-      "collection_id": "nsclc_radiogenomics",
-      "modality": [
-        "CT",
-        "PT",
-        "SEG"
-      ],
-      "body_part": "LUNG",
-      "study_instance_uid": "1.3.6.1.4.1.14519.5.2.1.4334.1501.653360657532172299935692201400",
-      "license": "CC BY 3.0, CC BY 4.0",
-      "size_mb": 103,
-      "citation": [
-        "Bakr, S., Gevaert, O., Echegaray, S., Ayers, K., Zhou, M., Shafiq, M., Zheng, H., Zhang, W., Leung, A., Kadoch, M., Shrager, J., Quon, A., Rubin, D., Plevritis, S., & Napel, S. (2017). Data for NSCLC Radiogenomics Collection (Version 4) [Dataset]. The Cancer Imaging Archive. https://doi.org/10.7937/K9/TCIA.2017.7HS46ERV",
-        "Van Oss, J., Murugesan, G. K., McCrumb, D., & Soni, R. (2024). Image segmentations produced by BAMF under the AIMI Annotations initiative (Version v2.0.2) [Dataset]. Zenodo. https://doi.org/10.5281/ZENODO.8345959"
-      ],
-      "download": "idc download 1.3.6.1.4.1.14519.5.2.1.4334.1501.653360657532172299935692201400"
-    },
-    {
-      "collection": "UPENN-GBM",
-      "collection_id": "upenn_gbm",
-      "modality": [
-        "MR",
-        "SEG"
-      ],
-      "body_part": "BRAIN",
-      "study_instance_uid": "1.3.6.1.4.1.14519.5.2.1.81896212790030501983260473507558407939",
-      "license": "CC BY 4.0",
-      "size_mb": 20,
-      "citation": [
-        "Bakas, S., Sako, C., Akbari, H., Bilello, M., Sotiras, A., Shukla, G., Rudie, J. D., Flores Santamaria, N., Fathi Kazerooni, A., Pati, S., Rathore, S., Mamourian, E., Ha, S. M., Parker, W., Doshi, J., Baid, U., Bergman, M., Binder, Z. A., Verma, R., … Davatzikos, C. (2021). Multi-parametric magnetic resonance imaging (mpMRI) scans for de novo Glioblastoma (GBM) patients from the University of Pennsylvania Health System (UPENN-GBM) (Version 2) [Dataset]. The Cancer Imaging Archive. https://doi.org/10.7937/TCIA.709X-DN49",
-        "Van Oss, J., Murugesan, G. K., McCrumb, D., & Soni, R. (2024). Image segmentations produced by BAMF under the AIMI Annotations initiative (Version v2.0.2) [Dataset]. Zenodo. https://doi.org/10.5281/ZENODO.8345959"
-      ],
-      "download": "idc download 1.3.6.1.4.1.14519.5.2.1.81896212790030501983260473507558407939"
-    },
-    {
       "collection": "Prostate-MRI-US-Biopsy",
       "collection_id": "prostate_mri_us_biopsy",
       "modality": [
