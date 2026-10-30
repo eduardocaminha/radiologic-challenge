@@ -176,7 +176,7 @@
   --radius-2xl: var(--radius-2xl);
   --aspect-card: 16 / 10;
   --aspect-wordmark: 9.2;
-  --aspect-wordmark-full: 3.2;
+  --aspect-wordmark-full: 4.9;
   --color-destructive-foreground: var(--destructive-foreground);
 
   /* Escala tipográfica por papel (display, headline, title, body, label), no
@@ -265,7 +265,8 @@
 /* Wordmark do rodapé: a largura vem do container (4.33em é a largura medida de
    "Radiologic" em Inter 600), e o brilho vem da janela aplicada pelo ponteiro. */
 .footer-wordmark {
-  font-size: calc(100cqi / 4.4);
+  font-size: calc(100cqi / 4.22);
+  margin-inline-start: -0.07em;
   font-weight: 600;
   letter-spacing: -0.04em;
   line-height: 0.95;

@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { ViewportFrame } from "@/components/viewport-frame";
 
 const REST = { window: 2000, level: 0 };
 
@@ -38,24 +37,27 @@ export function FooterWordmark({ siteName, month, nonClinical }: { siteName: str
   }
 
   return (
-    <div ref={frame} onPointerMove={onPointerMove} onPointerLeave={() => setValues(REST)} className="@container">
-      <ViewportFrame
-        flush
-        topLeft={siteName}
-        topRight={month}
-        bottomLeft={<span className="hidden sm:inline">W {values.window} L {values.level}</span>}
-        bottomRight={<span className="hidden sm:inline">{nonClinical}</span>}
-        className="aspect-wordmark-full overflow-clip sm:aspect-wordmark"
-      >
+    <div ref={frame} onPointerMove={onPointerMove} onPointerLeave={() => setValues(REST)} className="flex flex-col gap-3">
+      <div className="flex justify-between gap-4 text-xs tabular-nums text-muted-foreground">
+        <p className="flex gap-4">
+          <span>{siteName}</span>
+          <span className="hidden sm:inline">W {values.window} L {values.level}</span>
+        </p>
+        <p className="flex gap-4">
+          <span>{nonClinical}</span>
+          <span>{month}</span>
+        </p>
+      </div>
+      <div className="@container relative aspect-wordmark-full overflow-clip sm:aspect-wordmark">
         <span
           aria-hidden="true"
           data-seen={seen || undefined}
           style={{ "--wordmark-alpha": alphaFor(values.window, values.level) } as React.CSSProperties}
-          className="footer-wordmark absolute inset-x-0 bottom-0 block select-none whitespace-nowrap text-center sm:bottom-auto sm:top-0"
+          className="footer-wordmark absolute left-0 top-0 block select-none whitespace-nowrap"
         >
           Radiologic
         </span>
-      </ViewportFrame>
+      </div>
     </div>
   );
 }
