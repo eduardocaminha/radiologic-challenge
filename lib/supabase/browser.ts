@@ -2,7 +2,7 @@
 
 import { createBrowserClient } from "@supabase/ssr";
 import type { SupabaseClient } from "@supabase/supabase-js";
-import { hasSupabaseConfig } from "@/lib/supabase/config";
+import { hasSupabaseConfig, supabaseCookieOptions } from "@/lib/supabase/config";
 
 let browserClient: SupabaseClient | undefined;
 
@@ -13,7 +13,7 @@ export function createBrowserSupabaseClient(): SupabaseClient | null {
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL!;
     const key = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!;
 
-    browserClient = createBrowserClient(url, key);
+    browserClient = createBrowserClient(url, key, { cookieOptions: supabaseCookieOptions() });
   }
 
   return browserClient;

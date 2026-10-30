@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
+import { locales } from "@/lib/i18n";
 import { removeScreenshotObjects } from "@/lib/storage/server";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 
@@ -34,6 +35,10 @@ const voterIntegritySchema = z.object({
   userId: z.string().uuid(),
   reason: z.string().trim().min(1).max(500),
 });
+
+function revalidateLocales(path = "") {
+  for (const locale of locales) revalidatePath(`/${locale}${path}`);
+}
 
 function formValue(formData: FormData, key: string) {
   const value = formData.get(key);
@@ -106,8 +111,7 @@ async function runVoterIntegrityAction(
   }
 
   revalidatePath("/admin");
-  revalidatePath("/pt");
-  revalidatePath("/en");
+  revalidateLocales();
   return { ok: true, message: action === "void" ? "Votos anulados. A galeria foi atualizada." : "Conta banida. A galeria foi atualizada." };
 }
 
@@ -174,12 +178,8 @@ export async function moderateAdminItem(
   }
 
   revalidatePath("/admin");
-  revalidatePath("/pt");
-  revalidatePath("/en");
-  if (parsed.data.slug) {
-    revalidatePath(`/pt/v/${parsed.data.slug}`);
-    revalidatePath(`/en/v/${parsed.data.slug}`);
-  }
+  revalidateLocales();
+  if (parsed.data.slug) revalidateLocales(`/v/${parsed.data.slug}`);
 
   return { ok: true, message: "Ação aplicada. A fila foi atualizada." };
 }
@@ -202,10 +202,8 @@ export async function withdrawAdminScreenshot(input: unknown): Promise<AdminActi
   const removed = await removeScreenshotObjects([result.data]);
 
   revalidatePath("/admin");
-  for (const locale of ["pt", "en", "es"]) {
-    revalidatePath(`/${locale}`);
-    if (parsed.data.slug) revalidatePath(`/${locale}/v/${parsed.data.slug}`);
-  }
+  revalidateLocales();
+  if (parsed.data.slug) revalidateLocales(`/v/${parsed.data.slug}`);
 
   if (removed) return { ok: false, message: "A imagem saiu do site, mas o arquivo não foi apagado. Tente de novo." };
   return { ok: true, message: "Imagem retirada e arquivo apagado." };
@@ -246,9 +244,7 @@ export async function recomputeMonthlyHighlights(
   }
 
   revalidatePath("/admin");
-  revalidatePath("/pt");
-  revalidatePath("/en");
-  revalidatePath("/pt/highlights");
-  revalidatePath("/en/highlights");
+  revalidateLocales();
+  revalidateLocales("/highlights");
   return { ok: true, message: `Destaques de ${parsed.data.month} recalculados.` };
 }

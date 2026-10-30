@@ -1,7 +1,7 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 import { defaultLocale, locales, type Locale } from "@/lib/i18n";
-import { hasSupabaseConfig } from "@/lib/supabase/config";
+import { hasSupabaseConfig, supabaseCookieOptions } from "@/lib/supabase/config";
 
 export const config = {
   matcher: [
@@ -50,6 +50,7 @@ export async function proxy(request: NextRequest) {
 
   let response = NextResponse.next({ request });
   const supabase = createServerClient(url, key, {
+    cookieOptions: supabaseCookieOptions(),
     cookies: {
       getAll() {
         return request.cookies.getAll();
