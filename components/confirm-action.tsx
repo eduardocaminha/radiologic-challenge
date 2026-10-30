@@ -8,7 +8,7 @@ export function ConfirmAction({ label, question, confirmLabel, cancelLabel, disa
   const [open, setOpen] = useState(false);
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
-      <AlertDialogTrigger render={<Button variant="ghost" size="sm" disabled={disabled} />}>{label}</AlertDialogTrigger>
+      <AlertDialogTrigger render={<Button variant="ghost" size="sm" className="text-destructive-foreground" disabled={disabled} />}>{label}</AlertDialogTrigger>
       <AlertDialogPopup>
         <AlertDialogHeader>
           <AlertDialogTitle>{question}</AlertDialogTitle>

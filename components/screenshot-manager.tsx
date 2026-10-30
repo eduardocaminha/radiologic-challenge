@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { ArrowDownIcon, ArrowUpIcon, ImagePlusIcon } from "lucide-react";
 import Image from "next/image";
 import { ConfirmAction } from "@/components/confirm-action";
@@ -29,17 +29,21 @@ export function ScreenshotManager({
   dictionary,
   submissionId,
   initialScreenshots,
+  onCountChange,
 }: {
   locale: Locale;
   dictionary: Dictionary;
   submissionId?: string;
   initialScreenshots: ScreenshotRecord[];
+  onCountChange?: (count: number) => void;
 }) {
   const copy = dictionary.submission.screenshot;
   const [screenshots, setScreenshots] = useState(initialScreenshots);
   const [uploading, setUploading] = useState(false);
   const [message, setMessage] = useState<string>();
   const [isPending, startTransition] = useTransition();
+
+  useEffect(() => onCountChange?.(screenshots.length), [onCountChange, screenshots.length]);
 
   async function upload(event: React.ChangeEvent<HTMLInputElement>) {
     const files = Array.from(event.target.files ?? []);

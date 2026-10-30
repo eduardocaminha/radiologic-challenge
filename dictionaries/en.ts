@@ -180,6 +180,13 @@ const dictionary: Dictionary = {
       rejected: "Rejected",
       removed: "Removed",
     },
+    ready: "Ready to send",
+    missingOne: "1 item left",
+    missingMany: "{n} items left",
+    selectedCount: "{n} selected",
+    requiredMark: "required to send",
+    errorUrl: "Use a full address with https://.",
+    errorRequired: "Required to send.",
     error: {
       SUB01: "Sign in to continue.",
       SUB03: "You reached the limit of three drafts or submissions in moderation.",

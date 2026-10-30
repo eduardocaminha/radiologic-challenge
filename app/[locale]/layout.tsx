@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "../globals.css";
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
@@ -16,6 +16,8 @@ export const metadata: Metadata = {
   },
   twitter: { card: "summary_large_image" },
 };
+
+export const viewport: Viewport = { themeColor: "#0e0e0e", colorScheme: "dark" };
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));

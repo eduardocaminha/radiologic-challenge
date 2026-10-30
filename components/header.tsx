@@ -26,7 +26,7 @@ export function Header({ locale, dictionary }: HeaderProps) {
   ];
 
   return (
-    <header className="flex items-center justify-between gap-3 px-4 py-4 sm:px-6">
+    <header className="mx-auto flex w-full max-w-6xl items-center justify-between gap-3 px-6 py-4">
       <Link href={`/${locale}`} aria-label={dictionary.home.title} className="-m-2 flex items-center gap-2 p-2">
         <Logo className="size-5" aria-hidden="true" />
       </Link>

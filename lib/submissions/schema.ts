@@ -20,6 +20,21 @@ const optionalUrl = z.preprocess(
 
 const requiredText = (max: number) => z.string().trim().min(1).max(max);
 
+export const REQUIRED_ON_SEND = [
+  "tagline",
+  "description",
+  "differential",
+  "lang",
+  "platforms",
+  "requires_install",
+  "repo_url",
+  "license",
+  "base_tech",
+  "data_source",
+  "data_license",
+  "external_api",
+] as const;
+
 const fields = {
   name: requiredText(60),
   tagline: optionalText(120),
@@ -94,23 +109,9 @@ export const submissionSchema = z
     ...fields,
   })
   .superRefine((submission, context) => {
-    const requiredOnSend = [
-      "tagline",
-      "description",
-      "differential",
-      "lang",
-      "platforms",
-      "requires_install",
-      "repo_url",
-      "license",
-      "base_tech",
-      "data_source",
-      "data_license",
-      "external_api",
-    ] as const;
 
     if (submission.intent !== "draft") {
-      for (const field of requiredOnSend) {
+      for (const field of REQUIRED_ON_SEND) {
         if (submission[field] === undefined || (field === "platforms" && submission.platforms?.length === 0)) {
           context.addIssue({ code: "custom", path: [field], message: "Required" });
         }

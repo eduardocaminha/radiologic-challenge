@@ -160,6 +160,13 @@ export interface Dictionary {
     badgeCopy: string;
     badgeCopied: string;
     status: Record<"draft" | "pending" | "approved" | "rejected" | "removed", string>;
+    ready: string;
+    missingOne: string;
+    missingMany: string;
+    selectedCount: string;
+    requiredMark: string;
+    errorUrl: string;
+    errorRequired: string;
     error: Record<string, string>;
     field: Record<string, string>;
     select: Record<string, string>;

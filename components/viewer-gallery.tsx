@@ -311,7 +311,12 @@ function ViewerCard({ position, locale, viewer, rank, votes, copy, meta }: { pos
     >
       <Link href={`/${locale}/v/${viewer.slug}`} className="group flex h-full flex-col gap-4 rounded-2xl bg-surface p-2 outline-none transition-colors duration-150 hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring">
         <span className="relative aspect-card overflow-hidden rounded-lg bg-page-bg">
-          {screenshot?.url ? <Image src={screenshot.url} loader={imageLoader} unoptimized fill sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" alt="" className="object-cover transition-transform duration-500 ease-(--ease-out-strong) group-hover:scale-102" /> : null}
+          {screenshot?.url ? <Image src={screenshot.url} loader={imageLoader} unoptimized fill sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" alt="" className="object-cover transition-transform duration-500 ease-(--ease-out-strong) group-hover:scale-102" /> : (
+            <>
+              <span aria-hidden="true" className="absolute inset-x-0 top-1/2 h-px bg-foreground/8" />
+              <span aria-hidden="true" className="absolute inset-y-0 left-1/2 w-px bg-foreground/8" />
+            </>
+          )}
         </span>
         <span className="flex items-start gap-3 px-2 pb-2">
           <span className="flex min-w-0 flex-1 flex-col gap-0.5">

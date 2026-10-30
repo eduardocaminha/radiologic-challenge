@@ -17,6 +17,8 @@
    estado de sucesso, não é a cor dominante.
    ============================================================ */
 :root {
+  color-scheme: dark;
+
   /* Type */
   --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --font-features: "calt" on;

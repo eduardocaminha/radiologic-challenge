@@ -54,7 +54,7 @@ export default async function KitPage({ params }: PageProps) {
         <ul className="flex list-disc flex-col gap-2 pl-5 leading-7 text-muted-foreground">
           {t.dataRules.map((rule) => <li key={rule}>{rule}</li>)}
         </ul>
-        <Link href={rulesHref} className="text-sm underline underline-offset-4">{t.rulesLink}</Link>
+        <Link href={rulesHref} className="w-fit py-1 text-sm underline underline-offset-4">{t.rulesLink}</Link>
       </section>
 
       <section className="flex min-w-0 max-w-3xl flex-col gap-4" aria-labelledby="kit-install-heading">
@@ -78,7 +78,7 @@ export default async function KitPage({ params }: PageProps) {
                 <dt className="text-muted-foreground">{t.uid}</dt>
                 <dd className="break-all sm:col-span-3">{study.study_instance_uid}</dd>
                 <dt className="text-muted-foreground">{t.citation}</dt>
-                <dd className="flex flex-col gap-2 text-muted-foreground wrap-anywhere sm:col-span-3">
+                <dd className="flex max-w-prose flex-col gap-2 text-muted-foreground wrap-anywhere sm:col-span-3">
                   {study.citation.map((citation) => <p key={citation}>{citation}</p>)}
                 </dd>
               </dl>
@@ -90,7 +90,7 @@ export default async function KitPage({ params }: PageProps) {
 
       <section className="flex max-w-3xl flex-col gap-2" aria-labelledby="kit-idc-heading">
         <h2 id="kit-idc-heading" className="text-title-sm">{t.idcCitationTitle}</h2>
-        <p className="text-sm leading-6 text-muted-foreground">{KIT.idc_citation}</p>
+        <p className="max-w-prose text-sm leading-6 text-muted-foreground">{KIT.idc_citation}</p>
       </section>
     </main>
   );

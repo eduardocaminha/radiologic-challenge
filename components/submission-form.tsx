@@ -1,14 +1,15 @@
 "use client";
 
-import { PlusIcon } from "lucide-react";
+import { CheckIcon, ChevronDownIcon, PlusIcon } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useActionState, useEffect, useRef, useState } from "react";
+import { createContext, useActionState, useCallback, useContext, useEffect, useRef, useState } from "react";
 import { useFormStatus } from "react-dom";
 import { getSubmissionError } from "@/lib/submissions/errors";
 import { RULES_VERSION } from "@/lib/submissions/constants";
 import { initialSubmissionActionState, type SubmissionActionState } from "@/lib/submissions/action-state";
 import {
+  REQUIRED_ON_SEND,
   submissionFormData,
   submissionSchema,
   type SubmissionFormValues,
@@ -69,6 +70,12 @@ interface SubmissionFormProps {
   submission?: SubmissionRecord;
 }
 
+const URL_FIELDS = new Set(["repo_url", "demo_url", "download_url", "video_url", "prompts_url"]);
+
+// Campos fora de um input nativo (Select, Checkbox) avisam por aqui que o valor mudou.
+const FormChanged = createContext<() => void>(() => undefined);
+const RequiredLabel = createContext("");
+
 function defaults(submission?: SubmissionRecord): Record<string, string | boolean> {
   return {
     name: submission?.name ?? "",
@@ -125,6 +132,10 @@ export function SubmissionForm({ locale, dictionary, idempotencyKey, submission 
   const [sendState, sendAction, sendPending] = useActionState(sendSubmission, initialSubmissionActionState);
   const [clientErrors, setClientErrors] = useState<Record<string, string[]>>({});
   const submissionLocked = useRef(false);
+  const formRef = useRef<HTMLFormElement>(null);
+  const dirty = useRef(false);
+  const [missing, setMissing] = useState<string[]>([]);
+  const [screenshotCount, setScreenshotCount] = useState(submission?.screenshots?.length ?? 0);
   const values = defaults(submission);
   const actionState: SubmissionActionState = sendState.ok || sendState.fieldErrors || sendState.errorCode || sendState.formError || sendState.submissionId ? sendState : saveState;
   const pending = savePending || sendPending;
@@ -135,9 +146,55 @@ export function SubmissionForm({ locale, dictionary, idempotencyKey, submission 
     if (!pending && !actionState.ok) submissionLocked.current = false;
   }, [actionState.ok, actionState.submissionId, locale, pending, router]);
 
+  const intent = submission?.status === "rejected" ? "resubmit" : "submit";
+
+  const refreshMissing = useCallback(() => {
+    if (!formRef.current) return;
+    const formData = new FormData(formRef.current);
+    formData.set("intent", intent);
+    const parsed = submissionSchema.safeParse(submissionFormData(formData));
+    setMissing(parsed.success ? [] : Object.keys(parsed.error.flatten().fieldErrors));
+  }, [intent]);
+
+  const onFormChanged = useCallback(() => {
+    dirty.current = true;
+    requestAnimationFrame(refreshMissing);
+  }, [refreshMissing]);
+
+  useEffect(refreshMissing, [refreshMissing]);
+
+  useEffect(() => {
+    function warn(event: BeforeUnloadEvent) {
+      if (dirty.current) event.preventDefault();
+    }
+    window.addEventListener("beforeunload", warn);
+    return () => window.removeEventListener("beforeunload", warn);
+  }, []);
+
   function errorFor(field: string) {
     const messages = clientErrors[field] ?? actionState.fieldErrors?.[field];
-    return messages?.length ? [dictionary.submission.error.default] : undefined;
+    if (!messages?.length) return undefined;
+    if (messages[0] === "Required") return [dictionary.submission.errorRequired];
+    return [URL_FIELDS.has(field) ? dictionary.submission.errorUrl : dictionary.submission.error.default];
+  }
+
+  // Valida o formato ao sair do campo. Campo vazio só é cobrado ao enviar.
+  function validateField(event: React.FocusEvent<HTMLFormElement>) {
+    const { name, value } = event.target as unknown as HTMLInputElement;
+    if (!name || !formRef.current) return;
+    const setFieldErrors = (messages?: string[]) => setClientErrors((current) => {
+      const next = { ...current };
+      delete next[name];
+      return messages?.length ? { ...next, [name]: messages } : next;
+    });
+    if (!value?.trim()) {
+      setFieldErrors();
+      return;
+    }
+    const formData = new FormData(formRef.current);
+    formData.set("intent", "draft");
+    const parsed = submissionSchema.safeParse(submissionFormData(formData));
+    setFieldErrors(parsed.success ? undefined : parsed.error.flatten().fieldErrors[name as keyof SubmissionFormValues]);
   }
 
   function controlProps(field: string) {
@@ -145,6 +202,7 @@ export function SubmissionForm({ locale, dictionary, idempotencyKey, submission 
     return {
       id: field,
       name: field,
+      required: (REQUIRED_ON_SEND as readonly string[]).includes(field) || missing.includes(field),
       "aria-invalid": messages ? true : undefined,
       "aria-describedby": messages ? `${field}-error` : undefined,
     };
@@ -163,9 +221,11 @@ export function SubmissionForm({ locale, dictionary, idempotencyKey, submission 
       event.preventDefault();
       const tree = parsed.error.flatten().fieldErrors;
       setClientErrors(Object.fromEntries(Object.entries(tree).map(([key, messages]) => [key, messages ?? []])));
+      requestAnimationFrame(() => formRef.current?.querySelector<HTMLElement>('[aria-invalid="true"]')?.focus());
       return;
     }
     submissionLocked.current = true;
+    dirty.current = false;
     setClientErrors({});
   }
 
@@ -192,8 +252,15 @@ export function SubmissionForm({ locale, dictionary, idempotencyKey, submission 
     ["rules", dictionary.submission.section.rules],
   ] as const;
 
+  const missingLabels = [
+    ...missing.map((key) => (field as Record<string, string>)[key] ?? key),
+    ...(screenshotCount === 0 ? [dictionary.submission.screenshot.title] : []),
+  ];
+
   return (
-    <form action={saveAction} onSubmit={validate} className="flex flex-col gap-10 lg:flex-row lg:gap-16" noValidate>
+    <FormChanged.Provider value={onFormChanged}>
+    <RequiredLabel.Provider value={dictionary.submission.requiredMark}>
+    <form ref={formRef} action={saveAction} onSubmit={validate} onInput={onFormChanged} onBlur={validateField} className="flex flex-col gap-10 lg:flex-row lg:gap-16" noValidate>
       <input type="hidden" name="submission_id" value={currentSubmissionId} />
       <input type="hidden" name="idempotency_key" value={idempotencyKey} />
       <input type="hidden" name="locale" value={locale} />
@@ -215,15 +282,16 @@ export function SubmissionForm({ locale, dictionary, idempotencyKey, submission 
         {error ? <p role="alert" className="rounded-lg border border-destructive/36 bg-destructive/8 px-4 py-3 text-sm text-destructive-foreground">{error}</p> : null}
 
         <FormSection id="identity" title={dictionary.submission.section.identity}>
-          <TextInput label={field.name} required {...controlProps("name")} defaultValue={values.name as string} error={errorFor("name")} />
+          <TextInput label={field.name} {...controlProps("name")} required defaultValue={values.name as string} error={errorFor("name")} />
           <TextInput label={field.tagline} {...controlProps("tagline")} defaultValue={values.tagline as string} error={errorFor("tagline")} />
           <TextArea label={field.description} {...controlProps("description")} defaultValue={values.description as string} error={errorFor("description")} />
           <TextArea label={field.differential} {...controlProps("differential")} defaultValue={values.differential as string} error={errorFor("differential")} />
+          <TextArea label={field.limitations} {...controlProps("limitations")} defaultValue={values.limitations as string} error={errorFor("limitations")} />
           <SelectInput label={field.lang} options={[["pt", select.pt], ["en", select.en]]} {...controlProps("lang")} defaultValue={values.lang as string} error={errorFor("lang")} />
         </FormSection>
 
         <FormSection id="technical" title={dictionary.submission.section.technical}>
-          <ChoiceGroup label={field.platforms} name="platforms" options={(["web", "desktop", "mobile", "xr"] as const).map((key) => [key, select[key]])} selected={submission?.platforms ?? []} error={errorFor("platforms")} />
+          <ChoiceGroup required label={field.platforms} name="platforms" options={(["web", "desktop", "mobile", "xr"] as const).map((key) => [key, select[key]])} selected={submission?.platforms ?? []} error={errorFor("platforms")} />
           <CheckboxInput label={field.requires_install} name="requires_install" defaultChecked={values.requires_install as boolean} />
           <TextInput label={field.repo_url} type="url" {...controlProps("repo_url")} defaultValue={values.repo_url as string} error={errorFor("repo_url")} />
           <div className="grid gap-6 sm:grid-cols-2">
@@ -246,11 +314,10 @@ export function SubmissionForm({ locale, dictionary, idempotencyKey, submission 
 
         <FormSection id="author" title={dictionary.submission.section.author}>
           <div className="grid gap-6 sm:grid-cols-2">
-            <TextInput label={field.author_name} {...controlProps("author_name")} defaultValue={values.author_name as string} error={errorFor("author_name")} />
+            <TextInput label={field.author_name} autoComplete="name" {...controlProps("author_name")} defaultValue={values.author_name as string} error={errorFor("author_name")} />
             <SelectInput label={field.author_profile} options={(["radiologist", "resident", "physician", "developer", "student", "physicist", "team"] as const).map((key) => [key, select[key]])} {...controlProps("author_profile")} defaultValue={values.author_profile as string} error={errorFor("author_profile")} />
           </div>
-          <TextInput label={field.country} maxLength={2} className="sm:max-w-40" {...controlProps("country")} defaultValue={values.country as string} error={errorFor("country")} />
-          <TextArea label={field.limitations} {...controlProps("limitations")} defaultValue={values.limitations as string} error={errorFor("limitations")} />
+          <TextInput label={field.country} autoComplete="country" maxLength={2} className="sm:max-w-40" {...controlProps("country")} defaultValue={values.country as string} error={errorFor("country")} />
         </FormSection>
 
         <FormSection id="process" title={dictionary.submission.section.process}>
@@ -267,8 +334,8 @@ export function SubmissionForm({ locale, dictionary, idempotencyKey, submission 
           </div>
           <TextInput label={field.prompts_url} type="url" {...controlProps("prompts_url")} defaultValue={values.prompts_url as string} error={errorFor("prompts_url")} />
           <CheckboxInput label={field.dicomweb} name="dicomweb" defaultChecked={values.dicomweb as boolean} />
-          <ChoiceGroup label={field.features} name="features" options={(["2d", "3d", "mpr", "measurements", "annotations", "segmentation", "fusion", "cine", "hanging_protocols", "ai", "export", "comparison", "windowing", "collaboration", "other"] as const).map((key) => [key, feature[key]])} selected={selectedFeatures} error={errorFor("features")} />
-          <ChoiceGroup label={field.modalities} name="modalities" options={(["ct", "mr", "us", "xr", "nm", "pt", "mg", "cr", "dx", "rf", "xa", "sc", "ot", "other"] as const).map((key) => [key, modality[key]])} selected={selectedModalities} error={errorFor("modalities")} />
+          <ChoiceDisclosure countLabel={dictionary.submission.selectedCount} label={field.features} name="features" options={(["2d", "3d", "mpr", "measurements", "annotations", "segmentation", "fusion", "cine", "hanging_protocols", "ai", "export", "comparison", "windowing", "collaboration", "other"] as const).map((key) => [key, feature[key]])} selected={selectedFeatures} error={errorFor("features")} />
+          <ChoiceDisclosure countLabel={dictionary.submission.selectedCount} label={field.modalities} name="modalities" options={(["ct", "mr", "us", "xr", "nm", "pt", "mg", "cr", "dx", "rf", "xa", "sc", "ot", "other"] as const).map((key) => [key, modality[key]])} selected={selectedModalities} error={errorFor("modalities")} />
         </FormSection>
 
         <ScreenshotManager
@@ -276,6 +343,7 @@ export function SubmissionForm({ locale, dictionary, idempotencyKey, submission 
           dictionary={dictionary}
           submissionId={currentSubmissionId || undefined}
           initialScreenshots={submission?.screenshots ?? []}
+          onCountChange={setScreenshotCount}
         />
 
         <FormSection id="rules" title={dictionary.submission.section.rules}>
@@ -289,12 +357,21 @@ export function SubmissionForm({ locale, dictionary, idempotencyKey, submission 
         </FormSection>
 
         <div className="flex flex-col gap-2 border-t border-border py-4 sm:sticky sm:bottom-0 sm:flex-row sm:items-center sm:bg-page-bg/92 sm:backdrop-blur-sm">
+          {missingLabels.length === 0 ? (
+            <p className="flex items-center gap-1.5 text-sm text-success-foreground sm:order-last sm:ms-auto" role="status"><CheckIcon aria-hidden="true" className="size-4" />{dictionary.submission.ready}</p>
+          ) : (
+            <p title={missingLabels.join(", ")} className="text-sm text-muted-foreground sm:order-last sm:ms-auto" role="status">
+              {missingLabels.length === 1 ? dictionary.submission.missingOne : dictionary.submission.missingMany.replace("{n}", String(missingLabels.length))}
+            </p>
+          )}
           <SubmitButton label={submission?.status === "rejected" ? dictionary.submission.resend : dictionary.submission.send} pendingLabel={dictionary.submission.saving} intent={submission?.status === "rejected" ? "resubmit" : "submit"} formAction={sendAction} />
           <SubmitButton variant="outline" label={dictionary.submission.saveDraft} pendingLabel={dictionary.submission.saving} intent="draft" formAction={saveAction} />
         </div>
         {pending ? <p className="sr-only" role="status">{dictionary.submission.saving}</p> : null}
       </div>
     </form>
+    </RequiredLabel.Provider>
+    </FormChanged.Provider>
   );
 }
 
@@ -307,34 +384,51 @@ function FormSection({ id, title, children }: { id: string; title: string; child
   );
 }
 
+function FieldLabel({ htmlFor, label, required }: { htmlFor?: string; label: string; required?: boolean }) {
+  const requiredLabel = useContext(RequiredLabel);
+  return (
+    <Label htmlFor={htmlFor}>
+      {label}
+      {required ? (
+        <>
+          <span aria-hidden="true" className="text-muted-foreground">*</span>
+          <span className="sr-only">{requiredLabel}</span>
+        </>
+      ) : null}
+    </Label>
+  );
+}
+
 function TextInput({ label, error, required, className, ...props }: React.InputHTMLAttributes<HTMLInputElement> & { label: string; error?: string[]; required?: boolean }) {
   const describedBy = props["aria-describedby"] ?? (error ? `${props.id}-error` : undefined);
+  const urlProps = props.type === "url" ? { spellCheck: false, autoCapitalize: "none", placeholder: "https://" } : {};
   return (
     <div className={cn("flex flex-col gap-2", className)}>
-      <Label htmlFor={props.id}>{label}{required ? <span aria-hidden="true" className="text-muted-foreground">*</span> : null}</Label>
-      <Input nativeInput {...props} required={required} aria-describedby={describedBy} />
+      <FieldLabel htmlFor={props.id} label={label} required={required} />
+      <Input nativeInput {...urlProps} {...props} required={required} aria-describedby={describedBy} />
       <FieldError id={props.id ?? "field"} messages={error} />
     </div>
   );
 }
 
-function TextArea({ label, error, ...props }: React.TextareaHTMLAttributes<HTMLTextAreaElement> & { label: string; error?: string[] }) {
+function TextArea({ label, error, required, ...props }: React.TextareaHTMLAttributes<HTMLTextAreaElement> & { label: string; error?: string[] }) {
   const describedBy = props["aria-describedby"] ?? (error ? `${props.id}-error` : undefined);
   return (
     <div className="flex flex-col gap-2">
-      <Label htmlFor={props.id}>{label}</Label>
-      <Textarea {...props} rows={4} aria-describedby={describedBy} />
+      <FieldLabel htmlFor={props.id} label={label} required={required} />
+      <Textarea {...props} required={required} rows={4} aria-describedby={describedBy} />
       <FieldError id={props.id ?? "field"} messages={error} />
     </div>
   );
 }
 
-function SelectInput({ label, error, options, id, name, defaultValue, ...props }: { label: string; error?: string[]; options: Array<[string, string]>; id: string; name: string; defaultValue?: string; "aria-invalid"?: boolean; "aria-describedby"?: string }) {
+function SelectInput({ label, error, options, id, name, defaultValue, required, ...props }: { label: string; error?: string[]; options: Array<[string, string]>; id: string; name: string; defaultValue?: string; required?: boolean; "aria-invalid"?: boolean; "aria-describedby"?: string }) {
+  const onChanged = useContext(FormChanged);
   const describedBy = props["aria-describedby"] ?? (error ? `${id}-error` : undefined);
   return (
     <div className="flex flex-col gap-2">
-      <Label htmlFor={id}>{label}</Label>
-      <Select name={name} defaultValue={defaultValue || null} items={options.map(([value, text]) => ({ value, label: text }))}>
+      <FieldLabel htmlFor={id} label={label} required={required} />
+      <Select name={name} defaultValue={defaultValue || null} onValueChange={onChanged} items={options.map(([value, text]) => ({ value, label: text }))}>
         <SelectTrigger id={id} aria-invalid={props["aria-invalid"]} aria-describedby={describedBy}>
           <SelectValue />
         </SelectTrigger>
@@ -348,29 +442,55 @@ function SelectInput({ label, error, options, id, name, defaultValue, ...props }
 }
 
 function CheckboxInput({ label, name, defaultChecked }: { label: string; name: string; defaultChecked: boolean }) {
+  const onChanged = useContext(FormChanged);
   return (
     <Label className="font-normal">
-      <Checkbox name={name} value="on" defaultChecked={defaultChecked} />
+      <Checkbox name={name} value="on" defaultChecked={defaultChecked} onCheckedChange={onChanged} />
       {label}
     </Label>
   );
 }
 
-function ChoiceGroup({ label, name, options, selected, error }: { label: string; name: string; options: Array<[string, string]>; selected: readonly string[]; error?: string[] }) {
+function ChoiceGrid({ name, options, selected, error, onToggle }: { name: string; options: Array<[string, string]>; selected: readonly string[]; error?: string[]; onToggle?: (checked: boolean) => void }) {
+  const onChanged = useContext(FormChanged);
   const selectedValues = new Set(selected);
   return (
+    <div className="grid grid-cols-2 gap-x-4 gap-y-3 sm:grid-cols-3">
+      {options.map(([value, text]) => (
+        <Label key={value} className="font-normal">
+          <Checkbox name={name} value={value} defaultChecked={selectedValues.has(value)} aria-describedby={error ? `${name}-error` : undefined} onCheckedChange={(checked) => { onToggle?.(checked); onChanged(); }} />
+          {text}
+        </Label>
+      ))}
+    </div>
+  );
+}
+
+function ChoiceGroup({ label, name, options, selected, error, required }: { label: string; name: string; options: Array<[string, string]>; selected: readonly string[]; error?: string[]; required?: boolean }) {
+  return (
     <fieldset className="flex flex-col gap-3">
-      <legend className="mb-3 text-label-md">{label}</legend>
-      <div className="grid grid-cols-2 gap-x-4 gap-y-3 sm:grid-cols-3">
-        {options.map(([value, text]) => (
-          <Label key={value} className="font-normal">
-            <Checkbox name={name} value={value} defaultChecked={selectedValues.has(value)} aria-describedby={error ? `${name}-error` : undefined} />
-            {text}
-          </Label>
-        ))}
-      </div>
+      <legend className="mb-3"><FieldLabel label={label} required={required} /></legend>
+      <ChoiceGrid name={name} options={options} selected={selected} error={error} />
       <FieldError id={name} messages={error} />
     </fieldset>
+  );
+}
+
+// Grade longa fica recolhida. Os checkboxes continuam no DOM, então seguem no envio.
+function ChoiceDisclosure({ label, name, options, selected, error, countLabel }: { label: string; name: string; options: Array<[string, string]>; selected: readonly string[]; error?: string[]; countLabel: string }) {
+  const [count, setCount] = useState(selected.length);
+  return (
+    <details className="group/details">
+      <summary className="flex cursor-pointer list-none items-center gap-2 rounded-full py-1 text-label-md outline-none focus-visible:ring-2 focus-visible:ring-ring [&::-webkit-details-marker]:hidden">
+        <ChevronDownIcon aria-hidden="true" className="size-4 text-muted-foreground transition-transform duration-150 group-open/details:rotate-180" />
+        {label}
+        {count > 0 ? <span className="font-normal tabular-nums text-muted-foreground">{countLabel.replace("{n}", String(count))}</span> : null}
+      </summary>
+      <div className="pt-3">
+        <ChoiceGrid name={name} options={options} selected={selected} error={error} onToggle={(checked) => setCount((current) => current + (checked ? 1 : -1))} />
+      </div>
+      <FieldError id={name} messages={error} />
+    </details>
   );
 }
 
