@@ -78,7 +78,9 @@ test("usuário local com identidade github consegue usar uma rota privada", asyn
   await page.goto("/en/me");
 
   await expect(page.getByRole("heading", { name: "My submissions" })).toBeVisible();
-  await page.getByRole("button", { name: "Sign out" }).click();
+  await page.getByRole("banner").getByRole("button", { name: "My account" }).click();
+  await expect(page.getByRole("menu")).toContainText("@example.test");
+  await page.getByRole("menuitem", { name: "Sign out" }).click();
   await expect(page).toHaveURL(/\/en$/);
   await context.close();
 });
