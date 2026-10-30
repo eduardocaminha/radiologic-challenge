@@ -32,6 +32,7 @@ export function ViewerDetail({ locale, dictionary, viewer }: { locale: Locale; d
         <div className="flex max-w-3xl flex-col gap-3">
           <h1 className="text-display-sm text-balance sm:text-display-md">{viewer.name}</h1>
           {byline ? <p className="text-sm text-muted-foreground">{byline}</p> : null}
+          {viewer.workflow_parts?.length ? <p className="text-sm">{viewer.workflow_parts.map((part) => dictionary.submission.part[part] ?? part).join(" · ")}</p> : null}
         </div>
         <div className="flex flex-wrap items-start gap-2">
           {primary ? (

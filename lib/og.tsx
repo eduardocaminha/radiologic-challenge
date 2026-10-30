@@ -32,9 +32,9 @@ export function BrandMark({ color = "#f7f7f4", size = 44 }: { color?: string; si
 }
 
 const OG_COPY: Record<Locale, { showcase: string; tagline: string; creativity: string; approved: string }> = {
-  pt: { showcase: "Showcase público", tagline: "Showcase de DICOM viewers submetidos pelo público.", creativity: "Criatividade para imagens médicas", approved: "Viewer aprovado" },
-  en: { showcase: "Public showcase", tagline: "Showcase of DICOM viewers submitted by the public.", creativity: "Creativity for medical imaging", approved: "Approved viewer" },
-  es: { showcase: "Showcase público", tagline: "Showcase de DICOM viewers enviados por el público.", creativity: "Creatividad para imágenes médicas", approved: "Viewer aprobado" },
+  pt: { showcase: "Showcase público", tagline: "Showcase de workstations de radiologia criadas pelo público.", creativity: "Criatividade para o laudo", approved: "Projeto aprovado" },
+  en: { showcase: "Public showcase", tagline: "Showcase of radiology workstations built by the public.", creativity: "Creativity for reading", approved: "Approved project" },
+  es: { showcase: "Showcase público", tagline: "Showcase de workstations de radiología creadas por el público.", creativity: "Creatividad para informar", approved: "Proyecto aprobado" },
 };
 
 export function DefaultOgImage({ locale }: { locale: Locale }) {
@@ -50,7 +50,7 @@ export function DefaultOgImage({ locale }: { locale: Locale }) {
       </div>
       <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
         <span style={{ color: "#a9aaa5", fontSize: 25 }}>{t.showcase}</span>
-        <span style={{ fontSize: 78, lineHeight: 1, fontWeight: 600, letterSpacing: -2 }}>Radiologic Viewers</span>
+        <span style={{ fontSize: 78, lineHeight: 1, fontWeight: 600, letterSpacing: -2 }}>Radiologic Workstation</span>
         <span style={{ maxWidth: 820, color: "#c7c8c3", fontSize: 31, lineHeight: 1.2 }}>{t.tagline}</span>
       </div>
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", fontSize: 20, color: "#a9aaa5" }}>

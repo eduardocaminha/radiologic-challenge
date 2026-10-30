@@ -14,14 +14,15 @@ import { ViewportFrame } from "@/components/viewport-frame";
 import type { Dictionary } from "@/dictionaries";
 import { intlLocales, type Locale } from "@/lib/i18n";
 import { spring } from "@/lib/springs";
+import { WORKFLOW_PARTS } from "@/lib/submissions/constants";
 import type { PublicViewer } from "@/lib/viewers/public";
 import { useFluidHover, useRegisterFluidHoverItem } from "@/hooks/use-fluid-hover";
 
 type Sort = "total" | "month" | "recent";
-type Facet = "platform" | "baseTech" | "modality" | "feature";
+type Facet = "part" | "platform" | "baseTech" | "modality";
 
 const ALL = "all";
-const FACET_PARAM: Record<Facet, string> = { platform: "plat", baseTech: "base", modality: "mod", feature: "feat" };
+const FACET_PARAM: Record<Facet, string> = { part: "part", platform: "plat", baseTech: "base", modality: "mod" };
 const FACETS = Object.keys(FACET_PARAM) as Facet[];
 const INDEX_SIZE = 5;
 const INDEX_MIN_VIEWERS = 6;
@@ -33,10 +34,10 @@ function imageLoader({ src }: { src: string }) {
 
 function facetValues(viewer: PublicViewer, facet: Facet): string[] {
   const values =
-    facet === "platform" ? viewer.platforms
+    facet === "part" ? viewer.workflow_parts
+      : facet === "platform" ? viewer.platforms
       : facet === "baseTech" ? [viewer.base_tech]
-        : facet === "modality" ? viewer.modalities
-          : viewer.features;
+        : viewer.modalities;
   return (values ?? []).filter((value): value is string => Boolean(value));
 }
 
@@ -105,9 +106,9 @@ export function ViewerGallery({
         .slice(0, INDEX_SIZE);
     };
     return [
+      { facet: "part" as const, title: copy.parts, options: column("part", [...WORKFLOW_PARTS], (value) => dictionary.submission.part[value] ?? value) },
       { facet: "modality" as const, title: dictionary.viewer.modalities, options: column("modality", Object.keys(dictionary.submission.modality), (value) => dictionary.submission.modality[value] ?? value) },
       { facet: "baseTech" as const, title: copy.baseTech, options: column("baseTech", BASE_TECH, (value) => select[value] ?? value) },
-      { facet: "feature" as const, title: dictionary.viewer.features, options: column("feature", Object.keys(dictionary.submission.feature), (value) => dictionary.submission.feature[value] ?? value) },
     ].filter(({ options }) => options.length > 0);
   }, [copy, dictionary, select, viewers]);
 
@@ -200,7 +201,7 @@ export function ViewerGallery({
                   rank={sort === "recent" || (sort === "month" ? viewer.month_votes : viewer.total_votes) === 0 ? null : position + 1}
                   votes={sort === "month" ? viewer.month_votes : viewer.total_votes}
                   copy={copy}
-                  meta={[viewer.modalities?.slice(0, 2).map((value) => dictionary.submission.modality[value] ?? value).join(", "), select[viewer.base_tech] ?? viewer.base_tech, viewer.ai_code_share ? copy.aiShare[viewer.ai_code_share] : null, viewer.country].filter(Boolean).join(" · ")}
+                  meta={[viewer.workflow_parts?.map((value) => dictionary.submission.part[value] ?? value).join(", "), viewer.modalities?.slice(0, 2).map((value) => dictionary.submission.modality[value] ?? value).join(", "), viewer.ai_code_share ? copy.aiShare[viewer.ai_code_share] : null, viewer.country].filter(Boolean).join(" · ")}
                 />
               ))}
             </AnimatePresence>

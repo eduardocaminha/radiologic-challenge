@@ -23,7 +23,7 @@ values (
 select ok(public.intake_github_issue(
   1001,
   'github-intake-user',
-  '{"name":"Viewer de issue","tagline":"Uma frase","differential":"Um diferencial","lang":"pt","platforms":["web"],"requires_install":false,"repo_url":"https://github.com/example/viewer","license":"MIT","base_tech":"scratch","data_source":"Dados sintéticos","data_license":"CC0","external_api":false,"demo_url":"https://example.com/demo","rules_accepted":true}'::jsonb
+  '{"name":"Viewer de issue","tagline":"Uma frase","differential":"Um diferencial","lang":"pt","platforms":["web"],"workflow_parts":["viewer"],"requires_install":false,"repo_url":"https://github.com/example/viewer","license":"MIT","base_tech":"scratch","data_source":"Dados sintéticos","data_license":"CC0","external_api":false,"demo_url":"https://example.com/demo","rules_accepted":true}'::jsonb
 ) is not null, 'intake creates a submission');
 
 select is((select count(*) from public.submissions where github_issue_number = 1001), 1::bigint, 'intake creates one row per issue');
@@ -36,7 +36,7 @@ select is((select count(*) from public.submission_events where submission_id = (
 select public.intake_github_issue(
   1001,
   'changed-github-user',
-  '{"name":"Viewer editado","tagline":"Outra frase","differential":"Outro diferencial","lang":"pt","platforms":["web"],"requires_install":false,"repo_url":"https://github.com/example/viewer","license":"MIT","base_tech":"scratch","data_source":"Dados sintéticos","data_license":"CC0","external_api":false,"demo_url":"https://example.com/demo","rules_accepted":true}'::jsonb
+  '{"name":"Viewer editado","tagline":"Outra frase","differential":"Outro diferencial","lang":"pt","platforms":["web"],"workflow_parts":["viewer"],"requires_install":false,"repo_url":"https://github.com/example/viewer","license":"MIT","base_tech":"scratch","data_source":"Dados sintéticos","data_license":"CC0","external_api":false,"demo_url":"https://example.com/demo","rules_accepted":true}'::jsonb
 );
 
 select is((select count(*) from public.submissions where github_issue_number = 1001), 1::bigint, 'replaying an issue does not duplicate the row');
@@ -55,7 +55,7 @@ select is((select name from public.submissions where github_issue_number = 1001)
 select public.intake_github_issue(
   1002,
   'github-intake-user',
-  '{"name":"Claim me","tagline":"Uma frase","differential":"Um diferencial","lang":"pt","platforms":["web"],"requires_install":false,"repo_url":"https://github.com/example/claim","license":"MIT","base_tech":"scratch","data_source":"Dados sintéticos","data_license":"CC0","external_api":false,"demo_url":"https://example.com/demo","rules_accepted":true}'::jsonb
+  '{"name":"Claim me","tagline":"Uma frase","differential":"Um diferencial","lang":"pt","platforms":["web"],"workflow_parts":["viewer"],"requires_install":false,"repo_url":"https://github.com/example/claim","license":"MIT","base_tech":"scratch","data_source":"Dados sintéticos","data_license":"CC0","external_api":false,"demo_url":"https://example.com/demo","rules_accepted":true}'::jsonb
 );
 select set_config('request.jwt.claim.sub', '99999999-9999-9999-9999-999999999999', false);
 select is(public.claim_github_submissions(), 1, 'claim assigns matching GitHub drafts');

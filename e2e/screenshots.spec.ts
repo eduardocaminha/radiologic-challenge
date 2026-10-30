@@ -61,7 +61,7 @@ test("envia, reordena e exclui capturas de tela do rascunho", async ({ browser }
   await page.locator("#name").fill("Viewer Screenshots");
   await page.getByRole("button", { name: "Salvar rascunho" }).click();
   await expect(page).toHaveURL(/\/pt\/me$/);
-  await page.getByRole("link", { name: "Editar viewer" }).click();
+  await page.getByRole("link", { name: "Editar workstation" }).click();
 
   const fileInput = page.locator('input[type="file"]');
   await fileInput.setInputFiles([

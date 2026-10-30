@@ -10,28 +10,29 @@ web
 
 O site serve dois públicos com o mesmo peso:
 
-- **Quem constrói.** Radiologista, residente, médico, físico, estudante ou dev que fez um viewer DICOM, em geral com ajuda de IA, e quer mostrá-lo. A tarefa dele é preencher a ficha, subir imagens, acompanhar a moderação e divulgar o link.
-- **Quem lê exames e vota.** Visitante que abre as demos, compara as ideias e vota no viewer que gostaria de usar. A tarefa dele é percorrer a galeria, abrir a ficha e a demo, e votar com login Google ou GitHub.
+- **Quem constrói.** Radiologista, residente, médico, físico, estudante ou dev que construiu uma workstation de laudo ou uma parte dela (viewer, pilha de exames, IA, agente para conversar com a pilha, tela de laudo), em geral com ajuda de IA, e quer mostrá-la. A tarefa dele é preencher a ficha, subir imagens, acompanhar a moderação e divulgar o link.
+- **Quem lê exames e vota.** Visitante que abre as demos, compara as ideias e vota na workstation que gostaria de usar. A tarefa dele é percorrer a galeria, abrir a ficha e a demo, e votar com login Google ou GitHub.
 
 ## Product Purpose
 
-O challenge.radiologic.io é um desafio de criatividade aberto, mantido pela Radiologic, para mostrar ideias novas de viewer DICOM. É um showcase permanente, sem prazo e sem prêmio. O ranking vem só do voto popular, um voto por conta por viewer. Todo mês os três mais votados entram nos destaques.
+O challenge.radiologic.io é um desafio de criatividade aberto, mantido pela Radiologic, para mostrar como o trabalho de laudar deveria ser: viewer, pilha de exames, IA no fluxo e agente que conversa com a pilha. Vale vibecodar, porque o que importa é a experiência. É um showcase permanente, sem prazo e sem prêmio. O ranking vem só do voto popular, um voto por conta por projeto. Todo mês os três mais votados entram nos destaques.
 
-O site dá certo quando chegam viewers bons e quem visita abre as demos e vota.
+O site dá certo quando chegam workstations boas e quem visita abre as demos e vota.
 
 ## Positioning
 
 - As ideias vêm de quem lê exame todo dia, não de fornecedor.
-- Todo viewer tem demo navegável e repositório público com licença open source em SPDX.
+- Todo projeto tem demo navegável e repositório público com licença open source em SPDX.
 - A ficha declara o uso de IA: ferramentas, fração do código gerado, tempo gasto e custo.
-- É um showcase não clínico. Nenhum viewer é para diagnóstico, e o desafio não compara produtos.
+- A demo pública não chama LLM ao vivo: agente aparece simulado ou em vídeo.
+- É um showcase não clínico. Nenhum projeto é para diagnóstico, e o desafio não compara produtos.
 
 ## Operating Context
 
 - Submissão pelo formulário do site ou por Issue Form no repo público `eduardocaminha/dicom-viewer-challenge`, com as duas entrando na mesma fila.
 - Pré-moderação na primeira publicação e em cada imagem, feita no `/admin`.
 - Kit de dados com estudos públicos do NCI Imaging Data Commons, sob licença aberta.
-- Site bilíngue, pt e en.
+- Site trilíngue, pt, en e es.
 
 ## Capabilities and Constraints
 
@@ -48,12 +49,12 @@ O site dá certo quando chegam viewers bons e quem visita abre as demos e vota.
 
 ## Evidence on Hand
 
-- Em produção ainda não há nenhum viewer aprovado, então a galeria vazia é a primeira impressão.
+- Em produção ainda não há nenhum projeto aprovado, então a galeria vazia é a primeira impressão.
 - Não existem depoimentos, números de uso nem parceiros, e nada disso deve ser inventado.
 
 ## Product Principles
 
-- A demo é a prova. Tudo leva o visitante a abrir e testar o viewer.
+- A demo é a prova. Tudo leva o visitante a abrir e testar o projeto.
 - Mostrar o construtor e o processo, incluindo o uso de IA, com o mesmo peso do resultado.
 - Votar e submeter precisam ser fáceis, sem atrito além do login.
 - Nunca sugerir uso clínico.

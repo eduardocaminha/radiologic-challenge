@@ -2,6 +2,7 @@ export interface Dictionary {
   home: {
     title: string;
     headline: string;
+    headlineNote: string;
     tagline: string;
     submit: string;
     rules: string;
@@ -80,6 +81,7 @@ export interface Dictionary {
     submit: string;
     votes: string;
     clearFilters: string;
+    parts: string;
     allPlatforms: string;
     viewerCount: string;
     kit: string;
@@ -170,6 +172,7 @@ export interface Dictionary {
     error: Record<string, string>;
     field: Record<string, string>;
     select: Record<string, string>;
+    part: Record<string, string>;
     feature: Record<string, string>;
     modality: Record<string, string>;
     screenshot: {

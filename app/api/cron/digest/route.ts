@@ -39,7 +39,7 @@ function responseBody(count: number, screenshots: number) {
   const adminUrl = "https://challenge.radiologic.io/admin";
   return {
     text: [
-      "Há pendências de moderação no Radiologic Viewers.",
+      "Há pendências de moderação no Radiologic Workstation.",
       "",
       `Submissões pending: ${count}`,
       `Imagens pending: ${screenshots}`,
@@ -47,7 +47,7 @@ function responseBody(count: number, screenshots: number) {
       `Acesse ${adminUrl}`,
     ].join("\n"),
     html: [
-      "<p>Há pendências de moderação no Radiologic Viewers.</p>",
+      "<p>Há pendências de moderação no Radiologic Workstation.</p>",
       `<p>Submissões pending: ${count}<br />Imagens pending: ${screenshots}</p>`,
       `<p><a href="${adminUrl}">Abrir a fila de moderação</a></p>`,
     ].join(""),
@@ -96,9 +96,9 @@ export async function GET(request: Request) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        from: "Radiologic Viewers <noreply@radiologic.io>",
+        from: "Radiologic Workstation <noreply@radiologic.io>",
         to: [adminEmail],
-        subject: "Pendências de moderação no Radiologic Viewers",
+        subject: "Pendências de moderação no Radiologic Workstation",
         text: email.text,
         html: email.html,
       }),

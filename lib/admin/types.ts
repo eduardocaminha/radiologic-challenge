@@ -55,6 +55,7 @@ export interface AdminSubmission {
   time_spent: string | null;
   cost: string | null;
   features: string[] | null;
+  workflow_parts: string[] | null;
   modalities: string[] | null;
   dicomweb: boolean | null;
   stack: string | null;

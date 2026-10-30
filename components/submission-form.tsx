@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { createContext, useActionState, useCallback, useContext, useEffect, useRef, useState } from "react";
 import { useFormStatus } from "react-dom";
 import { getSubmissionError } from "@/lib/submissions/errors";
-import { RULES_VERSION } from "@/lib/submissions/constants";
+import { RULES_VERSION, WORKFLOW_PARTS } from "@/lib/submissions/constants";
 import { initialSubmissionActionState, type SubmissionActionState } from "@/lib/submissions/action-state";
 import {
   REQUIRED_ON_SEND,
@@ -52,6 +52,7 @@ export interface SubmissionRecord {
   time_spent: SubmissionFormValues["time_spent"] | null;
   cost: SubmissionFormValues["cost"] | null;
   features: SubmissionFormValues["features"] | null;
+  workflow_parts: SubmissionFormValues["workflow_parts"] | null;
   modalities: SubmissionFormValues["modalities"] | null;
   dicomweb: boolean | null;
   stack: string | null;
@@ -291,6 +292,7 @@ export function SubmissionForm({ locale, dictionary, idempotencyKey, submission 
         </FormSection>
 
         <FormSection id="technical" title={dictionary.submission.section.technical}>
+          <ChoiceGroup required label={field.workflow_parts} name="workflow_parts" options={WORKFLOW_PARTS.map((key) => [key, dictionary.submission.part[key]])} selected={submission?.workflow_parts ?? []} error={errorFor("workflow_parts")} />
           <ChoiceGroup required label={field.platforms} name="platforms" options={(["web", "desktop", "mobile", "xr"] as const).map((key) => [key, select[key]])} selected={submission?.platforms ?? []} error={errorFor("platforms")} />
           <CheckboxInput label={field.requires_install} name="requires_install" defaultChecked={values.requires_install as boolean} />
           <TextInput label={field.repo_url} type="url" {...controlProps("repo_url")} defaultValue={values.repo_url as string} error={errorFor("repo_url")} />

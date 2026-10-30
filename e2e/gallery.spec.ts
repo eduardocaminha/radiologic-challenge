@@ -60,7 +60,7 @@ test.afterAll(async () => {
 test("gallery mostra o estado publicado em 375 px", async ({ page }) => {
   await page.setViewportSize({ width: 375, height: 800 });
   await page.goto("/pt");
-  await expect(page.getByRole("heading", { name: "Galeria de viewers" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Galeria de workstations" })).toBeVisible();
   await expect(page.getByRole("link", { name: "Galeria Viewer" })).toBeVisible();
   await expect(page.getByText("Uma ficha para testar a galeria")).toBeVisible();
   await page.getByRole("link", { name: "Galeria Viewer" }).click();

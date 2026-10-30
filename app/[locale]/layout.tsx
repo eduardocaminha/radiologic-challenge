@@ -11,7 +11,7 @@ export const dynamicParams = false;
 export const metadata: Metadata = {
   metadataBase: new URL("https://challenge.radiologic.io"),
   openGraph: {
-    siteName: "Radiologic Viewers",
+    siteName: "Radiologic Workstation",
     type: "website",
   },
   twitter: { card: "summary_large_image" },

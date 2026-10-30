@@ -13,6 +13,11 @@ Funciona no navegador
 ### Idioma do viewer
 pt
 
+### Partes da workstation
+- [x] Viewer
+- [x] Agente
+- [ ] Laudo
+
 ### Plataformas
 - [x] web
 - [ ] desktop
@@ -51,6 +56,7 @@ describe("GitHub issue parser", () => {
         name: "Viewer Ágil",
         lang: "pt",
         platforms: ["web"],
+        workflow_parts: ["viewer", "agent"],
         requires_install: false,
         base_tech: "cornerstone3d",
         rules_accepted: true,

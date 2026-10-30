@@ -65,12 +65,13 @@ test("salva rascunho, permite edição e envia para moderação", async ({ brows
   await expect(page.getByRole("heading", { name: "Viewer E2E" })).toBeVisible();
   await expect(page.getByText("Rascunho", { exact: true })).toBeVisible();
 
-  await page.getByRole("link", { name: "Editar viewer" }).click();
+  await page.getByRole("link", { name: "Editar workstation" }).click();
   await page.locator("#tagline").fill("Viewer para testes");
   await page.locator("#description").fill("Descrição do viewer para testes.");
   await page.locator("#differential").fill("Funciona no navegador.");
   await page.locator("#lang").click();
   await page.getByRole("option", { name: "Português" }).click();
+  await page.getByRole("checkbox", { name: "Agente", exact: true }).check();
   await page.getByRole("checkbox", { name: "Web", exact: true }).check();
   await page.locator("#repo_url").fill("https://example.test/viewer");
   await page.locator("#license").fill("MIT");

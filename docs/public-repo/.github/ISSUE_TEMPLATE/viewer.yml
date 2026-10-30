@@ -1,28 +1,28 @@
-name: Submeter um DICOM viewer
-description: Envie um viewer para o showcase Radiologic.
-title: "[Viewer] "
+name: Enviar uma workstation
+description: Envie sua workstation, ou uma parte dela, para o Radiologic Workstation.
+title: "[Workstation] "
 labels:
   - submissão
 body:
   - type: input
     id: name
     attributes:
-      label: Nome do viewer
-      description: Use o nome público do seu viewer.
+      label: Nome da workstation
+      description: Use o nome público do projeto.
     validations:
       required: true
   - type: input
     id: tagline
     attributes:
       label: Frase de apresentação
-      description: Explique o viewer em uma frase curta.
+      description: Explique o projeto em uma frase curta.
     validations:
       required: true
   - type: input
     id: differential
     attributes:
       label: Diferencial
-      description: O que torna este viewer diferente?
+      description: O que torna este projeto diferente?
     validations:
       required: true
   - type: dropdown
@@ -32,6 +32,19 @@ body:
       options:
         - pt
         - en
+    validations:
+      required: true
+  - type: checkboxes
+    id: workflow_parts
+    attributes:
+      label: Partes da workstation
+      description: Selecione pelo menos uma. Vale enviar só uma parte do fluxo.
+      options:
+        - label: Viewer
+        - label: Pilha
+        - label: IA
+        - label: Agente
+        - label: Laudo
     validations:
       required: true
   - type: checkboxes

@@ -2,7 +2,7 @@
 
 ## Sobre
 
-Site `challenge.radiologic.io`: showcase permanente e trilíngue (PT, EN e ES) de DICOM viewers submetidos pelo público, posicionado como desafio de criatividade da marca Radiologic. Ranking ao vivo por voto popular, destaques mensais, sem prêmio. A arquitetura aprovada está em `docs/architecture.md`. Leia antes de implementar qualquer tarefa.
+Site `challenge.radiologic.io`: showcase permanente e trilíngue (PT, EN e ES) de workstations de radiologia submetidas pelo público (viewer, pilha, IA, agente, laudo, inteiras ou em parte), posicionado como desafio de criatividade da marca Radiologic. Ranking ao vivo por voto popular, destaques mensais, sem prêmio. A arquitetura aprovada está em `docs/architecture.md`. Leia antes de implementar qualquer tarefa.
 
 Repos relacionados:
 
@@ -72,7 +72,9 @@ Valem para copy, dicionários, docs, comentários e commits.
 
 - Não adicionar biblioteca de i18n, ORM, Redis, BotID, SDK do Resend ou `issue-ops/parser`.
 - Não redigir texto legal. O regulamento e a política de privacidade vêm de `docs/drafts/`, revisados pelo dono.
-- Não listar produtos comerciais de mercado. Só viewers submetidos pelo público.
+- O nome público é Radiologic Workstation. "Viewer" só para o componente de imagem; a submissão é "workstation" ou "projeto". Slugs, rotas `/v/[slug]` e o repo mantêm o nome antigo.
+- Demo pública não chama LLM ao vivo.
+- Não listar produtos comerciais de mercado. Só projetos submetidos pelo público.
 - Não usar `--no-verify` nem force push.
 
 <!-- BEGIN:nextjs-agent-rules -->

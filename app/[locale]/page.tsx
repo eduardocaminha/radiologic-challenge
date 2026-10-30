@@ -44,7 +44,7 @@ export default async function Home({ params }: PageProps) {
   return (
     <main className="mx-auto flex min-h-screen max-w-6xl flex-col gap-16 px-6 py-12 sm:gap-20 sm:py-16">
       <section className="flex flex-col gap-8">
-        <h1 className="max-w-4xl text-display-sm text-balance sm:text-display-lg">{dictionary.home.headline}</h1>
+        <h1 className="max-w-4xl text-display-sm text-balance sm:text-display-lg">{dictionary.home.headline} <span className="text-muted-foreground">{dictionary.home.headlineNote}</span></h1>
         <nav aria-label={dictionary.home.title} className="flex flex-wrap items-center gap-2">
           <Button size="lg" render={<Link href={`/${locale}/submit`} />}>{dictionary.home.submit}</Button>
           <Button size="lg" variant="outline" render={<Link href={`/${locale}/rules`} />}>{dictionary.home.rules}</Button>
