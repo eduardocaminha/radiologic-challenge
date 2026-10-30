@@ -53,7 +53,6 @@
 
   /* Superfícies dos componentes COSS. Accent é o fundo neutro de hover, não cor. */
   --accent: oklch(1 0 0 / 0.04);
-  --hover: oklch(1 0 0 / 0.05);
   --accent-foreground: var(--foreground);
   --input: oklch(1 0 0 / 0.08);
   --popover: oklch(0.218 0 0);
@@ -156,7 +155,6 @@
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
   --color-accent: var(--accent);
-  --color-hover: var(--hover);
   --color-accent-foreground: var(--accent-foreground);
   --color-input: var(--input);
   --color-popover: var(--popover);
@@ -218,6 +216,10 @@
   --text-title-sm--font-weight: 600;
   --text-body-lg: 1.125rem;
   --text-body-lg--line-height: 1.6;
+  --text-label-lg: 1rem;
+  --text-label-lg--line-height: 1.4;
+  --text-label-lg--letter-spacing: -0.01em;
+  --text-label-lg--font-weight: 500;
   --text-label-md: 0.875rem;
   --text-label-md--line-height: 1.4;
   --text-label-md--font-weight: 500;

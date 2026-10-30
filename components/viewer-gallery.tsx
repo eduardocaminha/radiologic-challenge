@@ -4,19 +4,17 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { AnimatePresence, MotionConfig, motion } from "motion/react";
-import { useMemo, useRef } from "react";
-import { FluidHoverHighlight } from "@/components/fluid-hover-highlight";
+import { useMemo } from "react";
+import { LineTabs } from "@/components/line-tabs";
 import { Button } from "@/components/ui/button";
 import { Empty, EmptyContent, EmptyHeader, EmptyTitle } from "@/components/ui/empty";
 import { Select, SelectItem, SelectPopup, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { ViewportFrame } from "@/components/viewport-frame";
 import type { Dictionary } from "@/dictionaries";
 import { intlLocales, type Locale } from "@/lib/i18n";
 import { spring } from "@/lib/springs";
 import { WORKFLOW_PARTS } from "@/lib/submissions/constants";
 import type { PublicViewer } from "@/lib/viewers/public";
-import { useFluidHover, useRegisterFluidHoverItem } from "@/hooks/use-fluid-hover";
 
 type Sort = "total" | "month" | "recent";
 type Facet = "part" | "platform" | "baseTech" | "modality";
@@ -163,20 +161,13 @@ export function ViewerGallery({
           </>
         ) : null}
 
-        <div className="flex flex-wrap items-center gap-x-6 gap-y-3 border-b border-border">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between sm:gap-8 sm:border-b sm:border-border">
+          <div className="flex items-end justify-between gap-4 max-sm:border-b max-sm:border-border">
+            <LineTabs id="sort" label={copy.sort} options={sortOptions} value={sort} onChange={(value) => onParamsChange?.({ sort: value === "total" ? null : value })} />
+            {filtered ? <Button variant="ghost" size="sm" className="mb-2 text-muted-foreground" onClick={clearFilters}>{copy.clearFilters}</Button> : null}
+          </div>
           {platforms.length > 1 ? (
-            <ToggleGroup aria-label={copy.platform} value={[filterOf("platform")]} onValueChange={(value) => setFilter("platform", value[0] ?? ALL)} className="mb-3 rounded-full bg-accent p-0.5">
-              {[ALL, ...platforms].map((value) => (
-                <ToggleGroupItem key={value} value={value} size="sm" className="relative font-normal text-muted-foreground hover:bg-transparent data-pressed:bg-transparent data-pressed:text-foreground">
-                  {filterOf("platform") === value ? <motion.span layoutId="platform-pill" transition={spring.moderate} className="absolute inset-0 rounded-full bg-input" /> : null}
-                  <span className="relative">{value === ALL ? copy.allPlatforms : select[value] ?? value}</span>
-                </ToggleGroupItem>
-              ))}
-            </ToggleGroup>
-          ) : null}
-          <SortTabs label={copy.sort} options={sortOptions} value={sort} onChange={(value) => onParamsChange?.({ sort: value === "total" ? null : value })} />
-          {filtered ? (
-            <Button variant="ghost" className="mb-3 ms-auto text-muted-foreground" onClick={clearFilters}>{copy.clearFilters}</Button>
+            <LineTabs id="platform" label={copy.platform} className="max-sm:border-b max-sm:border-border" options={[[ALL, copy.allPlatforms], ...platforms.map((value): [string, string] => [value, select[value] ?? value])]} value={filterOf("platform")} onChange={(value) => setFilter("platform", value)} />
           ) : null}
         </div>
 
@@ -247,30 +238,6 @@ function IndexItem({ option, pressed, dimmed, onSelect }: { option: IndexOption;
         {!empty ? <span className="text-sm font-normal tabular-nums text-muted-foreground">{option.count}</span> : null}
       </button>
     </li>
-  );
-}
-
-function SortTabs({ label, options, value, onChange }: { label: string; options: [Sort, string][]; value: Sort; onChange: (value: Sort) => void }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const hover = useFluidHover(ref, { axis: "x", gapClick: false });
-  return (
-    <ToggleGroup ref={ref} aria-label={label} value={[value]} onValueChange={(next) => next[0] && onChange(next[0] as Sort)} className="relative -mx-2 max-w-full overflow-x-auto" {...hover.handlers}>
-      <FluidHoverHighlight hover={hover} className="rounded-full" />
-      {options.map(([option, text], index) => (
-        <SortTab key={option} index={index} registerItem={hover.registerItem} value={option} active={value === option}>{text}</SortTab>
-      ))}
-    </ToggleGroup>
-  );
-}
-
-function SortTab({ index, registerItem, value, active, children }: { index: number; registerItem: (index: number, element: HTMLElement | null) => void; value: Sort; active: boolean; children: React.ReactNode }) {
-  const ref = useRef<HTMLButtonElement>(null);
-  useRegisterFluidHoverItem(registerItem, index, ref);
-  return (
-    <ToggleGroupItem ref={ref} value={value} className="relative mb-3 font-normal text-muted-foreground hover:bg-transparent data-pressed:bg-transparent data-pressed:text-foreground">
-      {children}
-      {active ? <motion.span layoutId="sort-underline" transition={spring.moderate} className="absolute inset-x-2 -bottom-3 h-0.5 rounded-full bg-foreground" /> : null}
-    </ToggleGroupItem>
   );
 }
 
