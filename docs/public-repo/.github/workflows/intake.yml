@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   intake:
-    if: startsWith(github.event.issue.title, '[Viewer]')
+    if: startsWith(github.event.issue.title, '[Workstation]') || startsWith(github.event.issue.title, '[Viewer]')
     runs-on: ubuntu-latest
     env:
       ISSUE_BODY: ${{ github.event.issue.body }}
