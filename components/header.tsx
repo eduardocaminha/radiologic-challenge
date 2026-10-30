@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Suspense } from "react";
-import { Button } from "@/components/ui/button";
+import { FluidNav } from "@/components/fluid-nav";
 import { HeaderSubmit } from "@/components/header-submit";
 import { Logo } from "@/components/logo";
 import { LocaleSwitcher } from "@/components/locale-switcher";
@@ -28,13 +28,7 @@ export function Header({ locale, dictionary }: HeaderProps) {
         <Link href={`/${locale}`} aria-label={dictionary.home.title} className="-m-2 flex items-center gap-2 p-2">
           <Logo className="size-5" aria-hidden="true" />
         </Link>
-        <nav aria-label={dictionary.nav.label} className="hidden items-center gap-0.5 lg:flex">
-          {links.map((link) => (
-            <Button key={link.href} variant="ghost" size="sm" className="text-muted-foreground" render={<Link href={link.href} />}>
-              {link.label}
-            </Button>
-          ))}
-        </nav>
+        <FluidNav id="header" label={dictionary.nav.label} links={links} className="hidden lg:flex" />
       </div>
       <div className="flex items-center gap-1 whitespace-nowrap sm:gap-2">
         <SiteMenu label={dictionary.nav.menu} links={[...links, submit]} />
