@@ -1,10 +1,9 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { WINDOW_LEVEL_REST as REST, windowLevelFromPointer, type WindowLevel } from "@/lib/window-level";
+import { ASCII_RAMP as RAMP, WINDOW_LEVEL_REST as REST, windowLevelFromPointer } from "@/lib/window-level";
 
 const WORD = "Radiologic";
-const RAMP = " .:-=+*#%@";
 const REVEAL_MS = 800;
 const MEASURE_SIZE = 200;
 const DISSOLVE_SHARE = 0.45;
@@ -160,18 +159,15 @@ export function FooterWordmark() {
     };
   }, []);
 
-  function moveTo(next: WindowLevel) {
+  function onPointerMove(event: React.PointerEvent<HTMLDivElement>) {
+    const next = windowLevelFromPointer(event);
+    if (!next) return;
     target.current = next;
     wake.current();
   }
 
-  function onPointerMove(event: React.PointerEvent<HTMLDivElement>) {
-    const next = windowLevelFromPointer(event);
-    if (next) moveTo(next);
-  }
-
   return (
-    <div ref={frame} onPointerMove={onPointerMove} onPointerLeave={() => moveTo(REST)} className="relative aspect-wordmark-full overflow-clip sm:aspect-wordmark">
+    <div ref={frame} onPointerMove={onPointerMove} className="relative aspect-wordmark-full overflow-clip sm:aspect-wordmark">
       <canvas ref={canvas} aria-hidden="true" className="absolute inset-0 size-full" />
     </div>
   );
