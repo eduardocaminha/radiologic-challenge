@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { NextRequest } from "next/server";
-import { negotiateLocale, proxy } from "../proxy";
+import { locales } from "@/lib/i18n";
+import { config, negotiateLocale, proxy } from "../proxy";
 
 function requestWithAcceptLanguage(acceptLanguage?: string) {
   const headers = new Headers();
@@ -31,6 +32,13 @@ describe("negotiateLocale", () => {
 
   it("cai para pt quando nenhum idioma suportado aparece", () => {
     expect(negotiateLocale("fr-FR,de;q=0.8")).toBe("pt");
+  });
+});
+
+describe("matcher", () => {
+  // O Next só lê o matcher como literal, então ele não pode derivar de locales.
+  it("cobre submit e me em todos os idiomas", () => {
+    expect(config.matcher).toContain(`/(${locales.join("|")})/(submit|me)`);
   });
 });
 
