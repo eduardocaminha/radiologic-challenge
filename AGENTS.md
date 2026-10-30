@@ -38,7 +38,7 @@ Todo comando de verificação precisa ser hermético: sem segredo, sem OAuth rea
 - Chaves do Supabase: só `publishable` e `secret`. A `secret` fica em módulo com `server-only`.
 - Toda migration traz `grant` explícito do que precisa ser exposto.
 - Voto só por POST autenticado. Nunca por GET. Redirect pós-login só para caminho relativo validado.
-- Páginas públicas não leem cookies e ficam cacheadas (`revalidate = 60`). `cacheComponents` desligado. O `proxy.ts` cobre só a raiz, `/(pt|en)/(submit|me)` e `/admin`.
+- Páginas públicas não leem cookies e ficam cacheadas (`revalidate = 60`). `cacheComponents` desligado. O `proxy.ts` cobre só a raiz, `/(pt|en|es)/(submit|me)` e `/admin`.
 - Sem fetch server-side de URL fornecida por usuário.
 - Header `Content-Security-Policy: frame-ancestors 'none'`.
 

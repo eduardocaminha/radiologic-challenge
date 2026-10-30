@@ -6,7 +6,7 @@ import { hasSupabaseConfig } from "@/lib/supabase/config";
 export const config = {
   matcher: [
     "/",
-    "/(pt|en)/(submit|me)",
+    "/(pt|en|es)/(submit|me)",
     "/admin",
   ],
 };
