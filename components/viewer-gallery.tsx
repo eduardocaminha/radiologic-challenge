@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { AnimatePresence, MotionConfig, motion } from "motion/react";
-import { useMemo, useRef, useState, type RefObject } from "react";
+import { useMemo, useRef, useState } from "react";
 import { FluidHoverHighlight } from "@/components/fluid-hover-highlight";
 import { Button } from "@/components/ui/button";
 import { Empty, EmptyContent, EmptyHeader, EmptyTitle } from "@/components/ui/empty";
@@ -162,33 +162,35 @@ export function ViewerGallery({
 }
 
 function IndexColumn({ title, options, active, onSelect }: { title: string; options: IndexOption[]; active: string; onSelect: (value: string) => void }) {
-  const ref = useRef<HTMLUListElement>(null);
-  const hover = useFluidHover(ref, { gapClick: false });
   return (
     <div className="flex min-w-0 flex-col gap-3">
       <h3 className="text-sm text-muted-foreground">{title}</h3>
-      <ul ref={ref} className="relative -mx-2 flex flex-col" {...hover.handlers}>
-        <FluidHoverHighlight hover={hover} className="rounded-full" />
-        {options.map((option, index) => (
-          <IndexItem key={option.value} index={index} registerItem={hover.registerItem} option={option} pressed={active === option.value} dimmed={active !== ALL && active !== option.value} onSelect={() => onSelect(option.value)} />
+      <ul className="group/index flex flex-col items-start">
+        {options.map((option) => (
+          <IndexItem key={option.value} option={option} pressed={active === option.value} dimmed={active !== ALL && active !== option.value} onSelect={() => onSelect(option.value)} />
         ))}
       </ul>
     </div>
   );
 }
 
-function IndexItem({ index, registerItem, option, pressed, dimmed, onSelect }: { index: number; registerItem: (index: number, element: HTMLElement | null) => void; option: IndexOption; pressed: boolean; dimmed: boolean; onSelect: () => void }) {
-  const ref = useRef<HTMLLIElement>(null);
-  useRegisterFluidHoverItem(registerItem, index, ref as RefObject<HTMLElement | null>);
+// Hover por cor: o item sob o cursor fica em foreground e os vizinhos recuam. Item sem
+// viewer não reage, porque o clique nele não faz nada.
+function IndexItem({ option, pressed, dimmed, onSelect }: { option: IndexOption; pressed: boolean; dimmed: boolean; onSelect: () => void }) {
   const empty = option.count === 0;
+  const tone = empty
+    ? "text-muted-foreground/40"
+    : dimmed
+      ? "text-muted-foreground hover:text-foreground"
+      : "text-foreground group-has-[button:enabled:hover]/index:text-muted-foreground hover:text-foreground!";
   return (
-    <li ref={ref} className="relative">
+    <li className="max-w-full">
       <button
         type="button"
         aria-pressed={pressed}
         disabled={empty}
         onClick={onSelect}
-        className={`flex w-full min-w-0 items-baseline gap-2 rounded-full px-2 py-0.5 text-left text-title-sm font-medium outline-none transition-colors duration-150 focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-default sm:text-title-lg ${empty ? "text-muted-foreground/40" : dimmed ? "text-muted-foreground" : "text-foreground"}`}
+        className={`flex max-w-full items-baseline gap-2 rounded-sm py-0.5 text-left text-title-sm font-medium outline-none transition-colors duration-150 focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-default sm:text-title-lg ${tone}`}
       >
         <span className="truncate">{option.label}</span>
         {!empty ? <span className="text-sm font-normal tabular-nums text-muted-foreground">{option.count}</span> : null}
