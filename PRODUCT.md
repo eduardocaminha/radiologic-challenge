@@ -15,7 +15,7 @@ O site serve dois públicos com o mesmo peso:
 
 ## Product Purpose
 
-O challenge.radiologic.io é um desafio de criatividade aberto, mantido pela Radiologic, para mostrar como o trabalho de laudar deveria ser: viewer, pilha de exames, IA no fluxo e agente que conversa com a pilha. Pode ser construído com IA, porque o que importa é a experiência. É um showcase permanente, sem prazo e sem prêmio. O ranking vem só do voto popular, um voto por conta por projeto. Todo mês os três mais votados entram nos destaques.
+O challenge.radiologic.io é um showcase aberto e permanente, mantido pela Radiologic, para mostrar como o trabalho de laudar deveria ser: viewer, pilha de exames, IA no fluxo e agente que conversa com a pilha. Pode ser construído com IA, porque o que importa é a experiência. Não tem prazo nem prêmio. O ranking vem só do voto popular, um voto por conta por projeto. Todo mês os três mais votados entram nos destaques.
 
 O site dá certo quando chegam workstations boas e quem visita abre as demos e vota.
 
@@ -25,7 +25,7 @@ O site dá certo quando chegam workstations boas e quem visita abre as demos e v
 - Todo projeto tem demo navegável e repositório público com licença open source em SPDX.
 - A ficha declara o uso de IA: ferramentas, fração do código gerado, tempo gasto e custo.
 - A demo pública não chama LLM ao vivo: agente aparece simulado ou em vídeo.
-- É um showcase não clínico. Nenhum projeto é para diagnóstico, e o desafio não compara produtos.
+- É um showcase não clínico. Nenhum projeto é para diagnóstico, e ele não compara produtos.
 
 ## Operating Context
 
