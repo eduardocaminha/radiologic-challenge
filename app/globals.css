@@ -294,11 +294,11 @@
 }
 
 .hero-in > * {
-  animation: hero-in 600ms var(--ease-out-strong) both;
+  animation: hero-in 1400ms var(--ease-out-strong) both;
 }
 
 .hero-in > :nth-child(2) {
-  animation-delay: 80ms;
+  animation-delay: 160ms;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -325,8 +325,8 @@ body:has([data-sticky-header]) > header::before {
   inset: 0 calc(50% - 50vw) -1.5rem;
   z-index: -1;
   pointer-events: none;
-  background: color-mix(in oklch, var(--page-bg) 60%, transparent);
-  backdrop-filter: blur(20px);
+  background: color-mix(in oklch, var(--page-bg) 40%, transparent);
+  backdrop-filter: blur(6px);
   mask-image: linear-gradient(to bottom, black 60%, transparent);
 }
 
