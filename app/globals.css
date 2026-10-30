@@ -325,8 +325,8 @@ body:has([data-sticky-header]) > header::before {
   inset: 0 calc(50% - 50vw) -1.5rem;
   z-index: -1;
   pointer-events: none;
-  background: color-mix(in oklch, var(--page-bg) 40%, transparent);
-  backdrop-filter: blur(6px);
+  background: color-mix(in oklch, var(--page-bg) 88%, transparent);
+  backdrop-filter: blur(16px);
   mask-image: linear-gradient(to bottom, black 60%, transparent);
 }
 
