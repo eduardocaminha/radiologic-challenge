@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title: getLegalDocument("rules", locale).title,
     description: dictionary.legal.rulesDescription,
-    alternates: { languages: { pt: "/pt/rules", en: "/en/rules" } },
+    alternates: { languages: { pt: "/pt/rules", en: "/en/rules", es: "/es/rules" } },
   };
 }
 

@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title: dictionary.kit.title,
     description: dictionary.kit.description,
-    alternates: { languages: { pt: "/pt/kit", en: "/en/kit" } },
+    alternates: { languages: { pt: "/pt/kit", en: "/en/kit", es: "/es/kit" } },
   };
 }
 

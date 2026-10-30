@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title: dictionary.highlights.title,
     description: dictionary.highlights.description,
-    alternates: { languages: { pt: "/pt/highlights", en: "/en/highlights" } },
+    alternates: { languages: { pt: "/pt/highlights", en: "/en/highlights", es: "/es/highlights" } },
   };
 }
 

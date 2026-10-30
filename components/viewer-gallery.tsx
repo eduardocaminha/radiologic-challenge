@@ -12,7 +12,7 @@ import { Select, SelectItem, SelectPopup, SelectTrigger, SelectValue } from "@/c
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { ViewportFrame } from "@/components/viewport-frame";
 import type { Dictionary } from "@/dictionaries";
-import type { Locale } from "@/lib/i18n";
+import { intlLocales, type Locale } from "@/lib/i18n";
 import { spring } from "@/lib/springs";
 import type { PublicViewer } from "@/lib/viewers/public";
 import { useFluidHover, useRegisterFluidHoverItem } from "@/hooks/use-fluid-hover";
@@ -275,7 +275,7 @@ function SortTab({ index, registerItem, value, active, children }: { index: numb
 
 function GalleryEmpty({ locale, dictionary }: { locale: Locale; dictionary: Dictionary }) {
   const copy = dictionary.gallery;
-  const month = new Intl.DateTimeFormat(locale === "pt" ? "pt-BR" : "en-US", { month: "short", year: "numeric", timeZone: "America/Sao_Paulo" }).format(new Date());
+  const month = new Intl.DateTimeFormat(intlLocales[locale], { month: "short", year: "numeric", timeZone: "America/Sao_Paulo" }).format(new Date());
   return (
     <section aria-labelledby="gallery-heading">
       <ViewportFrame

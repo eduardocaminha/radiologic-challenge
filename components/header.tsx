@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Suspense } from "react";
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/logo";
 import { LocaleSwitcher } from "@/components/locale-switcher";
@@ -45,7 +46,9 @@ export function Header({ locale, dictionary }: HeaderProps) {
           signInLabel={dictionary.auth.signIn}
           signOutLabel={dictionary.auth.signOut}
         />
-        <LocaleSwitcher locale={locale} label={dictionary.nav.languageLabel} />
+        <Suspense fallback={null}>
+          <LocaleSwitcher locale={locale} label={dictionary.nav.languageLabel} />
+        </Suspense>
       </div>
     </header>
   );

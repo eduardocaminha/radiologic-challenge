@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return {
     title: getLegalDocument("privacy", locale).title,
     description: dictionary.legal.privacyDescription,
-    alternates: { languages: { pt: "/pt/privacy", en: "/en/privacy" } },
+    alternates: { languages: { pt: "/pt/privacy", en: "/en/privacy", es: "/es/privacy" } },
   };
 }
 

@@ -35,8 +35,9 @@ test("locale desconhecido responde 404", async ({ page }) => {
 test("seletor de idioma troca o locale preservando o caminho", async ({ page }) => {
   await page.goto("/pt");
 
-  await page.getByRole("link", { name: "English" }).click();
+  await page.getByRole("combobox", { name: "Idioma" }).click();
+  await page.getByRole("option", { name: "Español" }).click();
 
-  await expect(page).toHaveURL(/\/en$/);
-  await expect(page.locator("html")).toHaveAttribute("lang", "en");
+  await expect(page).toHaveURL(/\/es$/);
+  await expect(page.locator("html")).toHaveAttribute("lang", "es");
 });

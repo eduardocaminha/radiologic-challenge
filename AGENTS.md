@@ -2,7 +2,7 @@
 
 ## Sobre
 
-Site `challenge.radiologic.io`: showcase permanente e bilíngue (PT e EN) de DICOM viewers submetidos pelo público, posicionado como desafio de criatividade da marca Radiologic. Ranking ao vivo por voto popular, destaques mensais, sem prêmio. A arquitetura aprovada está em `docs/architecture.md`. Leia antes de implementar qualquer tarefa.
+Site `challenge.radiologic.io`: showcase permanente e trilíngue (PT, EN e ES) de DICOM viewers submetidos pelo público, posicionado como desafio de criatividade da marca Radiologic. Ranking ao vivo por voto popular, destaques mensais, sem prêmio. A arquitetura aprovada está em `docs/architecture.md`. Leia antes de implementar qualquer tarefa.
 
 Repos relacionados:
 
@@ -50,7 +50,7 @@ Valem para copy, dicionários, docs, comentários e commits.
 - Sem travessão. Usar vírgula, parênteses ou nova frase.
 - Não usar a palavra "hype".
 - Falar "grupo de discussão" ou "grupo", nunca "comunidade".
-- Todo texto de interface existe em `pt` e `en`, com paridade de chaves testada.
+- Todo texto de interface existe em `pt`, `en` e `es`, com paridade de chaves testada.
 
 ## Identidade visual
 

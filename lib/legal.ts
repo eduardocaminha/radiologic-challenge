@@ -16,11 +16,11 @@ export interface LegalDocument {
 }
 
 const FILES: Record<LegalKind, Record<Locale, string>> = {
-  rules: { pt: "regulamento.pt.md", en: "rules.en.md" },
-  privacy: { pt: "privacidade.pt.md", en: "privacy.en.md" },
+  rules: { pt: "regulamento.pt.md", en: "rules.en.md", es: "reglamento.es.md" },
+  privacy: { pt: "privacidade.pt.md", en: "privacy.en.md", es: "privacidad.es.md" },
 };
 
-const VERSION_LINE = /^(?:Versão|Version) (\d{4}-\d{2}-\d{2})\.$/;
+const VERSION_LINE = /^(?:Versão|Version|Versión) (\d{4}-\d{2}-\d{2})\.$/;
 
 export function legalFilePath(kind: LegalKind, locale: Locale): string {
   return join(process.cwd(), "docs", "drafts", FILES[kind][locale]);

@@ -1,10 +1,10 @@
 import Link from "next/link";
 import type { Dictionary } from "@/dictionaries";
-import type { Locale } from "@/lib/i18n";
+import { intlLocales, type Locale } from "@/lib/i18n";
 import type { PublicHighlightMonth } from "@/lib/highlights/public";
 
 function formatMonth(month: string, locale: Locale) {
-  return new Intl.DateTimeFormat(locale === "pt" ? "pt-BR" : "en-US", {
+  return new Intl.DateTimeFormat(intlLocales[locale], {
     month: "long",
     year: "numeric",
     timeZone: "America/Sao_Paulo",
@@ -12,7 +12,7 @@ function formatMonth(month: string, locale: Locale) {
 }
 
 function formatPosition(rank: number, locale: Locale, label: string) {
-  if (locale === "pt") return `${rank}º ${label}`;
+  if (locale !== "en") return `${rank}º ${label}`;
   const suffix = rank === 1 ? "st" : rank === 2 ? "nd" : rank === 3 ? "rd" : "th";
   return `${rank}${suffix} ${label}`;
 }

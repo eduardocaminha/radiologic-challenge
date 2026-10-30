@@ -1,6 +1,6 @@
 # radiologic-viewers
 
-Site `challenge.radiologic.io`: showcase permanente e bilíngue de DICOM viewers submetidos pelo público, com ranking por voto popular e destaques mensais.
+Site `challenge.radiologic.io`: showcase permanente e trilíngue de DICOM viewers submetidos pelo público, com ranking por voto popular e destaques mensais.
 
 - Arquitetura e decisões: [docs/architecture.md](docs/architecture.md)
 - Instruções para agentes: [AGENTS.md](AGENTS.md)

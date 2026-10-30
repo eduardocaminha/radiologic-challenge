@@ -25,6 +25,10 @@ describe("negotiateLocale", () => {
     expect(negotiateLocale("pt-BR,pt;q=0.9,en;q=0.5")).toBe("pt");
   });
 
+  it("escolhe es quando es tem prioridade maior", () => {
+    expect(negotiateLocale("es-MX,es;q=0.9,en;q=0.5")).toBe("es");
+  });
+
   it("cai para pt quando nenhum idioma suportado aparece", () => {
     expect(negotiateLocale("fr-FR,de;q=0.8")).toBe("pt");
   });

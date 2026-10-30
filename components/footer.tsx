@@ -1,6 +1,6 @@
 import { FooterWordmark } from "@/components/footer-wordmark";
 import type { Dictionary } from "@/dictionaries";
-import type { Locale } from "@/lib/i18n";
+import { intlLocales, type Locale } from "@/lib/i18n";
 
 interface FooterProps {
   locale: Locale;
@@ -9,7 +9,7 @@ interface FooterProps {
 
 export function Footer({ locale, dictionary }: FooterProps) {
   const now = new Date();
-  const month = new Intl.DateTimeFormat(locale === "pt" ? "pt-BR" : "en-US", { month: "short", year: "numeric", timeZone: "America/Sao_Paulo" }).format(now);
+  const month = new Intl.DateTimeFormat(intlLocales[locale], { month: "short", year: "numeric", timeZone: "America/Sao_Paulo" }).format(now);
 
   return (
     <footer className="mx-auto w-full max-w-6xl px-6 pt-20">
