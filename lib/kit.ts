@@ -43,18 +43,3 @@ export function primaryModality(study: KitStudy) {
   return study.modality.filter((value) => !["SEG", "SR", "M3D"].includes(value)).join("/");
 }
 
-export interface WorklistRow {
-  uid: string;
-  modality: string;
-  bodyPart: string;
-  collection: string;
-}
-
-export function worklistPreview(count: number): WorklistRow[] {
-  return KIT.studies.slice(0, count).map((study) => ({
-    uid: study.study_instance_uid,
-    modality: primaryModality(study),
-    bodyPart: study.body_part,
-    collection: study.collection,
-  }));
-}

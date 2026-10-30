@@ -8,7 +8,6 @@ import { ViewerGallery, ViewerGalleryWithParams } from "@/components/viewer-gall
 import { getDictionary } from "@/dictionaries";
 import { getPublicHighlights } from "@/lib/highlights/public";
 import { isLocale } from "@/lib/i18n";
-import { worklistPreview } from "@/lib/kit";
 import { getPublicViewers } from "@/lib/viewers/public";
 import { JsonLd } from "@/components/json-ld";
 import { pageMetadata, SITE_NAME, SITE_URL } from "@/lib/seo";
@@ -33,8 +32,6 @@ export default async function Home({ params }: PageProps) {
   if (!isLocale(locale)) notFound();
 
   const [dictionary, viewers, months] = await Promise.all([getDictionary(locale), getPublicViewers(), getPublicHighlights()]);
-
-  const worklist = worklistPreview(10);
 
   return (
     <main className="mx-auto flex min-h-screen max-w-6xl flex-col gap-16 px-6 py-12 sm:gap-20 sm:py-16">
@@ -66,8 +63,8 @@ export default async function Home({ params }: PageProps) {
           <MonthlyHighlights locale={locale} dictionary={dictionary} months={[months[0]]} />
         </section>
       ) : null}
-      <Suspense fallback={<ViewerGallery locale={locale} dictionary={dictionary} viewers={viewers} worklist={worklist} />}>
-        <ViewerGalleryWithParams locale={locale} dictionary={dictionary} viewers={viewers} worklist={worklist} />
+      <Suspense fallback={<ViewerGallery locale={locale} dictionary={dictionary} viewers={viewers} />}>
+        <ViewerGalleryWithParams locale={locale} dictionary={dictionary} viewers={viewers} />
       </Suspense>
     </main>
   );
