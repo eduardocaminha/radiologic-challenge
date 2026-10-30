@@ -1,6 +1,5 @@
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
-import type { Locale } from "@/lib/i18n";
 
 export const ogSize = { width: 1200, height: 630 } as const;
 const ogFontBudget = 500 * 1024;
@@ -31,12 +30,6 @@ export function BrandMark({ color = "#f7f7f4", size = 44 }: { color?: string; si
   );
 }
 
-const OG_COPY: Record<Locale, { headline: string; note: string }> = {
-  pt: { headline: "Mostre a workstation", note: "que você queria usar para laudar." },
-  en: { headline: "Show us the workstation", note: "you wish you had for reading." },
-  es: { headline: "Muestra la workstation", note: "que te gustaría usar para informar." },
-};
-
 function OgBrand() {
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 18, fontSize: 30, fontWeight: 600, letterSpacing: -0.5 }}>
@@ -55,16 +48,17 @@ function OgFooter() {
   );
 }
 
-export function DefaultOgImage({ locale }: { locale: Locale }) {
-  const t = OG_COPY[locale];
+export function DefaultOgImage() {
   return (
-    <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between", background: "#0e0e0e", color: "#f7f7f4", padding: "64px 72px 56px", fontFamily: "Inter" }}>
-      <OgBrand />
-      <div style={{ display: "flex", flexDirection: "column", fontSize: 84, lineHeight: 1.04, fontWeight: 600, letterSpacing: -3 }}>
-        <span>{t.headline}</span>
-        <span style={{ color: "#8f908b" }}>{t.note}</span>
+    <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between", background: "#0e0e0e", color: "#f7f7f4", padding: "72px", fontFamily: "Inter" }}>
+      <BrandMark size={96} />
+      <div style={{ display: "flex", flexDirection: "column", gap: 28 }}>
+        <div style={{ display: "flex", flexDirection: "column", fontSize: 112, lineHeight: 1.02, fontWeight: 600, letterSpacing: -4 }}>
+          <span>Radiologic</span>
+          <span style={{ color: "#8f908b" }}>Workstation</span>
+        </div>
+        <span style={{ fontSize: 32, color: "#a9aaa5" }}>challenge.radiologic.io</span>
       </div>
-      <OgFooter />
     </div>
   );
 }

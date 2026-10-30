@@ -10,7 +10,7 @@ export default async function Image({ params }: { params: Promise<{ locale: stri
   const { locale: localeParam } = await params;
   if (!isLocale(localeParam)) notFound();
 
-  return new ImageResponse(<DefaultOgImage locale={localeParam} />, {
+  return new ImageResponse(<DefaultOgImage />, {
     ...size,
     fonts: await getOgFonts(),
   });
