@@ -279,7 +279,7 @@ function GalleryEmpty({ locale, dictionary }: { locale: Locale; dictionary: Dict
   return (
     <section aria-labelledby="gallery-heading">
       <ViewportFrame
-        topLeft={dictionary.footer.siteName}
+        topLeft={dictionary.home.title}
         topRight={month}
         bottomLeft={`0 ${copy.viewerCount}`}
         bottomRight={dictionary.footer.nonClinical}

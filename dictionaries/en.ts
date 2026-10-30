@@ -10,6 +10,8 @@ const dictionary: Dictionary = {
     kit: "Data kit",
   },
   nav: {
+    menu: "Menu",
+    label: "Site navigation",
     languageLabel: "Language",
     highlights: "Highlights",
   },
@@ -28,13 +30,11 @@ const dictionary: Dictionary = {
     privacyDescription: "How the Radiologic DICOM viewer challenge handles data from people who sign in, vote and submit.",
   },
   footer: {
-    label: "Footer",
     rules: "Rules",
     privacy: "Privacy",
     kit: "Data kit",
     source: "Source code",
     nonClinical: "Non-clinical use",
-    siteName: "Radiologic Viewers",
     contact: "Contact",
   },
   kit: {

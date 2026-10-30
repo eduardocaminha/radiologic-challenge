@@ -8,6 +8,8 @@ export interface Dictionary {
     kit: string;
   };
   nav: {
+    menu: string;
+    label: string;
     languageLabel: string;
     highlights: string;
   };
@@ -26,14 +28,12 @@ export interface Dictionary {
     privacyDescription: string;
   };
   footer: {
-    label: string;
     rules: string;
     privacy: string;
     kit: string;
     contact: string;
     source: string;
     nonClinical: string;
-    siteName: string;
   };
   kit: {
     title: string;
