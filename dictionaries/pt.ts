@@ -200,6 +200,8 @@ const dictionary: Dictionary = {
       SUB07: "Esta submissão não está em rascunho.",
       SUB08: "Preencha os campos obrigatórios antes de enviar.",
       SUB09: "Apenas submissões rejeitadas podem ser reenviadas.",
+      SUB10: "Projeto removido não pode ser editado.",
+      SUB11: "Projeto em moderação ou aprovado precisa manter os campos obrigatórios.",
       SUB23: "Essa transição de status não é permitida.",
       SUB24: "A submissão precisa ter uma imagem aprovada.",
       SUB42: "Você atingiu o limite de cinco imagens.",

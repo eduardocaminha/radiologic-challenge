@@ -32,7 +32,7 @@ jobs:
             --arg github_user_id "$GITHUB_USER_ID" \
             '{issue_number: ($issue_number | tonumber), github_user_id: $github_user_id, body: $body}')
           signature=$(printf '%s' "$payload" | openssl dgst -sha256 -hmac "$GITHUB_INTAKE_SECRET" -hex | awk '{print $2}')
-          status=$(curl --silent --show-error --output response.json --write-out '%{http_code}' \
+          status=$(curl --silent --show-error --max-time 20 --output response.json --write-out '%{http_code}' \
             --request POST "$INTAKE_URL" \
             --header 'content-type: application/json' \
             --header "x-github-event-timestamp: $timestamp" \

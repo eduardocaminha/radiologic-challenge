@@ -23,7 +23,10 @@ function date(value: string | null) {
 function value(value: unknown) {
   if (value === null || value === undefined || value === "") return "Não informado";
   if (typeof value === "boolean") return value ? "Sim" : "Não";
-  if (Array.isArray(value)) return value.length > 0 ? value.join(", ") : "Nenhum";
+  if (Array.isArray(value)) {
+    if (value.length === 0) return "Nenhum";
+    return value.map((item) => (typeof item === "object" && item !== null ? Object.values(item).filter(Boolean).join(" ") : String(item))).join(", ");
+  }
   if (typeof value === "object") return JSON.stringify(value);
   return String(value);
 }

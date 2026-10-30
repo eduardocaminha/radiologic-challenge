@@ -1,6 +1,6 @@
 begin;
 
-select plan(22);
+select plan(23);
 
 select has_function('public'::name, 'intake_github_issue'::name, array['integer'::name, 'text'::name, 'jsonb'::name]);
 select has_function('public'::name, 'claim_github_submissions'::name, array[]::name[]);
@@ -61,6 +61,7 @@ select set_config('request.jwt.claim.sub', '99999999-9999-9999-9999-999999999999
 select is(public.claim_github_submissions(), 1, 'claim assigns matching GitHub drafts');
 select is((select owner_id from public.submissions where github_issue_number = 1002), '99999999-9999-9999-9999-999999999999'::uuid, 'claim assigns the logged-in user');
 select is((select status from public.submissions where github_issue_number = 1002), 'draft', 'claim keeps the draft status');
+select is((select slug from public.submissions where github_issue_number = 1002), 'claim-me', 'claim generates the slug');
 
 select * from finish();
 rollback;

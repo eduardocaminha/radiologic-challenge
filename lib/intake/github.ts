@@ -150,13 +150,27 @@ function fieldForLabel(label: string) {
   return aliases[normalize(label)] ?? (normalize(label) as IntakeField);
 }
 
+// Linha a linha de propósito: o corpo da issue vem de qualquer conta do GitHub, e regex com quantificadores encadeados trava com espaços repetidos.
 function blocks(body: string) {
   const parsed = new Map<IntakeField, string>();
-  const pattern = /^###\s+(.+?)\s*\n([\s\S]*?)(?=^###\s+|(?![\s\S]))/gm;
-  for (const match of body.matchAll(pattern)) {
-    const field = fieldForLabel(match[1]);
-    if (field in fieldLabels) parsed.set(field, match[2].trim());
+  let field: IntakeField | null = null;
+  let content: string[] = [];
+
+  function flush() {
+    if (field && field in fieldLabels) parsed.set(field, content.join("\n").trim());
   }
+
+  for (const line of body.split(/\r?\n/)) {
+    const heading = line.startsWith("### ") ? line.slice(4).trim() : "";
+    if (heading) {
+      flush();
+      field = fieldForLabel(heading);
+      content = [];
+    } else {
+      content.push(line);
+    }
+  }
+  flush();
   return parsed;
 }
 
@@ -169,7 +183,11 @@ function firstLine(value: string) {
 }
 
 function checkedValues(value: string) {
-  return [...value.matchAll(/^\s*-\s*\[[xX]\]\s+(.+?)\s*$/gm)].map((match) => match[1].trim());
+  return value.split(/\r?\n/).flatMap((line) => {
+    const item = line.trim();
+    const marker = item.slice(0, 5).toLowerCase();
+    return marker === "- [x]" && /\s/.test(item.charAt(5)) && item.slice(5).trim() ? [item.slice(5).trim()] : [];
+  });
 }
 
 function booleanValue(value: string) {

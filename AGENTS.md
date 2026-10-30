@@ -34,6 +34,7 @@ Todo comando de verificação precisa ser hermético: sem segredo, sem OAuth rea
 
 - Tabelas com RLS ligado e `revoke all` de `anon` e `authenticated`. Nenhuma escrita direta pelo cliente.
 - Toda escrita passa por função `security definer` com `search_path = ''`. A função carrega a regra (um voto por conta, transições de estado, limites). A server action só valida com Zod e chama a função.
+- Depois da moderação, a submissão não perde campo obrigatório e projeto removido não é editado (`guard_submission_edit`). Edição em aprovado grava evento e entra no resumo diário.
 - Autorização nunca lê `user_metadata` nem e-mail. Admin é linha na tabela `admins`. O menu de conta do header mostra nome, e-mail e provedor só para exibir, com a inicial no lugar da foto, para não enviar o IP do usuário ao provedor.
 - Chaves do Supabase: só `publishable` e `secret`. A `secret` fica em módulo com `server-only`.
 - Toda migration traz `grant` explícito do que precisa ser exposto.

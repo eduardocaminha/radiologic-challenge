@@ -20,6 +20,7 @@ const pendingDigest = {
   pending_key: "pending-key",
   submissions_count: 2,
   screenshots_count: 3,
+  changes_count: 1,
 };
 
 describe("GET /api/cron/digest", () => {
