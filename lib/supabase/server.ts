@@ -2,6 +2,7 @@ import "server-only";
 
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
+import { supabaseCookieOptions } from "@/lib/supabase/config";
 
 export async function createServerSupabaseClient() {
   const cookieStore = await cookies();
@@ -10,6 +11,7 @@ export async function createServerSupabaseClient() {
   if (!url || !key) throw new Error("Supabase server configuration is missing");
 
   return createServerClient(url, key, {
+    cookieOptions: supabaseCookieOptions(),
     cookies: {
       getAll() {
         return cookieStore.getAll();

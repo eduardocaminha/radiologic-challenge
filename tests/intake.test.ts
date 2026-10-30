@@ -19,14 +19,31 @@ describe("POST /api/intake/github", () => {
     expect(await response.json()).toEqual({ error: "Unauthorized" });
   });
 
-  it("responde 422 com erros localizados para um corpo inválido", async () => {
+  it("recusa assinatura que não cobre o timestamp", async () => {
     process.env.GITHUB_INTAKE_SECRET = "test-secret";
-    const body = JSON.stringify({ issue_number: 1, github_user_id: "123", body: "### Nome do viewer\n" });
+    const body = JSON.stringify({ issue_number: 1, github_user_id: "123", body: "" });
     const signature = createHmac("sha256", process.env.GITHUB_INTAKE_SECRET).update(body).digest("hex");
     const response = await POST(new Request("http://localhost/api/intake/github", {
       method: "POST",
       headers: {
         "x-github-event-timestamp": String(Math.floor(Date.now() / 1000)),
+        "x-hub-signature-256": `sha256=${signature}`,
+      },
+      body,
+    }));
+
+    expect(response.status).toBe(401);
+  });
+
+  it("responde 422 com erros localizados para um corpo inválido", async () => {
+    process.env.GITHUB_INTAKE_SECRET = "test-secret";
+    const body = JSON.stringify({ issue_number: 1, github_user_id: "123", body: "### Nome do viewer\n" });
+    const timestamp = String(Math.floor(Date.now() / 1000));
+    const signature = createHmac("sha256", process.env.GITHUB_INTAKE_SECRET).update(`${timestamp}.${body}`).digest("hex");
+    const response = await POST(new Request("http://localhost/api/intake/github", {
+      method: "POST",
+      headers: {
+        "x-github-event-timestamp": timestamp,
         "x-hub-signature-256": `sha256=${signature}`,
       },
       body,

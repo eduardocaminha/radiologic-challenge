@@ -16,11 +16,12 @@ function unauthorized() {
   return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 }
 
-function validSignature(body: string, signature: string | null, secret: string) {
+// O timestamp entra na assinatura: sem isso, uma requisição capturada poderia ser repetida com outra data.
+function validSignature(signedPayload: string, signature: string | null, secret: string) {
   if (!signature) return false;
   const supplied = signature.startsWith("sha256=") ? signature.slice("sha256=".length) : signature;
   if (!/^[a-f0-9]{64}$/i.test(supplied)) return false;
-  const expected = createHmac("sha256", secret).update(body).digest("hex");
+  const expected = createHmac("sha256", secret).update(signedPayload).digest("hex");
   return timingSafeEqual(Buffer.from(supplied, "hex"), Buffer.from(expected, "hex"));
 }
 
@@ -39,7 +40,7 @@ export async function POST(request: Request) {
     ?? request.headers.get("x-intake-timestamp");
   const body = await request.text();
 
-  if (!secret || !validTimestamp(timestamp) || !validSignature(body, signature, secret)) return unauthorized();
+  if (!secret || !validTimestamp(timestamp) || !validSignature(`${timestamp}.${body}`, signature, secret)) return unauthorized();
 
   let rawPayload: unknown;
   try {

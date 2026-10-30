@@ -1,6 +1,6 @@
 begin;
 
-select plan(28);
+select plan(29);
 
 select has_function('public'::name, 'vote_report'::name, array['uuid'::name]);
 select has_function('public'::name, 'void_votes'::name, array['uuid'::name]);
@@ -65,6 +65,7 @@ select is((select count(*) from public.submission_events where kind = 'vote_void
 select public.ban_voter('55555555-5555-4555-8555-555555555553', 'conta suspeita');
 select is((select count(*) from public.banned_voters where user_id = '55555555-5555-4555-8555-555555555553'), 1::bigint, 'ban_voter records the ban');
 select is((select count(*) from public.submission_events where kind = 'voter_banned'), 1::bigint, 'ban_voter records actor and reason');
+select ok((select bool_and(voided_at is not null) from public.votes where user_id = '55555555-5555-4555-8555-555555555553'), 'ban_voter voids the existing votes');
 select public.ban_voter('55555555-5555-4555-8555-555555555553', 'second action');
 select is((select count(*) from public.submission_events where kind = 'voter_banned'), 1::bigint, 'ban_voter is a no-op when repeated');
 select set_config('request.jwt.claim.sub', '55555555-5555-4555-8555-555555555553', false);
