@@ -1,9 +1,8 @@
 "use client";
 
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { usePathname } from "next/navigation";
-import { cn } from "@/lib/utils";
+import { LanguagesIcon } from "lucide-react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { Select, SelectItem, SelectPopup, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { locales, localeLabels, type Locale } from "@/lib/i18n";
 
 interface LocaleSwitcherProps {
@@ -12,28 +11,25 @@ interface LocaleSwitcherProps {
 }
 
 export function LocaleSwitcher({ locale, label }: LocaleSwitcherProps) {
+  const router = useRouter();
   const pathname = usePathname();
-  const rest = pathname.split("/").slice(2).join("/");
+  const searchParams = useSearchParams();
+
+  function change(next: unknown) {
+    const rest = pathname.split("/").slice(2).join("/");
+    const query = searchParams.toString();
+    router.push(`/${next}${rest ? `/${rest}` : ""}${query ? `?${query}` : ""}`);
+  }
 
   return (
-    <nav aria-label={label} className="flex items-center gap-0.5 sm:gap-1">
-      {locales.map((candidate) => {
-        const href = rest ? `/${candidate}/${rest}` : `/${candidate}`;
-        const active = candidate === locale;
-
-        return (
-          <Button
-            key={candidate}
-            variant="ghost"
-            size="sm"
-            render={<Link href={href} aria-current={active ? "true" : undefined} />}
-            className={cn("max-sm:px-1.5", active ? "bg-accent" : "text-muted-foreground")}
-          >
-            <span aria-hidden="true" className="uppercase sm:hidden">{candidate}</span>
-            <span className="sr-only sm:not-sr-only">{localeLabels[candidate]}</span>
-          </Button>
-        );
-      })}
-    </nav>
+    <Select value={locale} onValueChange={change} items={locales.map((value) => ({ value, label: localeLabels[value] }))}>
+      <SelectTrigger size="sm" aria-label={label} className="w-auto min-w-0 border-transparent bg-transparent text-muted-foreground shadow-none hover:bg-accent hover:text-foreground">
+        <LanguagesIcon aria-hidden="true" className="size-4 opacity-80" />
+        <SelectValue className="uppercase sm:normal-case">{(value: Locale) => <><span className="sm:hidden">{value}</span><span className="max-sm:hidden">{localeLabels[value]}</span></>}</SelectValue>
+      </SelectTrigger>
+      <SelectPopup align="end" alignItemWithTrigger={false}>
+        {locales.map((value) => <SelectItem key={value} value={value}>{localeLabels[value]}</SelectItem>)}
+      </SelectPopup>
+    </Select>
   );
 }

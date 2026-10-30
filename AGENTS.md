@@ -2,7 +2,7 @@
 
 ## Sobre
 
-Site `challenge.radiologic.io`: showcase permanente e bilíngue (PT e EN) de DICOM viewers submetidos pelo público, posicionado como desafio de criatividade da marca Radiologic. Ranking ao vivo por voto popular, destaques mensais, sem prêmio. A arquitetura aprovada está em `docs/architecture.md`. Leia antes de implementar qualquer tarefa.
+Site `challenge.radiologic.io`: showcase permanente e trilíngue (PT, EN e ES) de workstations de radiologia submetidas pelo público (viewer, pilha, IA, agente, laudo, inteiras ou em parte), posicionado como desafio de criatividade da marca Radiologic. Ranking ao vivo por voto popular, destaques mensais, sem prêmio. A arquitetura aprovada está em `docs/architecture.md`. Leia antes de implementar qualquer tarefa.
 
 Repos relacionados:
 
@@ -50,29 +50,32 @@ Valem para copy, dicionários, docs, comentários e commits.
 - Sem travessão. Usar vírgula, parênteses ou nova frase.
 - Não usar a palavra "hype".
 - Falar "grupo de discussão" ou "grupo", nunca "comunidade".
-- Todo texto de interface existe em `pt` e `en`, com paridade de chaves testada.
+- Todo texto de interface existe em `pt`, `en` e `es`, com paridade de chaves testada.
 
 ## Identidade visual
 
-- Fonte única Inter 4.1 (SIL OFL 1.1, licença em `assets/fonts/OFL.txt`). Variável em `public/fonts/InterVariable.woff2` (wght 100 a 900, opsz automático) para o site. TTF estático em `assets/fonts/` para a imagem Open Graph, em subconjunto latino para caber no limite de 500 KB. Sem fonte mono. A Saans do `radiologic-site` não entra neste repo.
+- Fonte única Inter 4.1 (SIL OFL 1.1, licença em `assets/fonts/OFL.txt`). Variável em `public/fonts/InterVariable.woff2` (wght 100 a 900, opsz automático) para o site. TTF estático em `assets/fonts/` para a imagem Open Graph, em subconjunto latino para caber no limite de 500 KB. Sem fonte mono, com uma exceção: a matriz de caracteres do wordmark do rodapé usa a mono do sistema dentro do canvas, porque a grade exige largura fixa. A Saans do `radiologic-site` não entra neste repo.
 - `font-feature-settings` só com `calt`. Os conjuntos `ss01` e `ss07` da referência eram da Saans e ativam outras formas na Inter.
 - Tokens OKLCH herdados. Cor nova só em `oklch()`. Primary é monocromático. O verde (`--success`) fica reservado a estado de sucesso. `--accent` é o fundo neutro de hover dos componentes, não cor.
 - Componentes do COSS UI em `components/ui/`, instalados pelo registry `@coss` de `components.json` (`pnpm dlx shadcn add @coss/<nome>`), sobre `@base-ui/react`. O tema do COSS é mapeado à mão nos tokens de `app/globals.css`; não aplicar `@coss/style`. Controle novo usa o componente COSS, nunca Tailwind escrito à mão. Instalar só o que for usado.
-- Forma por papel (`app/globals.css`): controle (botão, toggle, aba, Select, campo de uma linha, destaque de hover) em `rounded-full`; campo de várias linhas e popup em `rounded-lg` (12px); superfície (card, diálogo, estado vazio) em `rounded-2xl` (20px); imagem dentro de card em `rounded-lg`, porque raio interno = raio externo menos o respiro.
+- Forma por papel (`app/globals.css`): controle (botão, toggle, Select, campo de uma linha) em `rounded-full`; campo de várias linhas e popup em `rounded-lg` (12px); superfície (card, diálogo, estado vazio) em `rounded-2xl` (20px); imagem dentro de card em `rounded-lg`, porque raio interno = raio externo menos o respiro.
 - Tamanho de controle por contexto, na escala do COSS (altura mobile / desktop): `lg` 40/36 para a ação principal da página ou de um estado (hero, demo e voto, enviar o formulário, login, estado vazio); `default` 36/32 para ação dentro de formulário ou diálogo, na altura dos campos; `sm` e `icon-sm` 32/28 para navegação e ação de linha (header, voltar, editar, excluir, copiar, filtros da barra). Link que se comporta como botão usa `Button` com `render`.
 - Tipografia por papel, nos tokens `text-display-{lg,md,sm}`, `text-headline-{lg,md}`, `text-title-{lg,md,sm}`, `text-body-lg` e `text-label-md`, que já trazem peso, tracking e entrelinha. Display só na headline da home e no nome do viewer; headline no h1 das demais páginas; title nos h2 e h3; label em rótulo de interface. Título em 600, rótulo em 500, texto corrido em 400. Não escrever tamanho, peso ou tracking soltos em título.
 - `@shadcn/lint` no ESLint para `app/` e `components/*.tsx`: sem cor bruta, sem valor arbitrário, sem classe desconhecida, sem estilo inline (valor dinâmico vai por custom property). Valor que falta vira token no tema.
 - Sem eyebrow acima de título, sem subtítulo descritivo abaixo de título, sem travessão na copy.
 - `ViewportFrame` é a moldura de viewer do estado vazio e do rodapé. Os cantos mostram só dado verdadeiro, nunca metadado inventado. No rodapé, os cantos ficam sobre o wordmark, como num viewer, e janela e nível são os valores aplicados de fato. Os links do site vivem no header (Menu abaixo de `lg`), e o rodapé só tem a palavra e o ©.
 - Filtros e ordenação da galeria vivem na URL (`mod`, `base`, `feat`, `plat`, `sort`).
-- Motion sutil com `motion` e os padrões do Fluid Functionalism: durações só pelos tiers de `lib/springs.ts` (`fast`, `moderate`, `slow`, com `.exit` na saída), destaque de hover que desliza com `useFluidHover` + `FluidHoverHighlight`, `layout` para reposicionar. Entrada e pressão em CSS (`reveal-item`, `scale-[0.97]` no `:active`), curva `--ease-out-strong`. Toda árvore com motion fica em `MotionConfig reducedMotion="user"`. Nada anima em ação de teclado repetida.
+- Seletor de visão usa `LineTabs`. Navegação em texto (abas, índice) muda só de cor; `Button` ghost muda fundo no hover.
+- Motion sutil com `motion` e os padrões do Fluid Functionalism: durações só pelos tiers de `lib/springs.ts` (`fast`, `moderate`, `slow`, com `.exit` na saída), `layout` para reposicionar. Entrada e pressão em CSS (`reveal-item`, `scale-[0.97]` no `:active`), curva `--ease-out-strong`. Toda árvore com motion fica em `MotionConfig reducedMotion="user"`. Nada anima em ação de teclado repetida.
 - Estado precisa ser legível de relance. Evitar painel de indicadores sem ação, etiquetas em excesso por linha, card para tudo e subtítulo que narra a tela.
 
 ## O que não fazer
 
 - Não adicionar biblioteca de i18n, ORM, Redis, BotID, SDK do Resend ou `issue-ops/parser`.
 - Não redigir texto legal. O regulamento e a política de privacidade vêm de `docs/drafts/`, revisados pelo dono.
-- Não listar produtos comerciais de mercado. Só viewers submetidos pelo público.
+- O nome público é Radiologic Workstation. "Viewer" só para o componente de imagem; a submissão é "workstation" ou "projeto". Slugs, rotas `/v/[slug]` e o repo mantêm o nome antigo.
+- Demo pública não chama LLM ao vivo.
+- Não listar produtos comerciais de mercado. Só projetos submetidos pelo público.
 - Não usar `--no-verify` nem force push.
 
 <!-- BEGIN:nextjs-agent-rules -->

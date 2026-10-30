@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "../globals.css";
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
@@ -11,11 +11,13 @@ export const dynamicParams = false;
 export const metadata: Metadata = {
   metadataBase: new URL("https://challenge.radiologic.io"),
   openGraph: {
-    siteName: "Radiologic Viewers",
+    siteName: "Radiologic Workstation",
     type: "website",
   },
   twitter: { card: "summary_large_image" },
 };
+
+export const viewport: Viewport = { themeColor: "#0e0e0e", colorScheme: "dark" };
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));

@@ -4,24 +4,24 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { AnimatePresence, MotionConfig, motion } from "motion/react";
-import { useMemo, useRef } from "react";
-import { FluidHoverHighlight } from "@/components/fluid-hover-highlight";
+import { useMemo } from "react";
+import { LineTabs } from "@/components/line-tabs";
 import { Button } from "@/components/ui/button";
 import { Empty, EmptyContent, EmptyHeader, EmptyTitle } from "@/components/ui/empty";
 import { Select, SelectItem, SelectPopup, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { ViewportFrame } from "@/components/viewport-frame";
 import type { Dictionary } from "@/dictionaries";
-import type { Locale } from "@/lib/i18n";
+import { intlLocales, type Locale } from "@/lib/i18n";
+import type { WorklistRow } from "@/lib/kit";
 import { spring } from "@/lib/springs";
+import { WORKFLOW_PARTS } from "@/lib/submissions/constants";
 import type { PublicViewer } from "@/lib/viewers/public";
-import { useFluidHover, useRegisterFluidHoverItem } from "@/hooks/use-fluid-hover";
 
 type Sort = "total" | "month" | "recent";
-type Facet = "platform" | "baseTech" | "modality" | "feature";
+type Facet = "part" | "platform" | "baseTech" | "modality";
 
 const ALL = "all";
-const FACET_PARAM: Record<Facet, string> = { platform: "plat", baseTech: "base", modality: "mod", feature: "feat" };
+const FACET_PARAM: Record<Facet, string> = { part: "part", platform: "plat", baseTech: "base", modality: "mod" };
 const FACETS = Object.keys(FACET_PARAM) as Facet[];
 const INDEX_SIZE = 5;
 const INDEX_MIN_VIEWERS = 6;
@@ -33,10 +33,10 @@ function imageLoader({ src }: { src: string }) {
 
 function facetValues(viewer: PublicViewer, facet: Facet): string[] {
   const values =
-    facet === "platform" ? viewer.platforms
+    facet === "part" ? viewer.workflow_parts
+      : facet === "platform" ? viewer.platforms
       : facet === "baseTech" ? [viewer.base_tech]
-        : facet === "modality" ? viewer.modalities
-          : viewer.features;
+        : viewer.modalities;
   return (values ?? []).filter((value): value is string => Boolean(value));
 }
 
@@ -56,6 +56,7 @@ interface GalleryProps {
   locale: Locale;
   dictionary: Dictionary;
   viewers: PublicViewer[];
+  worklist: WorklistRow[];
 }
 
 // Filtros e ordenação vivem na URL: sobrevivem ao voltar da ficha e podem ser compartilhados.
@@ -81,6 +82,7 @@ export function ViewerGallery({
   locale,
   dictionary,
   viewers,
+  worklist,
   params = {},
   onParamsChange,
 }: GalleryProps & {
@@ -105,9 +107,9 @@ export function ViewerGallery({
         .slice(0, INDEX_SIZE);
     };
     return [
+      { facet: "part" as const, title: copy.parts, options: column("part", [...WORKFLOW_PARTS], (value) => dictionary.submission.part[value] ?? value) },
       { facet: "modality" as const, title: dictionary.viewer.modalities, options: column("modality", Object.keys(dictionary.submission.modality), (value) => dictionary.submission.modality[value] ?? value) },
       { facet: "baseTech" as const, title: copy.baseTech, options: column("baseTech", BASE_TECH, (value) => select[value] ?? value) },
-      { facet: "feature" as const, title: dictionary.viewer.features, options: column("feature", Object.keys(dictionary.submission.feature), (value) => dictionary.submission.feature[value] ?? value) },
     ].filter(({ options }) => options.length > 0);
   }, [copy, dictionary, select, viewers]);
 
@@ -131,7 +133,7 @@ export function ViewerGallery({
   const sortOptions: [Sort, string][] = [["total", copy.sortTotal], ["month", copy.sortMonth], ["recent", copy.sortRecent]];
 
   if (viewers.length === 0) {
-    return <GalleryEmpty locale={locale} dictionary={dictionary} />;
+    return <GalleryEmpty locale={locale} dictionary={dictionary} worklist={worklist} />;
   }
 
   return (
@@ -162,20 +164,13 @@ export function ViewerGallery({
           </>
         ) : null}
 
-        <div className="flex flex-wrap items-center gap-x-6 gap-y-3 border-b border-border">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between sm:gap-8 sm:border-b sm:border-border">
+          <div className="flex items-end justify-between gap-4 max-sm:border-b max-sm:border-border">
+            <LineTabs id="sort" label={copy.sort} options={sortOptions} value={sort} onChange={(value) => onParamsChange?.({ sort: value === "total" ? null : value })} />
+            {filtered ? <Button variant="ghost" size="sm" className="mb-2 text-muted-foreground" onClick={clearFilters}>{copy.clearFilters}</Button> : null}
+          </div>
           {platforms.length > 1 ? (
-            <ToggleGroup aria-label={copy.platform} value={[filterOf("platform")]} onValueChange={(value) => setFilter("platform", value[0] ?? ALL)} className="mb-3 rounded-full bg-accent p-0.5">
-              {[ALL, ...platforms].map((value) => (
-                <ToggleGroupItem key={value} value={value} size="sm" className="relative font-normal text-muted-foreground hover:bg-transparent data-pressed:bg-transparent data-pressed:text-foreground">
-                  {filterOf("platform") === value ? <motion.span layoutId="platform-pill" transition={spring.moderate} className="absolute inset-0 rounded-full bg-input" /> : null}
-                  <span className="relative">{value === ALL ? copy.allPlatforms : select[value] ?? value}</span>
-                </ToggleGroupItem>
-              ))}
-            </ToggleGroup>
-          ) : null}
-          <SortTabs label={copy.sort} options={sortOptions} value={sort} onChange={(value) => onParamsChange?.({ sort: value === "total" ? null : value })} />
-          {filtered ? (
-            <Button variant="ghost" className="mb-3 ms-auto text-muted-foreground" onClick={clearFilters}>{copy.clearFilters}</Button>
+            <LineTabs id="platform" label={copy.platform} className="max-sm:border-b max-sm:border-border" options={[[ALL, copy.allPlatforms], ...platforms.map((value): [string, string] => [value, select[value] ?? value])]} value={filterOf("platform")} onChange={(value) => setFilter("platform", value)} />
           ) : null}
         </div>
 
@@ -200,7 +195,7 @@ export function ViewerGallery({
                   rank={sort === "recent" || (sort === "month" ? viewer.month_votes : viewer.total_votes) === 0 ? null : position + 1}
                   votes={sort === "month" ? viewer.month_votes : viewer.total_votes}
                   copy={copy}
-                  meta={[viewer.modalities?.slice(0, 2).map((value) => dictionary.submission.modality[value] ?? value).join(", "), select[viewer.base_tech] ?? viewer.base_tech, viewer.ai_code_share ? copy.aiShare[viewer.ai_code_share] : null, viewer.country].filter(Boolean).join(" · ")}
+                  meta={[viewer.workflow_parts?.map((value) => dictionary.submission.part[value] ?? value).join(", "), viewer.modalities?.slice(0, 2).map((value) => dictionary.submission.modality[value] ?? value).join(", "), viewer.ai_code_share ? copy.aiShare[viewer.ai_code_share] : null, viewer.country].filter(Boolean).join(" · ")}
                 />
               ))}
             </AnimatePresence>
@@ -249,33 +244,9 @@ function IndexItem({ option, pressed, dimmed, onSelect }: { option: IndexOption;
   );
 }
 
-function SortTabs({ label, options, value, onChange }: { label: string; options: [Sort, string][]; value: Sort; onChange: (value: Sort) => void }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const hover = useFluidHover(ref, { axis: "x", gapClick: false });
-  return (
-    <ToggleGroup ref={ref} aria-label={label} value={[value]} onValueChange={(next) => next[0] && onChange(next[0] as Sort)} className="relative -mx-2 max-w-full overflow-x-auto" {...hover.handlers}>
-      <FluidHoverHighlight hover={hover} className="rounded-full" />
-      {options.map(([option, text], index) => (
-        <SortTab key={option} index={index} registerItem={hover.registerItem} value={option} active={value === option}>{text}</SortTab>
-      ))}
-    </ToggleGroup>
-  );
-}
-
-function SortTab({ index, registerItem, value, active, children }: { index: number; registerItem: (index: number, element: HTMLElement | null) => void; value: Sort; active: boolean; children: React.ReactNode }) {
-  const ref = useRef<HTMLButtonElement>(null);
-  useRegisterFluidHoverItem(registerItem, index, ref);
-  return (
-    <ToggleGroupItem ref={ref} value={value} className="relative mb-3 font-normal text-muted-foreground hover:bg-transparent data-pressed:bg-transparent data-pressed:text-foreground">
-      {children}
-      {active ? <motion.span layoutId="sort-underline" transition={spring.moderate} className="absolute inset-x-2 -bottom-3 h-0.5 rounded-full bg-foreground" /> : null}
-    </ToggleGroupItem>
-  );
-}
-
-function GalleryEmpty({ locale, dictionary }: { locale: Locale; dictionary: Dictionary }) {
+function GalleryEmpty({ locale, dictionary, worklist }: { locale: Locale; dictionary: Dictionary; worklist: WorklistRow[] }) {
   const copy = dictionary.gallery;
-  const month = new Intl.DateTimeFormat(locale === "pt" ? "pt-BR" : "en-US", { month: "short", year: "numeric", timeZone: "America/Sao_Paulo" }).format(new Date());
+  const month = new Intl.DateTimeFormat(intlLocales[locale], { month: "short", year: "numeric", timeZone: "America/Sao_Paulo" }).format(new Date());
   return (
     <section aria-labelledby="gallery-heading">
       <ViewportFrame
@@ -287,6 +258,9 @@ function GalleryEmpty({ locale, dictionary }: { locale: Locale; dictionary: Dict
       >
         <span aria-hidden="true" className="absolute inset-x-0 top-1/2 h-px bg-foreground/8" />
         <span aria-hidden="true" className="absolute inset-y-0 left-1/2 w-px bg-foreground/8" />
+        <ol aria-hidden="true" className="absolute left-3 top-12 hidden flex-col gap-1.5 text-xs tabular-nums text-muted-foreground lg:flex">
+          {worklist.map((row) => <li key={row.uid}>{row.modality} {row.bodyPart} {row.collection}</li>)}
+        </ol>
         <div className="relative flex flex-col items-center gap-6 bg-page-bg px-6 py-4 text-center">
           <h2 id="gallery-heading" className="max-w-md text-title-lg text-balance">{copy.emptyTitle}</h2>
           <div className="flex flex-wrap items-center justify-center gap-2">
@@ -311,7 +285,12 @@ function ViewerCard({ position, locale, viewer, rank, votes, copy, meta }: { pos
     >
       <Link href={`/${locale}/v/${viewer.slug}`} className="group flex h-full flex-col gap-4 rounded-2xl bg-surface p-2 outline-none transition-colors duration-150 hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring">
         <span className="relative aspect-card overflow-hidden rounded-lg bg-page-bg">
-          {screenshot?.url ? <Image src={screenshot.url} loader={imageLoader} unoptimized fill sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" alt="" className="object-cover transition-transform duration-500 ease-(--ease-out-strong) group-hover:scale-102" /> : null}
+          {screenshot?.url ? <Image src={screenshot.url} loader={imageLoader} unoptimized fill sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" alt="" className="object-cover transition-transform duration-500 ease-(--ease-out-strong) group-hover:scale-102" /> : (
+            <>
+              <span aria-hidden="true" className="absolute inset-x-0 top-1/2 h-px bg-foreground/8" />
+              <span aria-hidden="true" className="absolute inset-y-0 left-1/2 w-px bg-foreground/8" />
+            </>
+          )}
         </span>
         <span className="flex items-start gap-3 px-2 pb-2">
           <span className="flex min-w-0 flex-1 flex-col gap-0.5">

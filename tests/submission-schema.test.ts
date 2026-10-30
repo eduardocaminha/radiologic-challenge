@@ -9,6 +9,7 @@ const completeWebSubmission = {
   differential: "Funciona no navegador.",
   lang: "pt" as const,
   platforms: ["web" as const],
+  workflow_parts: ["agent" as const],
   requires_install: false,
   repo_url: "https://example.test/repo",
   license: "MIT",
@@ -43,6 +44,7 @@ describe("submission-schema", () => {
     form.set("name", "Viewer");
     form.set("lang", "pt");
     form.append("platforms", "web");
+    form.append("workflow_parts", "agent");
     form.set("external_api", "on");
     form.set("external_api_detail", "Acesso a dados sintéticos");
     form.set("repo_url", "https://example.test/repo");

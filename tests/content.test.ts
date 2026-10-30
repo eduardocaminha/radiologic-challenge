@@ -1,3 +1,4 @@
+import type { Locale } from "@/lib/i18n";
 import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
@@ -7,28 +8,28 @@ import { RULES_VERSION } from "../lib/submissions/constants";
 
 const KINDS: LegalKind[] = ["rules", "privacy"];
 
-function headings(kind: LegalKind, locale: "pt" | "en") {
+function headings(kind: LegalKind, locale: Locale) {
   return getLegalDocument(kind, locale).blocks.filter((block) => block.type === "heading");
 }
 
 describe("textos legais", () => {
-  it.each(KINDS)("%s tem as mesmas seções em pt e en", (kind) => {
+  it.each(KINDS.flatMap((kind) => (["en", "es"] as const).map((locale) => [kind, locale] as const)))("%s tem as mesmas seções em pt e %s", (kind, locale) => {
     const pt = headings(kind, "pt");
-    const en = headings(kind, "en");
+    const en = headings(kind, locale);
     expect(en.length).toBe(pt.length);
     const numbers = (list: typeof pt) => list.map((block) => (block.type === "heading" ? block.text.match(/^\d+\./)?.[0] ?? "" : ""));
     expect(numbers(en)).toEqual(numbers(pt));
   });
 
-  it.each(KINDS.flatMap((kind) => (["pt", "en"] as const).map((locale) => [kind, locale] as const)))(
+  it.each(KINDS.flatMap((kind) => (["pt", "en", "es"] as const).map((locale) => [kind, locale] as const)))(
     "%s %s não tem colchete de item a preencher",
     (kind, locale) => {
       expect(readFileSync(legalFilePath(kind, locale), "utf8")).not.toMatch(/\[[^\]]*\](?!\()/);
     },
   );
 
-  it("as quatro versões têm a mesma data e ela é o rules_version", () => {
-    const versions = KINDS.flatMap((kind) => [getLegalDocument(kind, "pt").version, getLegalDocument(kind, "en").version]);
+  it("todas as versões têm a mesma data e ela é o rules_version", () => {
+    const versions = KINDS.flatMap((kind) => (["pt", "en", "es"] as const).map((locale) => getLegalDocument(kind, locale).version));
     expect(new Set(versions)).toEqual(new Set([RULES_VERSION]));
   });
 

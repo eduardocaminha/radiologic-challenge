@@ -1,6 +1,6 @@
 # radiologic-viewers
 
-Site `challenge.radiologic.io`: showcase permanente e bilíngue de DICOM viewers submetidos pelo público, com ranking por voto popular e destaques mensais.
+Site `challenge.radiologic.io`: showcase permanente e trilíngue de workstations de radiologia submetidas pelo público, com ranking por voto popular e destaques mensais.
 
 - Arquitetura e decisões: [docs/architecture.md](docs/architecture.md)
 - Instruções para agentes: [AGENTS.md](AGENTS.md)
@@ -30,5 +30,5 @@ O código deste repositório é distribuído sob a GNU Affero General Public Lic
 Componentes de terceiros:
 
 - COSS UI (`components/ui/`), Copyright (c) 2026 Cal.com, Inc., AGPL-3.0.
-- Fluid Functionalism (`lib/springs.ts`, `hooks/use-fluid-hover.ts`, `components/fluid-hover-highlight.tsx`), Copyright (c) 2026 Micka Touillaud, MIT.
+- Fluid Functionalism (`lib/springs.ts`), Copyright (c) 2026 Micka Touillaud, MIT.
 - Inter (`public/fonts/`, `assets/fonts/`), SIL Open Font License 1.1 (`assets/fonts/OFL.txt`).

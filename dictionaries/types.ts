@@ -2,6 +2,7 @@ export interface Dictionary {
   home: {
     title: string;
     headline: string;
+    headlineNote: string;
     tagline: string;
     submit: string;
     rules: string;
@@ -41,6 +42,11 @@ export interface Dictionary {
     installTitle: string;
     installDescription: string;
     studiesTitle: string;
+    allTitle: string;
+    totals: string;
+    comparison: string;
+    daysAfter: string;
+    collection: string;
     modality: string;
     bodyPart: string;
     uid: string;
@@ -80,6 +86,7 @@ export interface Dictionary {
     submit: string;
     votes: string;
     clearFilters: string;
+    parts: string;
     allPlatforms: string;
     viewerCount: string;
     kit: string;
@@ -160,9 +167,17 @@ export interface Dictionary {
     badgeCopy: string;
     badgeCopied: string;
     status: Record<"draft" | "pending" | "approved" | "rejected" | "removed", string>;
+    ready: string;
+    missingOne: string;
+    missingMany: string;
+    selectedCount: string;
+    requiredMark: string;
+    errorUrl: string;
+    errorRequired: string;
     error: Record<string, string>;
     field: Record<string, string>;
     select: Record<string, string>;
+    part: Record<string, string>;
     feature: Record<string, string>;
     modality: Record<string, string>;
     screenshot: {

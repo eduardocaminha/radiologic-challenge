@@ -229,7 +229,7 @@ export function AdminQueue({ queue, error, integrityReports = [] }: { queue: Adm
   return (
     <main className="mx-auto flex min-h-screen w-full max-w-7xl flex-col gap-10 px-6 py-10 sm:px-8">
       <header className="flex flex-col gap-3">
-        <p className="text-sm text-muted-foreground">Radiologic Viewers</p>
+        <p className="text-sm text-muted-foreground">Radiologic Workstation</p>
         <h1 className="text-headline-lg">Fila de moderação</h1>
         <p className="max-w-2xl text-muted-foreground">Revise a ficha completa, as imagens e o histórico antes de publicar um viewer.</p>
       </header>

@@ -45,7 +45,7 @@ export default async function Submit({ params, searchParams }: PageProps) {
   }
 
   return (
-    <main className="mx-auto min-h-screen max-w-5xl px-6 pt-10 sm:pt-14">
+    <main className="mx-auto min-h-screen max-w-6xl px-6 pt-10 sm:pt-14">
       <SubmissionForm locale={locale} dictionary={dictionary} idempotencyKey={randomUUID()} submission={submission} />
     </main>
   );

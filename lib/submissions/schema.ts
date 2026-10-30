@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { RULES_VERSION } from "@/lib/submissions/constants";
+import { RULES_VERSION, WORKFLOW_PARTS } from "@/lib/submissions/constants";
 
 const optionalText = (max: number) =>
   z.preprocess(
@@ -19,6 +19,22 @@ const optionalUrl = z.preprocess(
 );
 
 const requiredText = (max: number) => z.string().trim().min(1).max(max);
+
+export const REQUIRED_ON_SEND = [
+  "workflow_parts",
+  "tagline",
+  "description",
+  "differential",
+  "lang",
+  "platforms",
+  "requires_install",
+  "repo_url",
+  "license",
+  "base_tech",
+  "data_source",
+  "data_license",
+  "external_api",
+] as const;
 
 const fields = {
   name: requiredText(60),
@@ -48,6 +64,7 @@ const fields = {
   prompts_url: optionalUrl,
   time_spent: z.enum(["lt1d", "1to7d", "1to4w", "gt1m"]).optional(),
   cost: z.enum(["lt10", "10to100", "100to1000", "gt1000"]).optional(),
+  workflow_parts: z.array(z.enum(WORKFLOW_PARTS)).optional(),
   features: z
     .array(
       z.enum([
@@ -94,24 +111,10 @@ export const submissionSchema = z
     ...fields,
   })
   .superRefine((submission, context) => {
-    const requiredOnSend = [
-      "tagline",
-      "description",
-      "differential",
-      "lang",
-      "platforms",
-      "requires_install",
-      "repo_url",
-      "license",
-      "base_tech",
-      "data_source",
-      "data_license",
-      "external_api",
-    ] as const;
 
     if (submission.intent !== "draft") {
-      for (const field of requiredOnSend) {
-        if (submission[field] === undefined || (field === "platforms" && submission.platforms?.length === 0)) {
+      for (const field of REQUIRED_ON_SEND) {
+        if (submission[field] === undefined || ((field === "platforms" || field === "workflow_parts") && submission[field]?.length === 0)) {
           context.addIssue({ code: "custom", path: [field], message: "Required" });
         }
       }
@@ -142,6 +145,7 @@ export const submissionSchema = z
 const githubRequiredFields = [
   "tagline",
   "lang",
+  "workflow_parts",
   "platforms",
   "requires_install",
   "repo_url",
@@ -158,7 +162,7 @@ export const githubSubmissionSchema = submissionSchema.superRefine((submission, 
     const value = submission[field];
     if (
       value === undefined
-      || (field === "platforms" && (!Array.isArray(value) || value.length === 0))
+      || ((field === "platforms" || field === "workflow_parts") && (!Array.isArray(value) || value.length === 0))
       || (field === "rules_accepted" && !value)
     ) {
       context.addIssue({ code: "custom", path: [field], message: "Required" });
@@ -209,6 +213,7 @@ export function submissionFormData(formData: FormData): SubmissionFormValues {
     prompts_url: formString(formData, "prompts_url"),
     time_spent: (formString(formData, "time_spent") || undefined) as SubmissionFormValues["time_spent"],
     cost: (formString(formData, "cost") || undefined) as SubmissionFormValues["cost"],
+    workflow_parts: formData.getAll("workflow_parts").filter((value): value is string => typeof value === "string") as SubmissionFormValues["workflow_parts"],
     features: formData.getAll("features").filter((value): value is string => typeof value === "string") as SubmissionFormValues["features"],
     modalities: formData.getAll("modalities").filter((value): value is string => typeof value === "string") as SubmissionFormValues["modalities"],
     dicomweb: formBoolean(formData, "dicomweb"),
@@ -246,6 +251,7 @@ export function submissionChanges(values: SubmissionFormValues) {
     time_spent: values.time_spent ?? null,
     cost: values.cost ?? null,
     features: values.features ?? null,
+    workflow_parts: values.workflow_parts ?? null,
     modalities: values.modalities ?? null,
     dicomweb: values.dicomweb ?? null,
     stack: values.stack ?? null,

@@ -13,6 +13,7 @@ export interface GithubIssueFields {
   differential?: string;
   lang?: "pt" | "en";
   platforms?: Array<"web" | "desktop" | "mobile" | "xr">;
+  workflow_parts?: SubmissionFormValues["workflow_parts"];
   requires_install?: boolean;
   repo_url?: string;
   license?: string;
@@ -32,12 +33,13 @@ export interface GithubIssueFields {
 }
 
 const fieldLabels: Record<IntakeField, { pt: string; en: string }> = {
-  name: { pt: "Nome do viewer", en: "Viewer name" },
+  name: { pt: "Nome da workstation", en: "Workstation name" },
   tagline: { pt: "Frase de apresentação", en: "Tagline" },
   description: { pt: "Descrição", en: "Description" },
   differential: { pt: "Diferencial", en: "Differentiator" },
   lang: { pt: "Idioma do viewer", en: "Viewer language" },
   platforms: { pt: "Plataformas", en: "Platforms" },
+  workflow_parts: { pt: "Partes da workstation", en: "Workstation parts" },
   requires_install: { pt: "Exige instalação", en: "Requires installation" },
   repo_url: { pt: "Repositório público", en: "Public repository" },
   license: { pt: "Licença SPDX", en: "SPDX license" },
@@ -67,12 +69,15 @@ const fieldLabels: Record<IntakeField, { pt: string; en: string }> = {
 
 const aliases: Record<string, IntakeField> = {
   "nome do viewer": "name",
+  "nome da workstation": "name",
   "viewer name": "name",
   "frase de apresentacao": "tagline",
   tagline: "tagline",
   diferencial: "differential",
   differentiator: "differential",
   "idioma do viewer": "lang",
+  "partes da workstation": "workflow_parts",
+  "workstation parts": "workflow_parts",
   "viewer language": "lang",
   plataformas: "platforms",
   platforms: "platforms",
@@ -108,6 +113,18 @@ const aliases: Record<string, IntakeField> = {
   "uses dicomweb": "dicomweb",
   "aceite do regulamento": "rules_accepted",
   "rules acceptance": "rules_accepted",
+};
+
+const workflowPartValues: Record<string, NonNullable<SubmissionFormValues["workflow_parts"]>[number]> = {
+  viewer: "viewer",
+  pilha: "worklist",
+  worklist: "worklist",
+  ia: "ai",
+  ai: "ai",
+  agente: "agent",
+  agent: "agent",
+  laudo: "report",
+  report: "report",
 };
 
 const platformValues: Record<string, "web" | "desktop" | "mobile" | "xr"> = {
@@ -175,6 +192,8 @@ function parseFields(body: string): Record<string, unknown> {
     const value = firstLine(raw);
     if (field === "platforms") {
       result[field] = checkedValues(raw).map((item) => platformValues[normalize(item)]).filter(Boolean);
+    } else if (field === "workflow_parts") {
+      result[field] = checkedValues(raw).map((item) => workflowPartValues[normalize(item)]).filter(Boolean);
     } else if (["requires_install", "external_api", "dicomweb", "rules_accepted"].includes(field)) {
       result[field] = booleanValue(raw);
     } else if (field === "lang") {

@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     openGraph: {
       images: [{ url: `/${localeParam}/v/${slug}/opengraph-image`, width: 1200, height: 630, type: "image/png", alt: `${viewer.name}: ${viewer.tagline}` }],
     },
-    alternates: { languages: { pt: `/pt/v/${slug}`, en: `/en/v/${slug}` } },
+    alternates: { languages: { pt: `/pt/v/${slug}`, en: `/en/v/${slug}`, es: `/es/v/${slug}` } },
   };
 }
 

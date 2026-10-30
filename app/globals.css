@@ -17,6 +17,8 @@
    estado de sucesso, não é a cor dominante.
    ============================================================ */
 :root {
+  color-scheme: dark;
+
   /* Type */
   --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --font-features: "calt" on;
@@ -51,7 +53,6 @@
 
   /* Superfícies dos componentes COSS. Accent é o fundo neutro de hover, não cor. */
   --accent: oklch(1 0 0 / 0.04);
-  --hover: oklch(1 0 0 / 0.05);
   --accent-foreground: var(--foreground);
   --input: oklch(1 0 0 / 0.08);
   --popover: oklch(0.218 0 0);
@@ -154,7 +155,6 @@
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
   --color-accent: var(--accent);
-  --color-hover: var(--hover);
   --color-accent-foreground: var(--accent-foreground);
   --color-input: var(--input);
   --color-popover: var(--popover);
@@ -216,6 +216,10 @@
   --text-title-sm--font-weight: 600;
   --text-body-lg: 1.125rem;
   --text-body-lg--line-height: 1.6;
+  --text-label-lg: 1rem;
+  --text-label-lg--line-height: 1.4;
+  --text-label-lg--letter-spacing: -0.01em;
+  --text-label-lg--font-weight: 500;
   --text-label-md: 0.875rem;
   --text-label-md--line-height: 1.4;
   --text-label-md--font-weight: 500;
@@ -259,30 +263,5 @@
 @media (prefers-reduced-motion: reduce) {
   .reveal-item {
     animation-name: row-fade;
-  }
-}
-
-/* Wordmark do rodapé: a largura vem do container (4.33em é a largura medida de
-   "Radiologic" em Inter 600), e o brilho vem da janela aplicada pelo ponteiro. */
-.footer-wordmark {
-  font-size: calc(100cqi / 4.22);
-  margin-inline-start: -0.07em;
-  font-weight: 600;
-  letter-spacing: -0.04em;
-  line-height: 0.95;
-  color: oklch(1 0 0 / var(--wordmark-alpha, 0.05));
-  opacity: 0;
-  transition: color 400ms var(--ease-out-strong);
-}
-
-.footer-wordmark[data-seen] {
-  opacity: 1;
-  transition: color 120ms linear, opacity 640ms steps(8);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .footer-wordmark {
-    opacity: 1;
-    transition: none;
   }
 }
