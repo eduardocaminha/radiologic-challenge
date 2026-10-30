@@ -6,7 +6,7 @@ Site `challenge.radiologic.io`: showcase permanente e trilíngue (PT, EN e ES) d
 
 Repos relacionados:
 
-- `eduardocaminha/radiologic-challenge-submissions` (público): Issue Form de submissão, regulamento, kit de dados e workflow de intake.
+- `eduardocaminha/radiologic-challenge-submissions` (público): Issue Form de submissão, `AGENTS.md` para agentes de usuários, regulamento, kit de dados e workflow de intake. Espelhado em `docs/public-repo/`.
 - `eduardocaminha/radiologic-site` (privado): site de marca, origem da identidade visual (tokens, logo, padrões). A fonte é diferente da do site de marca.
 
 ## Stack

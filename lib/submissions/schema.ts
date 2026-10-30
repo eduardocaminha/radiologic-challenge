@@ -154,7 +154,6 @@ const githubRequiredFields = [
   "data_source",
   "data_license",
   "external_api",
-  "rules_accepted",
 ] as const;
 
 export const githubSubmissionSchema = submissionSchema.superRefine((submission, context) => {
@@ -163,7 +162,6 @@ export const githubSubmissionSchema = submissionSchema.superRefine((submission, 
     if (
       value === undefined
       || ((field === "platforms" || field === "workflow_parts") && (!Array.isArray(value) || value.length === 0))
-      || (field === "rules_accepted" && !value)
     ) {
       context.addIssue({ code: "custom", path: [field], message: "Required" });
     }
