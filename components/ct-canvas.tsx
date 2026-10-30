@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { ASCII_MAX_ALPHA, ASCII_RAMP, type WindowLevel } from "@/lib/window-level";
+import { ASCII_INK, ASCII_MAX_ALPHA, ASCII_RAMP, type WindowLevel } from "@/lib/window-level";
 
 const SOURCE = "/ct/lidc-idri-0957.bin";
 const GRID = 160;
@@ -48,7 +48,7 @@ function draw(canvas: HTMLCanvasElement, pixels: Int16Array, { window: width, le
   context.font = `500 ${cellHeight}px ui-monospace, Menlo, monospace`;
   context.textBaseline = "top";
   for (const [index, bucket] of buckets) {
-    context.fillStyle = `oklch(1 0 0 / ${0.08 + (index / (ASCII_RAMP.length - 1)) * (ASCII_MAX_ALPHA - 0.08)})`;
+    context.fillStyle = `oklch(${ASCII_INK} / ${0.08 + (index / (ASCII_RAMP.length - 1)) * (ASCII_MAX_ALPHA - 0.08)})`;
     const glyph = ASCII_RAMP[index] ?? " ";
     for (const [x, y] of bucket) context.fillText(glyph, x, y);
   }

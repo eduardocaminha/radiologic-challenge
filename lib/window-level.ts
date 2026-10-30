@@ -1,7 +1,8 @@
 export const ASCII_RAMP = " .:-=+*#%@";
 
-// Brilho máximo comum aos dois desenhos em caracteres.
-export const ASCII_MAX_ALPHA = 0.58;
+// O caractere mais claro dos dois desenhos tem a cor da logo (`--foreground`).
+export const ASCII_INK = "0.985 0 0";
+export const ASCII_MAX_ALPHA = 1;
 
 export const WINDOW_LEVEL_REST = { window: 2000, level: 0 };
 
