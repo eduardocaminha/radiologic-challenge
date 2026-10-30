@@ -2,6 +2,7 @@
 
 import { motion, useReducedMotion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
+import { Button } from "@/components/ui/button";
 import { spring } from "@/lib/springs";
 import { cn } from "@/lib/utils";
 
@@ -55,7 +56,7 @@ export function FormNav({ sections }: { sections: readonly (readonly [id: string
   }, [active]);
 
   return (
-    <ol ref={list} className="sticky top-6 flex flex-col">
+    <ol ref={list} className="sticky top-6 flex flex-col gap-0.5">
       <svg aria-hidden="true" width={HOOK + 1} height={target.height} className="pointer-events-none absolute start-0 top-0 fill-none stroke-foreground">
         <motion.path
           initial={false}
@@ -64,14 +65,16 @@ export function FormNav({ sections }: { sections: readonly (readonly [id: string
         />
       </svg>
       {sections.map(([id, label]) => (
-        <li key={id} className="flex">
-          <a
-            href={`#${id}-heading`}
+        <li key={id} className="ps-3.5">
+          <Button
+            variant="ghost"
+            size="sm"
             aria-current={active === id ? "true" : undefined}
-            className={cn("w-full py-1.5 ps-5 text-sm transition-colors", active === id ? "text-foreground" : "text-muted-foreground hover:text-foreground")}
+            className={cn("w-full justify-start", active === id ? "text-foreground" : "text-muted-foreground")}
+            render={<a href={`#${id}-heading`} />}
           >
             {label}
-          </a>
+          </Button>
         </li>
       ))}
     </ol>
