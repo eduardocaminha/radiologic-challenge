@@ -280,7 +280,7 @@ function ViewerCard({ position, locale, viewer, rank, votes, copy, voteCopy, met
             </>
           )}
           {viewer.recency ? (
-            <span className={cn("absolute start-2 top-2 rounded-full px-2.5 py-0.5 text-xs font-medium", viewer.recency === "new" ? "bg-foreground text-background" : "bg-page-bg/80 text-foreground backdrop-blur-sm")}>
+            <span className={cn("absolute start-2 top-2 rounded-full px-2.5 py-0.5 text-xs font-medium", viewer.recency === "new" ? "bg-foreground text-background" : "bg-surface text-foreground transition-colors duration-150 group-hover:bg-muted")}>
               {copy[viewer.recency === "new" ? "badgeNew" : "badgeUpdated"]}
             </span>
           ) : null}
