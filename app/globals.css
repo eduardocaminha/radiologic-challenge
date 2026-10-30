@@ -284,6 +284,52 @@
   }
 }
 
+/* Entrada do hero: o texto sai de um blur leve. Só no carregamento, então pode durar mais que um elemento de interface. */
+@keyframes hero-in {
+  from {
+    opacity: 0;
+    filter: blur(8px);
+    translate: 0 8px;
+  }
+}
+
+.hero-in > * {
+  animation: hero-in 600ms var(--ease-out-strong) both;
+}
+
+.hero-in > :nth-child(2) {
+  animation-delay: 80ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-in > * {
+    animation-name: row-fade;
+  }
+}
+
+/* Header fixo só na landing: nas páginas de trabalho ele cobriria as âncoras e o trilho do formulário.
+   A camada ocupa a largura da janela, e a máscara dissolve o blur em vez de terminar em linha reta. */
+body:has([data-sticky-header]) {
+  overflow-x: clip;
+}
+
+body:has([data-sticky-header]) > header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+}
+
+body:has([data-sticky-header]) > header::before {
+  content: "";
+  position: absolute;
+  inset: 0 calc(50% - 50vw) -1.5rem;
+  z-index: -1;
+  pointer-events: none;
+  background: color-mix(in oklch, var(--page-bg) 60%, transparent);
+  backdrop-filter: blur(20px);
+  mask-image: linear-gradient(to bottom, black 60%, transparent);
+}
+
 /* Página em tela cheia: esconde header e rodapé sem depender de JavaScript. */
 body:has([data-bare-page]) > :is(header, footer) {
   display: none;
