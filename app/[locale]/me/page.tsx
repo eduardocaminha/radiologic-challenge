@@ -40,7 +40,7 @@ export default async function Me({ params }: PageProps) {
     supabase.rpc("my_submissions"),
   ]);
   return (
-    <main className="mx-auto flex min-h-screen max-w-6xl flex-col gap-8 px-6 py-10 sm:py-14">
+    <main data-compact-footer className="mx-auto flex min-h-screen max-w-6xl flex-col gap-8 px-6 py-10 sm:py-14">
       <div className="flex max-w-3xl flex-wrap items-center justify-between gap-4">
         <h1 className="text-headline-lg sm:text-display-sm">{dictionary.auth.meTitle}</h1>
         {submissions.data?.length ? <Button size="lg" render={<Link href={`/${locale}/submit`} />}>{dictionary.home.submit}</Button> : null}

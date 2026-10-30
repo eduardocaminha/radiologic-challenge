@@ -59,6 +59,17 @@ test("salva rascunho, permite edição e envia para moderação", async ({ brows
   const page = await context.newPage();
 
   await page.goto("/pt/submit");
+  await expect(page.locator(".asc")).toBeHidden();
+  await expect(page.getByRole("contentinfo").getByRole("link", { name: "Privacidade" })).toBeVisible();
+  const currentSection = page.locator('a[aria-current="true"]');
+  await expect(currentSection).toHaveText("Ficha");
+  await page.locator("#demo-heading").evaluate((heading) => window.scrollTo({ top: heading.getBoundingClientRect().top + window.scrollY - 150, behavior: "instant" }));
+  await expect(currentSection).toHaveAttribute("href", "#demo-heading");
+  await page.evaluate(() => window.scrollTo({ top: document.documentElement.scrollHeight, behavior: "instant" }));
+  await expect(currentSection).toHaveAttribute("href", "#rules-heading");
+  await page.evaluate(() => window.scrollBy({ top: -80, behavior: "instant" }));
+  await expect(currentSection).not.toHaveAttribute("href", "#rules-heading");
+  await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
   await page.locator("#name").fill("Viewer E2E");
   await page.getByRole("button", { name: "Salvar rascunho" }).dblclick();
   await expect(page).toHaveURL(/\/pt\/me$/);

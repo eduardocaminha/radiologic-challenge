@@ -18,6 +18,7 @@ import { saveSubmission, sendSubmission } from "@/app/[locale]/submit/actions";
 import type { Dictionary } from "@/dictionaries";
 import type { Locale } from "@/lib/i18n";
 import { ScreenshotManager, type ScreenshotRecord } from "@/components/screenshot-manager";
+import { FormNav } from "@/components/form-nav";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
@@ -268,11 +269,7 @@ export function SubmissionForm({ locale, dictionary, idempotencyKey, submission 
       <input type="hidden" name="intent" value={submission?.status === "rejected" ? "resubmit" : "submit"} />
 
       <nav aria-label={submission ? dictionary.submission.editTitle : dictionary.submission.title} className="hidden lg:block lg:w-48 lg:shrink-0">
-        <ol className="sticky top-6 flex flex-col gap-0.5">
-          {sections.map(([id, label]) => (
-            <li key={id}><Button variant="ghost" size="sm" className="w-full justify-start text-muted-foreground" render={<a href={`#${id}-heading`} />}>{label}</Button></li>
-          ))}
-        </ol>
+        <FormNav sections={sections} />
       </nav>
 
       <div className="flex min-w-0 max-w-2xl flex-1 flex-col gap-12">
