@@ -14,5 +14,6 @@ export async function createScreenshotSignedUrls(paths: string[]) {
   const supabase = createSecretSupabaseClient();
   const result = await supabase.storage.from("screenshots").createSignedUrls(paths, 3600);
   if (result.error) throw result.error;
-  return new Map(result.data.map(({ path, signedUrl }) => [path, signedUrl]));
+  // Arquivo retirado pela moderação volta sem URL: quem chama trata como imagem indisponível.
+  return new Map(result.data.flatMap(({ path, signedUrl }) => (path && signedUrl ? [[path, signedUrl] as const] : [])));
 }
