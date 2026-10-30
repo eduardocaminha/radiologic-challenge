@@ -4,18 +4,16 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { AnimatePresence, MotionConfig, motion } from "motion/react";
-import { useMemo, useState } from "react";
-import { CtCanvas } from "@/components/ct-canvas";
+import { useMemo } from "react";
+import { CtViewport } from "@/components/ct-viewport";
 import { LineTabs } from "@/components/line-tabs";
 import { Button } from "@/components/ui/button";
 import { Empty, EmptyContent, EmptyHeader, EmptyTitle } from "@/components/ui/empty";
 import { Select, SelectItem, SelectPopup, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ViewportFrame } from "@/components/viewport-frame";
 import type { Dictionary } from "@/dictionaries";
 import { intlLocales, type Locale } from "@/lib/i18n";
 import { spring } from "@/lib/springs";
 import { WORKFLOW_PARTS } from "@/lib/submissions/constants";
-import { CT_WINDOW_LEVEL_REST, ctWindowLevelFromPointer } from "@/lib/window-level";
 import type { PublicViewer } from "@/lib/viewers/public";
 
 type Sort = "total" | "month" | "recent";
@@ -244,27 +242,18 @@ function IndexItem({ option, pressed, dimmed, onSelect }: { option: IndexOption;
 }
 
 function GalleryEmpty({ locale, dictionary }: { locale: Locale; dictionary: Dictionary }) {
-  const copy = dictionary.gallery;
   const month = new Intl.DateTimeFormat(intlLocales[locale], { month: "short", year: "numeric", timeZone: "America/Sao_Paulo" }).format(new Date());
-  const [windowLevel, setWindowLevel] = useState(CT_WINDOW_LEVEL_REST);
   return (
-    <section
-      aria-labelledby="gallery-heading"
-      onPointerMove={(event) => {
-        const next = ctWindowLevelFromPointer(event);
-        if (next) setWindowLevel(next);
-      }}
-    >
-      <ViewportFrame
-        topLeft={dictionary.home.title}
-        topRight={month}
-        bottomLeft={<span className="hidden sm:inline">W {windowLevel.window} L {windowLevel.level}</span>}
-        bottomRight="LIDC-IDRI, CC BY 3.0"
-        className="flex min-h-120 items-end overflow-hidden rounded-2xl border border-border px-6 pb-14 pt-16 sm:aspect-video sm:min-h-0 sm:items-center sm:pb-16"
+    <section aria-labelledby="gallery-heading">
+      <CtViewport
+        study="chest"
+        title={dictionary.home.title}
+        month={month}
+        className="flex min-h-120 items-end px-6 pb-14 pt-16 sm:aspect-video sm:min-h-0 sm:items-center sm:pb-16"
+        canvasClassName="inset-x-0 top-0 bottom-32 sm:inset-0"
       >
-        <CtCanvas windowLevel={windowLevel} />
-        <h2 id="gallery-heading" className="relative max-w-xs text-title-lg text-balance">{copy.emptyTitle}</h2>
-      </ViewportFrame>
+        <h2 id="gallery-heading" className="relative max-w-xs text-title-lg text-balance">{dictionary.gallery.emptyTitle}</h2>
+      </CtViewport>
     </section>
   );
 }

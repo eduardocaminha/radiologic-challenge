@@ -3,10 +3,8 @@
 import { useEffect, useRef } from "react";
 import { ASCII_INK, ASCII_MAX_ALPHA, ASCII_RAMP, type WindowLevel } from "@/lib/window-level";
 
-const SOURCE = "/ct/lidc-idri-0957.bin";
 const GRID = 160;
 const REVEAL_MS = 800;
-const WIDE_FROM = 640;
 // A grade grava -1024 fora do corpo; só a borda chega perto disso por causa da redução.
 const OUTSIDE_BODY = -1000;
 
@@ -20,9 +18,9 @@ function draw(canvas: HTMLCanvasElement, pixels: Int16Array, { window: width, le
   const side = Math.min(clientWidth, clientHeight);
   const columns = Math.floor(side / cellWidth);
   const rows = Math.floor(side / cellHeight);
-  const wide = clientWidth >= WIDE_FROM;
-  const left = wide ? clientWidth - columns * cellWidth : (clientWidth - columns * cellWidth) / 2;
-  const top = wide ? (clientHeight - rows * cellHeight) / 2 : 0;
+  const landscape = clientWidth > clientHeight * 1.3;
+  const left = landscape ? clientWidth - columns * cellWidth : (clientWidth - columns * cellWidth) / 2;
+  const top = (clientHeight - rows * cellHeight) / 2;
   const low = level - width / 2;
   const lastRow = Math.ceil(reveal * rows);
   const buckets = new Map<number, [number, number][]>();
@@ -55,7 +53,7 @@ function draw(canvas: HTMLCanvasElement, pixels: Int16Array, { window: width, le
 }
 
 // Corte de tomografia desenhado em caracteres: os valores são Hounsfield reais, então janela e nível fazem o que fazem num viewer.
-export function CtCanvas({ windowLevel }: { windowLevel: WindowLevel }) {
+export function CtCanvas({ source, windowLevel }: { source: string; windowLevel: WindowLevel }) {
   const canvas = useRef<HTMLCanvasElement>(null);
   const target = useRef(windowLevel);
   const wake = useRef<() => void>(() => undefined);
@@ -100,7 +98,7 @@ export function CtCanvas({ windowLevel }: { windowLevel: WindowLevel }) {
     resize.observe(element);
     wake.current = schedule;
 
-    void fetch(SOURCE).then((response) => response.arrayBuffer()).then((buffer) => {
+    void fetch(source).then((response) => response.arrayBuffer()).then((buffer) => {
       if (!alive) return;
       pixels = new Int16Array(buffer);
       startedAt = performance.now();
@@ -112,7 +110,7 @@ export function CtCanvas({ windowLevel }: { windowLevel: WindowLevel }) {
       resize.disconnect();
       cancelAnimationFrame(frame);
     };
-  }, []);
+  }, [source]);
 
   return <canvas ref={canvas} aria-hidden="true" className="absolute inset-0 size-full" />;
 }
