@@ -7,6 +7,7 @@ import { AnimatePresence, MotionConfig, motion } from "motion/react";
 import { useMemo } from "react";
 import { CtViewport } from "@/components/ct-viewport";
 import { LineTabs } from "@/components/line-tabs";
+import { VoteButton } from "@/components/vote-button";
 import { Button } from "@/components/ui/button";
 import { Empty, EmptyContent, EmptyHeader, EmptyTitle } from "@/components/ui/empty";
 import { Select, SelectItem, SelectPopup, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -14,6 +15,7 @@ import type { Dictionary } from "@/dictionaries";
 import { intlLocales, type Locale } from "@/lib/i18n";
 import { spring } from "@/lib/springs";
 import { WORKFLOW_PARTS } from "@/lib/submissions/constants";
+import { cn } from "@/lib/utils";
 import type { PublicViewer } from "@/lib/viewers/public";
 
 type Sort = "total" | "month" | "recent";
@@ -181,7 +183,7 @@ export function ViewerGallery({
             </EmptyContent>
           </Empty>
         ) : (
-          <ol className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <ol className="grid gap-4 sm:grid-cols-2">
             <AnimatePresence initial={false}>
               {filteredViewers.map((viewer, position) => (
                 <ViewerCard
@@ -192,6 +194,7 @@ export function ViewerGallery({
                   rank={sort === "recent" || (sort === "month" ? viewer.month_votes : viewer.total_votes) === 0 ? null : position + 1}
                   votes={sort === "month" ? viewer.month_votes : viewer.total_votes}
                   copy={copy}
+                  voteCopy={dictionary.vote}
                   meta={[viewer.workflow_parts?.map((value) => dictionary.submission.part[value] ?? value).join(", "), viewer.modalities?.slice(0, 2).map((value) => dictionary.submission.modality[value] ?? value).join(", "), viewer.ai_code_share ? copy.aiShare[viewer.ai_code_share] : null, viewer.country].filter(Boolean).join(" · ")}
                 />
               ))}
@@ -258,7 +261,7 @@ function GalleryEmpty({ locale, dictionary }: { locale: Locale; dictionary: Dict
   );
 }
 
-function ViewerCard({ position, locale, viewer, rank, votes, copy, meta }: { position: number; locale: Locale; viewer: PublicViewer; rank: number | null; votes: number; copy: Dictionary["gallery"]; meta: string }) {
+function ViewerCard({ position, locale, viewer, rank, votes, copy, voteCopy, meta }: { position: number; locale: Locale; viewer: PublicViewer; rank: number | null; votes: number; voteCopy: Dictionary["vote"]; copy: Dictionary["gallery"]; meta: string }) {
   const screenshot = viewer.screenshots[0];
   return (
     <motion.li
@@ -266,18 +269,23 @@ function ViewerCard({ position, locale, viewer, rank, votes, copy, meta }: { pos
       exit={{ opacity: 0, transition: spring.moderate.exit }}
       transition={spring.slow}
       style={{ "--i": position } as React.CSSProperties}
-      className="reveal-item min-w-0"
+      className="reveal-item relative min-w-0"
     >
       <Link href={`/${locale}/v/${viewer.slug}`} className="group flex h-full flex-col gap-4 rounded-2xl bg-surface p-2 outline-none transition-colors duration-150 hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring">
         <span className="relative aspect-card overflow-hidden rounded-lg bg-page-bg">
-          {screenshot?.url ? <Image src={screenshot.url} loader={imageLoader} unoptimized fill sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" alt="" className="object-cover transition-transform duration-500 ease-(--ease-out-strong) group-hover:scale-102" /> : (
+          {screenshot?.url ? <Image src={screenshot.url} loader={imageLoader} unoptimized fill sizes="(min-width: 640px) 50vw, 100vw" alt="" className="object-cover transition-transform duration-500 ease-(--ease-out-strong) group-hover:scale-102" /> : (
             <>
               <span aria-hidden="true" className="absolute inset-x-0 top-1/2 h-px bg-foreground/8" />
               <span aria-hidden="true" className="absolute inset-y-0 left-1/2 w-px bg-foreground/8" />
             </>
           )}
+          {viewer.recency ? (
+            <span className={cn("absolute start-2 top-2 rounded-full px-2.5 py-0.5 text-xs font-medium", viewer.recency === "new" ? "bg-foreground text-background" : "bg-page-bg/80 text-foreground backdrop-blur-sm")}>
+              {copy[viewer.recency === "new" ? "badgeNew" : "badgeUpdated"]}
+            </span>
+          ) : null}
         </span>
-        <span className="flex items-start gap-3 px-2 pb-2">
+        <span className="flex items-start gap-3 px-2 pb-2 pe-24">
           <span className="flex min-w-0 flex-1 flex-col gap-0.5">
             <span className="truncate font-medium">
               {rank !== null ? <span className="me-2 tabular-nums text-muted-foreground">{rank}</span> : null}
@@ -286,12 +294,10 @@ function ViewerCard({ position, locale, viewer, rank, votes, copy, meta }: { pos
             <span title={viewer.tagline} className="truncate text-sm text-muted-foreground">{viewer.tagline}</span>
             {meta ? <span title={meta} className="truncate text-sm text-muted-foreground">{meta}</span> : null}
           </span>
-          <span className="shrink-0 text-right">
-            <span className="block font-medium tabular-nums leading-6">{votes}</span>
-            <span className="block text-xs text-muted-foreground">{copy.votes}</span>
-          </span>
         </span>
       </Link>
+      {/* Fora do link: botão dentro de âncora não é HTML válido, e votar não pode abrir a ficha. */}
+      <VoteButton key={votes} locale={locale} submissionId={viewer.id} initialCount={votes} copy={voteCopy} className="absolute bottom-4 end-4 items-end" />
     </motion.li>
   );
 }

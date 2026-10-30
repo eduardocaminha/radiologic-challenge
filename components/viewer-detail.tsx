@@ -41,7 +41,7 @@ export function ViewerDetail({ locale, dictionary, viewer }: { locale: Locale; d
               <ArrowUpRightIcon aria-hidden="true" />
             </Button>
           ) : null}
-          <VoteButton locale={locale} submissionId={viewer.id} initialCount={viewer.total_votes} copy={dictionary.vote} />
+          <VoteButton locale={locale} submissionId={viewer.id} initialCount={viewer.total_votes} copy={dictionary.vote} showLabel className="items-start" />
         </div>
       </header>
 

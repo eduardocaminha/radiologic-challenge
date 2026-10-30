@@ -83,6 +83,8 @@ export interface Dictionary {
   };
   gallery: {
     title: string;
+    badgeNew: string;
+    badgeUpdated: string;
     filtersLabel: string;
     sort: string;
     sortTotal: string;

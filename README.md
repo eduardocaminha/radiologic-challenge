@@ -33,5 +33,5 @@ Componentes de terceiros:
 
 - COSS UI (`components/ui/`), Copyright (c) 2026 Cal.com, Inc., AGPL-3.0.
 - Fluid Functionalism (`lib/springs.ts`), Copyright (c) 2026 Micka Touillaud, MIT (aviso completo em `THIRD_PARTY_NOTICES.md`).
-- ASCII wake (`components/ascii-wake.tsx`), Copyright (c) 2026 Lorenzo Cabra, MIT (aviso no arquivo).
+- ASCII wake (`components/ascii-wake.tsx`) e Like (`components/vote-button.tsx`), Copyright (c) 2026 Lorenzo Cabra, MIT (aviso em cada arquivo).
 - Inter (`public/fonts/`, `assets/fonts/`), SIL Open Font License 1.1 (`assets/fonts/OFL.txt`).

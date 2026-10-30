@@ -91,6 +91,8 @@ const dictionary: Dictionary = {
   },
   gallery: {
     title: "Galeria de workstations",
+    badgeNew: "Novo",
+    badgeUpdated: "Atualizado",
     filtersLabel: "Filtros da galeria",
     sort: "Ordenar",
     sortTotal: "Mais votados",

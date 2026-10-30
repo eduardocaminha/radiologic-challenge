@@ -82,5 +82,13 @@ test("vote redireciona visitante e permite votar e desvotar", async ({ browser, 
   await expect(signedInPage.getByRole("button", { name: "Votado" })).toContainText("1");
   await signedInPage.getByRole("button", { name: "Votado" }).click();
   await expect(signedInPage.getByRole("button", { name: "Votar" })).toContainText("0");
+
+  await signedInPage.goto("/pt");
+  const card = signedInPage.getByRole("listitem").filter({ hasText: "Viewer de voto" });
+  await card.getByRole("button", { name: "Votar" }).click();
+  await expect(card.getByRole("button", { name: "Votado" })).toContainText("1");
+  await expect(signedInPage).toHaveURL(/\/pt$/);
+  await card.getByRole("button", { name: "Votado" }).click();
+  await expect(card.getByRole("button", { name: "Votar" })).toContainText("0");
   await context.close();
 });

@@ -1,5 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
 import { createScreenshotSignedUrls } from "@/lib/storage/server";
+import { viewerRecency, type ViewerRecency } from "@/lib/viewers/recency";
 import { hasSupabaseConfig } from "@/lib/supabase/config";
 
 export interface PublicViewerScreenshot {
@@ -44,6 +45,7 @@ export interface PublicViewer {
   country: string | null;
   limitations: string | null;
   approved_at: string | null;
+  recency: ViewerRecency;
   total_votes: number;
   month_votes: number;
   screenshots: PublicViewerScreenshot[];
@@ -55,8 +57,9 @@ interface RankingRow {
   month_votes: number | string;
 }
 
-interface SubmissionRow extends Omit<PublicViewer, "total_votes" | "month_votes" | "screenshots" | "ai_tools"> {
+interface SubmissionRow extends Omit<PublicViewer, "total_votes" | "month_votes" | "screenshots" | "ai_tools" | "recency"> {
   ai_tools: unknown;
+  updated_at: string;
 }
 
 interface ScreenshotRow {
@@ -114,8 +117,10 @@ export async function getPublicViewers(): Promise<PublicViewer[]> {
     // A missing secret key should not make the public text-only page unavailable.
   }
 
+  const now = Date.now();
   return validRows.map(({ submission, rank, screenshots }) => ({
     ...submission,
+    recency: viewerRecency(submission.approved_at, submission.updated_at, now),
     ai_tools: aiTools(submission.ai_tools),
     total_votes: numberValue(rank.total_votes),
     month_votes: numberValue(rank.month_votes),
