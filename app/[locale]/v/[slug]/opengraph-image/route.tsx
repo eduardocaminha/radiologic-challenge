@@ -14,7 +14,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ loc
   const viewer = await getPublicViewerForOg(slug);
   if (!viewer) notFound();
 
-  return new ImageResponse(<ViewerOgImage locale={localeParam} name={viewer.name} tagline={viewer.tagline} />, {
+  return new ImageResponse(<ViewerOgImage name={viewer.name} tagline={viewer.tagline} />, {
     ...ogSize,
     fonts: await getOgFonts(),
   });

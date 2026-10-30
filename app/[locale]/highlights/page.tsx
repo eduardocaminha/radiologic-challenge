@@ -4,6 +4,7 @@ import { MonthlyHighlights } from "@/components/monthly-highlights";
 import { getDictionary } from "@/dictionaries";
 import { getPublicHighlights } from "@/lib/highlights/public";
 import { isLocale } from "@/lib/i18n";
+import { pageMetadata } from "@/lib/seo";
 
 interface PageProps {
   params: Promise<{ locale: string }>;
@@ -16,11 +17,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!isLocale(locale)) notFound();
 
   const dictionary = await getDictionary(locale);
-  return {
-    title: dictionary.highlights.title,
-    description: dictionary.highlights.description,
-    alternates: { languages: { pt: "/pt/highlights", en: "/en/highlights", es: "/es/highlights" } },
-  };
+  return pageMetadata(locale, "/highlights", { title: dictionary.highlights.title, description: dictionary.highlights.description });
 }
 
 export default async function HighlightsPage({ params }: PageProps) {

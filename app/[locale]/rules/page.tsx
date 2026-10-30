@@ -4,6 +4,7 @@ import { LegalDocument } from "@/components/legal-document";
 import { getDictionary } from "@/dictionaries";
 import { isLocale } from "@/lib/i18n";
 import { getLegalDocument } from "@/lib/legal";
+import { pageMetadata } from "@/lib/seo";
 
 interface PageProps {
   params: Promise<{ locale: string }>;
@@ -16,11 +17,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!isLocale(locale)) notFound();
 
   const dictionary = await getDictionary(locale);
-  return {
-    title: getLegalDocument("rules", locale).title,
-    description: dictionary.legal.rulesDescription,
-    alternates: { languages: { pt: "/pt/rules", en: "/en/rules", es: "/es/rules" } },
-  };
+  return pageMetadata(locale, "/rules", { title: getLegalDocument("rules", locale).title, description: dictionary.legal.rulesDescription });
 }
 
 export default async function RulesPage({ params }: PageProps) {

@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { getDictionary } from "@/dictionaries";
@@ -7,12 +8,21 @@ import { hasSupabaseConfig } from "@/lib/supabase/config";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 import { Button } from "@/components/ui/button";
 import { SubmissionList } from "@/components/submission-list";
+import { noIndex } from "@/lib/seo";
 
 interface PageProps {
   params: Promise<{ locale: string }>;
 }
 
 export const dynamic = "force-dynamic";
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { locale } = await params;
+  if (!isLocale(locale)) notFound();
+
+  const dictionary = await getDictionary(locale);
+  return { title: dictionary.auth.meTitle, robots: noIndex };
+}
 
 export default async function Me({ params }: PageProps) {
   const { locale: localeParam } = await params;

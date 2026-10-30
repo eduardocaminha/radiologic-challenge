@@ -6,6 +6,8 @@ import { getDictionary } from "@/dictionaries";
 import { isLocale } from "@/lib/i18n";
 import { daysSincePrior, KIT, KIT_TOTAL_MB, primaryModality } from "@/lib/kit";
 import { getLegalDocument } from "@/lib/legal";
+import { JsonLd } from "@/components/json-ld";
+import { pageMetadata, SITE_URL } from "@/lib/seo";
 
 interface PageProps {
   params: Promise<{ locale: string }>;
@@ -18,11 +20,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!isLocale(locale)) notFound();
 
   const dictionary = await getDictionary(locale);
-  return {
-    title: dictionary.kit.title,
-    description: dictionary.kit.description,
-    alternates: { languages: { pt: "/pt/kit", en: "/en/kit", es: "/es/kit" } },
-  };
+  return pageMetadata(locale, "/kit", { title: dictionary.kit.title, description: dictionary.kit.description });
 }
 
 function Command({ children }: { children: string }) {
@@ -46,6 +44,19 @@ export default async function KitPage({ params }: PageProps) {
 
   return (
     <main className="mx-auto flex w-full max-w-6xl flex-col gap-12 px-6 py-12 sm:gap-16 sm:py-20">
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "Dataset",
+          name: t.title,
+          description: t.description,
+          url: `${SITE_URL}/${locale}/kit`,
+          inLanguage: locale,
+          isAccessibleForFree: true,
+          license: ["https://creativecommons.org/licenses/by/3.0/", "https://creativecommons.org/licenses/by/4.0/"],
+          creator: { "@type": "Organization", name: "NCI Imaging Data Commons", url: "https://imaging.datacommons.cancer.gov" },
+        }}
+      />
       <header className="flex max-w-3xl flex-col gap-4">
         <h1 className="text-headline-lg sm:text-display-sm">{t.title}</h1>
       </header>

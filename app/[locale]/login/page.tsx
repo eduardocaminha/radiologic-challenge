@@ -1,8 +1,10 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { LoginButtons } from "@/components/login-buttons";
 import { safeRedirectPath } from "@/lib/auth/redirects";
 import { getDictionary } from "@/dictionaries";
 import { isLocale, type Locale } from "@/lib/i18n";
+import { noIndex } from "@/lib/seo";
 
 interface PageProps {
   params: Promise<{ locale: string }>;
@@ -10,6 +12,14 @@ interface PageProps {
 }
 
 export const dynamic = "force-dynamic";
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { locale } = await params;
+  if (!isLocale(locale)) notFound();
+
+  const dictionary = await getDictionary(locale);
+  return { title: { absolute: dictionary.auth.loginTitle }, robots: noIndex };
+}
 
 export default async function Login({ params, searchParams }: PageProps) {
   const { locale: localeParam } = await params;

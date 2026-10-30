@@ -1,6 +1,8 @@
 export interface Dictionary {
   home: {
     title: string;
+    metaTitle: string;
+    metaDescription: string;
     headline: string;
     headlineNote: string;
     tagline: string;
