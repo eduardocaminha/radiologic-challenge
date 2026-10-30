@@ -88,7 +88,6 @@ export interface Dictionary {
     clearFilters: string;
     parts: string;
     allPlatforms: string;
-    viewerCount: string;
     aiShare: Record<string, string>;
   };
   viewer: {

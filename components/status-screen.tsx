@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { ViewportFrame } from "@/components/viewport-frame";
 
-export function StatusScreen({ code, title, nonClinical, children }: { code: string; title: string; nonClinical: string; children?: ReactNode }) {
+export function StatusScreen({ code, title, nonClinical, children }: { code: string; title: string; nonClinical?: string; children?: ReactNode }) {
   return (
     <main className="mx-auto w-full max-w-6xl px-6 py-12">
       <ViewportFrame

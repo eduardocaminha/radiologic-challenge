@@ -96,7 +96,6 @@ const dictionary: Dictionary = {
     clearFilters: "Limpiar filtros",
     parts: "Partes",
     allPlatforms: "Todas",
-    viewerCount: "workstations",
     aiShare: {
       none: "Sin IA",
       lt25: "IA <25%",

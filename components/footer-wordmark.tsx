@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { ViewportFrame } from "@/components/viewport-frame";
+import { useEffect, useRef } from "react";
+import { WINDOW_LEVEL_REST as REST, windowLevelFromPointer, type WindowLevel } from "@/lib/window-level";
 
 const WORD = "Radiologic";
 const RAMP = " .:-=+*#%@";
-const REST = { window: 2000, level: 0 };
 const REVEAL_MS = 800;
+const MEASURE_SIZE = 200;
 
 interface Cell {
   x: number;
@@ -20,17 +20,24 @@ function buildCells(width: number, height: number) {
   const mobile = width < 500;
   const cellWidth = mobile ? 5 : 6;
   const cellHeight = cellWidth * 1.6;
-  const fontSize = width / 4.22;
   const mask = document.createElement("canvas");
   mask.width = Math.ceil(width);
   mask.height = Math.ceil(height);
   const context = mask.getContext("2d", { willReadFrequently: true });
   if (!context) return { cells: [] as Cell[], cellHeight };
-  context.font = `600 ${fontSize}px Inter, sans-serif`;
-  context.letterSpacing = `${-0.04 * fontSize}px`;
   context.fillStyle = "#fff";
   context.textBaseline = "alphabetic";
-  context.fillText(WORD, -0.07 * fontSize, mobile ? height - 0.24 * fontSize : 0.78 * fontSize);
+  // Mede a palavra no navegador em uso: nem todo canvas aplica letterSpacing, e a largura muda.
+  const setFont = (size: number) => {
+    context.font = `600 ${size}px Inter, sans-serif`;
+    context.letterSpacing = `${-0.04 * size}px`;
+  };
+  setFont(MEASURE_SIZE);
+  const measured = context.measureText(WORD);
+  const fontSize = MEASURE_SIZE * width / (measured.actualBoundingBoxLeft + measured.actualBoundingBoxRight);
+  setFont(fontSize);
+  const left = measured.actualBoundingBoxLeft * fontSize / MEASURE_SIZE;
+  context.fillText(WORD, left, mobile ? height - 0.24 * fontSize : 0.78 * fontSize);
   const { data } = context.getImageData(0, 0, mask.width, mask.height);
 
   const cells: Cell[] = [];
@@ -88,15 +95,13 @@ function paint(canvas: HTMLCanvasElement, cells: Cell[], cellHeight: number, win
   }
 }
 
-// O wordmark é a imagem do viewport: arrastar o ponteiro muda janela e nível, como em
-// qualquer viewer, a rampa de caracteres responde, e o canto mostra os valores aplicados.
-export function FooterWordmark({ copyright, month, nonClinical }: { copyright: string; month: string; nonClinical: string }) {
+// O wordmark responde como imagem de viewer: o ponteiro muda janela e nível e a rampa de caracteres acompanha.
+export function FooterWordmark() {
   const frame = useRef<HTMLDivElement>(null);
   const canvas = useRef<HTMLCanvasElement>(null);
   const target = useRef({ ...REST });
   const scene = useRef({ cells: [] as Cell[], cellHeight: 10, current: { ...REST }, reveal: 0, startedAt: 0, frame: 0 });
   const wake = useRef<() => void>(() => undefined);
-  const [values, setValues] = useState(REST);
 
   useEffect(() => {
     const element = canvas.current;
@@ -152,32 +157,19 @@ export function FooterWordmark({ copyright, month, nonClinical }: { copyright: s
     };
   }, []);
 
-  function moveTo(next: typeof REST) {
+  function moveTo(next: WindowLevel) {
     target.current = next;
-    setValues(next);
     wake.current();
   }
 
   function onPointerMove(event: React.PointerEvent<HTMLDivElement>) {
-    if (event.pointerType !== "mouse" || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const box = event.currentTarget.getBoundingClientRect();
-    const x = (event.clientX - box.left) / box.width;
-    const y = (event.clientY - box.top) / box.height;
-    moveTo({ window: Math.round(2000 - x * 1600), level: Math.round(200 - y * 400) });
+    const next = windowLevelFromPointer(event);
+    if (next) moveTo(next);
   }
 
   return (
-    <div ref={frame} onPointerMove={onPointerMove} onPointerLeave={() => moveTo(REST)}>
-      <ViewportFrame
-        flush
-        topLeft={copyright}
-        topRight={month}
-        bottomLeft={<span className="hidden sm:inline">W {values.window} L {values.level}</span>}
-        bottomRight={<span className="hidden sm:inline">{nonClinical}</span>}
-        className="aspect-wordmark-full overflow-clip sm:aspect-wordmark"
-      >
-        <canvas ref={canvas} aria-hidden="true" className="absolute inset-0 size-full" />
-      </ViewportFrame>
+    <div ref={frame} onPointerMove={onPointerMove} onPointerLeave={() => moveTo(REST)} className="relative aspect-wordmark-full overflow-clip sm:aspect-wordmark">
+      <canvas ref={canvas} aria-hidden="true" className="absolute inset-0 size-full" />
     </div>
   );
 }

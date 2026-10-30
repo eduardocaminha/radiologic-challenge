@@ -12,7 +12,7 @@ export default function ErrorPage({ reset }: { error: Error; reset: () => void }
   const current = isLocale(locale) ? locale : "pt";
   const copy = STATUS_COPY[current];
   return (
-    <StatusScreen code="500" title={copy.error} nonClinical={copy.nonClinical}>
+    <StatusScreen code="500" title={copy.error}>
       <div className="flex flex-wrap items-center justify-center gap-2">
         <Button size="lg" onClick={reset}>{copy.retry}</Button>
         <Button size="lg" variant="ghost" className="text-muted-foreground" render={<Link href={`/${current}`} />}>{copy.back}</Button>
