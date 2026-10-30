@@ -36,7 +36,7 @@ export interface AdminSubmission {
   tagline: string | null;
   description: string | null;
   differential: string | null;
-  lang: "pt" | "en" | null;
+  lang: "pt" | "en" | "es" | null;
   platforms: string[] | null;
   requires_install: boolean | null;
   repo_url: string | null;

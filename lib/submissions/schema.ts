@@ -41,7 +41,7 @@ const fields = {
   tagline: optionalText(120),
   description: optionalText(2000),
   differential: optionalText(280),
-  lang: z.enum(["pt", "en"]).optional(),
+  lang: z.enum(["pt", "en", "es"]).optional(),
   platforms: z.array(z.enum(["web", "desktop", "mobile", "xr"])).optional(),
   requires_install: z.boolean().optional(),
   repo_url: optionalUrl,

@@ -64,6 +64,18 @@ describe("GitHub issue parser", () => {
     }
   });
 
+  it.each([
+    ["Idioma do projeto", "es", "es"],
+    ["Idioma do projeto", "Español", "es"],
+    ["Idioma do viewer", "en", "en"],
+    ["Project language", "pt", "pt"],
+  ])("lê %s com valor %s", (label, value, expected) => {
+    const parsed = parseGithubIssueBody(validBody.replace("### Idioma do viewer\npt", `### ${label}\n${value}`));
+
+    expect(parsed.success).toBe(true);
+    if (parsed.success) expect(parsed.fields.lang).toBe(expected);
+  });
+
   it("retorna a lista de erros em português e inglês", () => {
     const parsed = parseGithubIssueBody("### Nome do viewer\n");
 

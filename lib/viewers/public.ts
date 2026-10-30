@@ -16,7 +16,7 @@ export interface PublicViewer {
   tagline: string;
   description: string;
   differential: string;
-  lang: "pt" | "en";
+  lang: "pt" | "en" | "es";
   platforms: string[];
   requires_install: boolean;
   repo_url: string;
