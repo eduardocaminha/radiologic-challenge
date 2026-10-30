@@ -37,6 +37,7 @@ Todo comando de verificação precisa ser hermético: sem segredo, sem OAuth rea
 - Depois da moderação, a submissão não perde campo obrigatório e projeto removido não é editado (`guard_submission_edit`). Edição em aprovado grava evento e entra no resumo diário.
 - Aprovar compara `updated_at` com a versão revisada (`SUB25`), e registrar, excluir ou reordenar imagem muda essa versão. Versão e data do aceite do regulamento vêm do servidor (`current_rules_version()`): o cliente só envia `rules_accepted`.
 - Registro de imagem sai antes do arquivo, nunca o contrário. Caminho já registrado não aceita novo upload (`can_upload_screenshot`), que também limita a 8 arquivos por submissão e 50 por conta. `withdraw_screenshot` retira a imagem sozinha e apaga o arquivo, o que invalida as URLs assinadas.
+- `submission_events` é só de acréscimo. A única exceção é `purge_expired_events()`, rodada todo dia pelo pg_cron, que apaga eventos com mais de 12 meses, como promete a política de privacidade.
 - Autorização nunca lê `user_metadata` nem e-mail. Admin é linha na tabela `admins`. O menu de conta do header mostra nome, e-mail e provedor só para exibir, com a inicial no lugar da foto, para não enviar o IP do usuário ao provedor.
 - Chaves do Supabase: só `publishable` e `secret`. A `secret` fica em módulo com `server-only`.
 - Toda migration traz `grant` explícito do que precisa ser exposto.
