@@ -1,5 +1,6 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
+import { loginPath } from "@/lib/auth/redirects";
 import { defaultLocale, locales, type Locale } from "@/lib/i18n";
 import { hasSupabaseConfig, supabaseCookieOptions } from "@/lib/supabase/config";
 
@@ -63,7 +64,14 @@ export async function proxy(request: NextRequest) {
     },
   });
 
-  await supabase.auth.getClaims();
+  const { data } = await supabase.auth.getClaims();
+
+  // Aqui, e não na página: redirecionar durante a renderização deixa a tela sem conteúdo até o login carregar.
+  const privateRoute = request.nextUrl.pathname.match(/^\/(pt|en|es)\/(submit|me)$/);
+  if (privateRoute && !data?.claims) {
+    const next = `${request.nextUrl.pathname}${request.nextUrl.search}`;
+    return NextResponse.redirect(new URL(loginPath(privateRoute[1] as Locale, next), request.url));
+  }
 
   return response;
 }
