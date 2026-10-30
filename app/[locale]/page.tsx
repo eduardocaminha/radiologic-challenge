@@ -34,7 +34,7 @@ export default async function Home({ params }: PageProps) {
   const [dictionary, viewers, months] = await Promise.all([getDictionary(locale), getPublicViewers(), getPublicHighlights()]);
 
   return (
-    <main className="mx-auto flex min-h-screen max-w-6xl flex-col gap-16 px-6 py-12 sm:gap-20 sm:py-16">
+    <main data-sticky-header className="mx-auto flex min-h-screen max-w-6xl flex-col gap-16 px-6 py-12 sm:gap-20 sm:py-16">
       <JsonLd
         data={{
           "@context": "https://schema.org",
@@ -46,7 +46,7 @@ export default async function Home({ params }: PageProps) {
           publisher: { "@type": "Organization", name: "Radiologic", url: "https://radiologic.io", logo: `${SITE_URL}/icon-512.png` },
         }}
       />
-      <section className="flex flex-col gap-8">
+      <section className="hero-in flex flex-col gap-8">
         <h1 className="max-w-4xl text-display-sm text-balance sm:text-display-lg">{dictionary.home.headline} <span className="text-muted-foreground">{dictionary.home.headlineNote}</span></h1>
         <Button size="lg" className="w-fit" render={<Link href={`/${locale}/submit`} />}>{dictionary.home.submit}</Button>
       </section>
