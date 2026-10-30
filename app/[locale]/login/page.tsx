@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { LoginButtons } from "@/components/login-buttons";
+import { StatusScreen } from "@/components/status-screen";
 import { safeRedirectPath } from "@/lib/auth/redirects";
 import { getDictionary } from "@/dictionaries";
-import { isLocale, type Locale } from "@/lib/i18n";
+import { intlLocales, isLocale, type Locale } from "@/lib/i18n";
 import { noIndex } from "@/lib/seo";
 
 interface PageProps {
@@ -28,10 +29,10 @@ export default async function Login({ params, searchParams }: PageProps) {
   const query = await searchParams;
   const next = safeRedirectPath(typeof query.next === "string" ? query.next : null);
   const dictionary = await getDictionary(locale);
+  const month = new Intl.DateTimeFormat(intlLocales[locale], { month: "short", year: "numeric", timeZone: "America/Sao_Paulo" }).format(new Date());
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center gap-6 px-6 text-center">
-      <h1 className="text-headline-md text-balance">{dictionary.auth.loginTitle}</h1>
+    <StatusScreen code={month} title={dictionary.auth.loginTitle} nonClinical={dictionary.footer.nonClinical}>
       <LoginButtons
         locale={locale}
         next={next}
@@ -40,6 +41,6 @@ export default async function Login({ params, searchParams }: PageProps) {
         googleLabel={dictionary.auth.google}
         githubLabel={dictionary.auth.github}
       />
-    </main>
+    </StatusScreen>
   );
 }
