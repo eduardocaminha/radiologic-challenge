@@ -8,7 +8,7 @@ const REVEAL_MS = 800;
 // A grade grava -1024 fora do corpo; só a borda chega perto disso por causa da redução.
 const OUTSIDE_BODY = -1000;
 
-function draw(canvas: HTMLCanvasElement, pixels: Int16Array, { window: width, level }: WindowLevel, reveal: number) {
+function draw(canvas: HTMLCanvasElement, pixels: Int16Array, { window: width, level }: WindowLevel, reveal: number, alignEnd: boolean) {
   const context = canvas.getContext("2d");
   if (!context) return;
   const ratio = globalThis.devicePixelRatio || 1;
@@ -18,8 +18,7 @@ function draw(canvas: HTMLCanvasElement, pixels: Int16Array, { window: width, le
   const side = Math.min(clientWidth, clientHeight);
   const columns = Math.floor(side / cellWidth);
   const rows = Math.floor(side / cellHeight);
-  const landscape = clientWidth > clientHeight * 1.3;
-  const left = landscape ? clientWidth - columns * cellWidth : (clientWidth - columns * cellWidth) / 2;
+  const left = alignEnd && clientWidth > clientHeight ? clientWidth - columns * cellWidth : (clientWidth - columns * cellWidth) / 2;
   const top = (clientHeight - rows * cellHeight) / 2;
   const low = level - width / 2;
   const lastRow = Math.ceil(reveal * rows);
@@ -53,7 +52,7 @@ function draw(canvas: HTMLCanvasElement, pixels: Int16Array, { window: width, le
 }
 
 // Corte de tomografia desenhado em caracteres: os valores são Hounsfield reais, então janela e nível fazem o que fazem num viewer.
-export function CtCanvas({ source, windowLevel }: { source: string; windowLevel: WindowLevel }) {
+export function CtCanvas({ source, windowLevel, alignEnd = false }: { source: string; windowLevel: WindowLevel; alignEnd?: boolean }) {
   const canvas = useRef<HTMLCanvasElement>(null);
   const target = useRef(windowLevel);
   const wake = useRef<() => void>(() => undefined);
@@ -79,7 +78,7 @@ export function CtCanvas({ source, windowLevel }: { source: string; windowLevel:
       current.window += (target.current.window - current.window) * 0.2;
       current.level += (target.current.level - current.level) * 0.2;
       const reveal = reduced.matches ? 1 : Math.min(1, (now - startedAt) / REVEAL_MS);
-      draw(element, pixels, current, reveal);
+      draw(element, pixels, current, reveal, alignEnd);
       const settled = Math.abs(target.current.window - current.window) < 2 && Math.abs(target.current.level - current.level) < 2;
       if (!settled || reveal < 1) frame = requestAnimationFrame(tick);
     }
@@ -110,7 +109,7 @@ export function CtCanvas({ source, windowLevel }: { source: string; windowLevel:
       resize.disconnect();
       cancelAnimationFrame(frame);
     };
-  }, [source]);
+  }, [source, alignEnd]);
 
   return <canvas ref={canvas} aria-hidden="true" className="absolute inset-0 size-full" />;
 }

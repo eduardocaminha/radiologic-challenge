@@ -39,14 +39,14 @@ export default async function Login({ params, searchParams }: PageProps) {
         study="abdomen"
         title={dictionary.home.title}
         month={month}
-        className="size-full"
-        canvasClassName="inset-x-0 top-1/2 bottom-8 lg:inset-y-10 lg:left-1/2 lg:right-4"
+        className="flex size-full flex-col lg:flex-row"
+        canvasClassName="relative mb-8 min-h-0 flex-1 lg:my-10 lg:me-4"
       >
-        <div className="relative flex h-1/2 w-full flex-col justify-center gap-6 px-6 pt-8 lg:h-full lg:w-1/2 lg:items-start lg:px-16 lg:pt-0">
+        <div className="relative flex shrink-0 flex-col gap-6 px-6 pb-6 pt-14 lg:w-1/2 lg:justify-center lg:px-16 lg:py-0">
           <Link href={`/${locale}`} aria-label={dictionary.home.title} className="w-fit">
             <Logo className="size-6" aria-hidden="true" />
           </Link>
-          <h1 className="max-w-sm text-headline-md text-balance">{dictionary.auth.loginTitle}</h1>
+          <h1 className="max-w-xs text-display-sm sm:text-display-md">{dictionary.auth.loginTitle}</h1>
           <LoginButtons
             locale={locale}
             next={next}
