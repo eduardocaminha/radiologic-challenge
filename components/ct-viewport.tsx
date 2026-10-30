@@ -12,7 +12,7 @@ const STUDIES = {
 };
 
 // Moldura de viewer com um corte de tomografia do kit. `canvasClassName` define em que parte do quadro a imagem fica.
-export function CtViewport({ study, title, month, className, canvasClassName, alignEnd, children }: { study: keyof typeof STUDIES; title: string; month: string; className?: string; canvasClassName: string; alignEnd?: boolean; children: ReactNode }) {
+export function CtViewport({ study, title, month, className, canvasClassName, children }: { study: keyof typeof STUDIES; title: string; month: string; className?: string; canvasClassName: string; children: ReactNode }) {
   const { source, credit } = STUDIES[study];
   const [windowLevel, setWindowLevel] = useState(CT_WINDOW_LEVEL_REST);
   return (
@@ -32,7 +32,7 @@ export function CtViewport({ study, title, month, className, canvasClassName, al
       >
         {children}
         <div className={canvasClassName}>
-          <CtCanvas source={source} windowLevel={windowLevel} alignEnd={alignEnd} />
+          <CtCanvas source={source} windowLevel={windowLevel} />
         </div>
       </ViewportFrame>
     </div>

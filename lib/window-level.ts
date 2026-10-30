@@ -1,10 +1,9 @@
 export const ASCII_RAMP = " .:-=+*#%@";
 
-// O caractere mais claro tem a cor da logo (`--foreground`).
+// O maior ponto tem a cor da logo (`--foreground`).
 export const ASCII_INK = "0.985 0 0";
-export const ASCII_MAX_ALPHA = 1;
 
-// Janela de mediastino: em caracteres é a que melhor mostra a anatomia do tórax.
+// Janela de mediastino: em pontos é a que melhor mostra a anatomia do tórax.
 export const CT_WINDOW_LEVEL_REST = { window: 400, level: 40 };
 
 export type WindowLevel = typeof CT_WINDOW_LEVEL_REST;

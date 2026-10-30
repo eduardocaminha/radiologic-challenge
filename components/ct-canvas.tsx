@@ -1,14 +1,14 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { ASCII_INK, ASCII_MAX_ALPHA, ASCII_RAMP, type WindowLevel } from "@/lib/window-level";
+import { ASCII_INK, ASCII_RAMP, type WindowLevel } from "@/lib/window-level";
 
 const GRID = 160;
 const REVEAL_MS = 800;
 // A grade grava -1024 fora do corpo; só a borda chega perto disso por causa da redução.
 const OUTSIDE_BODY = -1000;
 
-function draw(canvas: HTMLCanvasElement, pixels: Int16Array, { window: width, level }: WindowLevel, reveal: number, alignEnd: boolean) {
+function draw(canvas: HTMLCanvasElement, pixels: Int16Array, { window: width, level }: WindowLevel, reveal: number) {
   const context = canvas.getContext("2d");
   if (!context) return;
   const ratio = globalThis.devicePixelRatio || 1;
@@ -18,7 +18,7 @@ function draw(canvas: HTMLCanvasElement, pixels: Int16Array, { window: width, le
   const side = Math.min(clientWidth, clientHeight);
   const columns = Math.floor(side / cellWidth);
   const rows = Math.floor(side / cellHeight);
-  const left = alignEnd && clientWidth > clientHeight ? clientWidth - columns * cellWidth : (clientWidth - columns * cellWidth) / 2;
+  const left = (clientWidth - columns * cellWidth) / 2;
   const top = (clientHeight - rows * cellHeight) / 2;
   const low = level - width / 2;
   const lastRow = Math.ceil(reveal * rows);
@@ -42,17 +42,22 @@ function draw(canvas: HTMLCanvasElement, pixels: Int16Array, { window: width, le
 
   context.setTransform(ratio, 0, 0, ratio, 0, 0);
   context.clearRect(0, 0, clientWidth, clientHeight);
-  context.font = `500 ${cellHeight}px ui-monospace, Menlo, monospace`;
-  context.textBaseline = "top";
+  context.fillStyle = `oklch(${ASCII_INK})`;
+  const dot = Math.min(cellWidth, cellHeight) * 0.5;
   for (const [index, bucket] of buckets) {
-    context.fillStyle = `oklch(${ASCII_INK} / ${0.08 + (index / (ASCII_RAMP.length - 1)) * (ASCII_MAX_ALPHA - 0.08)})`;
-    const glyph = ASCII_RAMP[index] ?? " ";
-    for (const [x, y] of bucket) context.fillText(glyph, x, y);
+    // Como no wordmark, a área do ponto segue a densidade, e não o raio.
+    const radius = Math.max(0.45, dot * Math.sqrt(index / (ASCII_RAMP.length - 1)));
+    context.beginPath();
+    for (const [x, y] of bucket) {
+      context.moveTo(x + cellWidth / 2 + radius, y + cellHeight / 2);
+      context.arc(x + cellWidth / 2, y + cellHeight / 2, radius, 0, Math.PI * 2);
+    }
+    context.fill();
   }
 }
 
-// Corte de tomografia desenhado em caracteres: os valores são Hounsfield reais, então janela e nível fazem o que fazem num viewer.
-export function CtCanvas({ source, windowLevel, alignEnd = false }: { source: string; windowLevel: WindowLevel; alignEnd?: boolean }) {
+// Corte de tomografia desenhado em pontos: os valores são Hounsfield reais, então janela e nível fazem o que fazem num viewer.
+export function CtCanvas({ source, windowLevel }: { source: string; windowLevel: WindowLevel }) {
   const canvas = useRef<HTMLCanvasElement>(null);
   const target = useRef(windowLevel);
   const wake = useRef<() => void>(() => undefined);
@@ -78,7 +83,7 @@ export function CtCanvas({ source, windowLevel, alignEnd = false }: { source: st
       current.window += (target.current.window - current.window) * 0.2;
       current.level += (target.current.level - current.level) * 0.2;
       const reveal = reduced.matches ? 1 : Math.min(1, (now - startedAt) / REVEAL_MS);
-      draw(element, pixels, current, reveal, alignEnd);
+      draw(element, pixels, current, reveal);
       const settled = Math.abs(target.current.window - current.window) < 2 && Math.abs(target.current.level - current.level) < 2;
       if (!settled || reveal < 1) frame = requestAnimationFrame(tick);
     }
@@ -109,7 +114,7 @@ export function CtCanvas({ source, windowLevel, alignEnd = false }: { source: st
       resize.disconnect();
       cancelAnimationFrame(frame);
     };
-  }, [source, alignEnd]);
+  }, [source]);
 
   return <canvas ref={canvas} aria-hidden="true" className="absolute inset-0 size-full" />;
 }
