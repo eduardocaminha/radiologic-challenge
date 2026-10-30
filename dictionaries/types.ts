@@ -32,6 +32,8 @@ export interface Dictionary {
     kit: string;
     contact: string;
     source: string;
+    nonClinical: string;
+    siteName: string;
   };
   kit: {
     title: string;
@@ -72,7 +74,6 @@ export interface Dictionary {
     sortRecent: string;
     platform: string;
     baseTech: string;
-    country: string;
     all: string;
     emptyTitle: string;
     noResultsTitle: string;
@@ -80,6 +81,9 @@ export interface Dictionary {
     votes: string;
     clearFilters: string;
     allPlatforms: string;
+    viewerCount: string;
+    kit: string;
+    aiShare: Record<string, string>;
   };
   viewer: {
     back: string;

@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 import { Button } from "@/components/ui/button";
 import { MonthlyHighlights } from "@/components/monthly-highlights";
-import { ViewerGallery } from "@/components/viewer-gallery";
+import { ViewerGallery, ViewerGalleryWithParams } from "@/components/viewer-gallery";
 import { getDictionary } from "@/dictionaries";
 import { getPublicHighlights } from "@/lib/highlights/public";
 import { isLocale } from "@/lib/i18n";
@@ -58,7 +59,9 @@ export default async function Home({ params }: PageProps) {
           <MonthlyHighlights locale={locale} dictionary={dictionary} months={[months[0]]} />
         </section>
       ) : null}
-      <ViewerGallery locale={locale} dictionary={dictionary} viewers={viewers} />
+      <Suspense fallback={<ViewerGallery locale={locale} dictionary={dictionary} viewers={viewers} />}>
+        <ViewerGalleryWithParams locale={locale} dictionary={dictionary} viewers={viewers} />
+      </Suspense>
     </main>
   );
 }
