@@ -33,7 +33,7 @@ export interface SubmissionRecord {
   tagline: string | null;
   description: string | null;
   differential: string | null;
-  lang: "pt" | "en" | null;
+  lang: "pt" | "en" | "es" | null;
   platforms: Array<"web" | "desktop" | "mobile" | "xr"> | null;
   requires_install: boolean | null;
   repo_url: string | null;
@@ -288,7 +288,7 @@ export function SubmissionForm({ locale, dictionary, idempotencyKey, submission 
           <TextArea label={field.description} {...controlProps("description")} defaultValue={values.description as string} error={errorFor("description")} />
           <TextArea label={field.differential} {...controlProps("differential")} defaultValue={values.differential as string} error={errorFor("differential")} />
           <TextArea label={field.limitations} {...controlProps("limitations")} defaultValue={values.limitations as string} error={errorFor("limitations")} />
-          <SelectInput label={field.lang} options={[["pt", select.pt], ["en", select.en]]} {...controlProps("lang")} defaultValue={values.lang as string} error={errorFor("lang")} />
+          <SelectInput label={field.lang} options={[["pt", select.pt], ["en", select.en], ["es", select.es]]} {...controlProps("lang")} defaultValue={values.lang as string} error={errorFor("lang")} />
         </FormSection>
 
         <FormSection id="technical" title={dictionary.submission.section.technical}>

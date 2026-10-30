@@ -28,10 +28,11 @@ body:
   - type: dropdown
     id: lang
     attributes:
-      label: Idioma do viewer
+      label: Idioma do projeto
       options:
         - pt
         - en
+        - es
     validations:
       required: true
   - type: checkboxes

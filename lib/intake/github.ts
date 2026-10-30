@@ -11,7 +11,7 @@ export interface GithubIssueFields {
   name?: string;
   tagline?: string;
   differential?: string;
-  lang?: "pt" | "en";
+  lang?: "pt" | "en" | "es";
   platforms?: Array<"web" | "desktop" | "mobile" | "xr">;
   workflow_parts?: SubmissionFormValues["workflow_parts"];
   requires_install?: boolean;
@@ -37,7 +37,7 @@ const fieldLabels: Record<IntakeField, { pt: string; en: string }> = {
   tagline: { pt: "Frase de apresentação", en: "Tagline" },
   description: { pt: "Descrição", en: "Description" },
   differential: { pt: "Diferencial", en: "Differentiator" },
-  lang: { pt: "Idioma do viewer", en: "Viewer language" },
+  lang: { pt: "Idioma do projeto", en: "Project language" },
   platforms: { pt: "Plataformas", en: "Platforms" },
   workflow_parts: { pt: "Partes da workstation", en: "Workstation parts" },
   requires_install: { pt: "Exige instalação", en: "Requires installation" },
@@ -75,9 +75,11 @@ const aliases: Record<string, IntakeField> = {
   tagline: "tagline",
   diferencial: "differential",
   differentiator: "differential",
+  "idioma do projeto": "lang",
   "idioma do viewer": "lang",
   "partes da workstation": "workflow_parts",
   "workstation parts": "workflow_parts",
+  "project language": "lang",
   "viewer language": "lang",
   plataformas: "platforms",
   platforms: "platforms",
@@ -198,7 +200,7 @@ function parseFields(body: string): Record<string, unknown> {
       result[field] = booleanValue(raw);
     } else if (field === "lang") {
       const selected = normalize(value);
-      result[field] = selected === "pt" || selected.startsWith("portugues") ? "pt" : selected === "en" || selected.startsWith("english") || selected.startsWith("ingles") ? "en" : value;
+      result[field] = selected === "pt" || selected.startsWith("portugues") ? "pt" : selected === "en" || selected.startsWith("english") || selected.startsWith("ingles") ? "en" : selected === "es" || selected.startsWith("espanol") || selected.startsWith("espanhol") || selected.startsWith("spanish") ? "es" : value;
     } else if (field === "base_tech" || field === "author_profile") {
       result[field] = optionValue(value);
     } else {

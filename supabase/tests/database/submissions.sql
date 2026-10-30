@@ -1,6 +1,6 @@
 begin;
 
-select plan(52);
+select plan(54);
 
 create extension if not exists dblink;
 
@@ -56,6 +56,9 @@ select throws_ok($$select public.update_submission((select id from public.submis
 select set_config('request.jwt.claim.sub', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', false);
 select public.update_submission((select id from public.submissions where name = 'Viewer Ágil'), '{"tagline":"Tagline","description":"Description","differential":"Different","lang":"pt","platforms":["web"],"workflow_parts":["viewer"],"requires_install":false,"repo_url":"https://example.test/repo","license":"MIT","base_tech":"scratch","data_source":"Synthetic","data_license":"CC0","external_api":false,"rules_version":"1","rules_accepted_at":"2026-10-11T12:00:00Z"}'::jsonb);
 select ok((select tagline = 'Tagline' and demo_url is null from public.submissions where name = 'Viewer Ágil'), 'update_submission updates owner fields');
+select public.update_submission((select id from public.submissions where name = 'Viewer Ágil'), '{"lang":"es"}'::jsonb);
+select ok((select lang = 'es' from public.submissions where name = 'Viewer Ágil'), 'lang accepts es');
+select throws_ok($$select public.update_submission((select id from public.submissions where name = 'Viewer Ágil'), '{"lang":"fr"}'::jsonb)$$, '23514');
 select throws_ok($$select public.submit_submission((select id from public.submissions where name = 'Viewer Ágil'))$$, 'SUB08', 'submission form is incomplete', 'submit_submission checks the complete required form');
 select public.update_submission((select id from public.submissions where name = 'Viewer Ágil'), '{"demo_url":"https://example.test/demo"}'::jsonb);
 insert into public.screenshots (submission_id, path, status, position)

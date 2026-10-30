@@ -248,6 +248,7 @@ const dictionary: Dictionary = {
       choose: "Seleccionar",
       pt: "Português",
       en: "English",
+      es: "Español",
       web: "Web",
       desktop: "Escritorio",
       mobile: "Móvil",
