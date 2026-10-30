@@ -307,28 +307,21 @@
   }
 }
 
-/* Blocos da landing entram depois do hero, um a um. Sem blur: nos blocos grandes ele custaria caro e não apareceria. */
-@keyframes block-in {
-  from {
-    opacity: 0;
-    translate: 0 12px;
-  }
-}
-
+/* Blocos da landing: a mesma entrada do hero, com o mesmo passo de 160 ms, para a página ler como um movimento só. */
 .block-in {
-  animation: block-in 900ms var(--ease-out-strong) both;
+  animation: hero-in 1400ms var(--ease-out-strong) both;
 }
 
 .block-in-1 {
-  animation-delay: 350ms;
+  animation-delay: 320ms;
 }
 
 .block-in-2 {
-  animation-delay: 500ms;
+  animation-delay: 480ms;
 }
 
 .block-in-3 {
-  animation-delay: 650ms;
+  animation-delay: 640ms;
 }
 
 .block-in-4 {
