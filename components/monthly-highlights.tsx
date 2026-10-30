@@ -24,7 +24,7 @@ export function LatestHighlights({ locale, dictionary, month }: { locale: Locale
   return (
     <section className="flex flex-col gap-5 rounded-2xl bg-surface p-5 sm:p-7" aria-labelledby="latest-highlights-heading">
       <div className="flex flex-wrap items-baseline justify-between gap-4">
-        <h2 id="latest-highlights-heading" className="text-title-lg first-letter:uppercase">{copy.monthTitle.replace("{month}", formatMonth(month.month, locale))}</h2>
+        <h2 id="latest-highlights-heading" className="text-title-sm text-muted-foreground first-letter:uppercase">{copy.monthTitle.replace("{month}", formatMonth(month.month, locale))}</h2>
         <Button variant="ghost" size="sm" className="-me-2.5 text-muted-foreground" render={<Link href={`/${locale}/highlights`} />}>{copy.allMonths}</Button>
       </div>
       <ol className="grid gap-6 sm:grid-cols-3">
