@@ -240,6 +240,24 @@
   }
 }
 
+/* ASCII wake do rodapé. O traço acompanha a rolagem vertical no toque: o bloco
+   ocupa a largura toda, e bloquear o gesto prenderia a página. */
+.asc {
+  position: relative;
+  cursor: crosshair;
+  touch-action: pan-y;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.asc-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  color: var(--foreground);
+}
+
 /* Entrada dos cards da galeria na primeira carga: cascata curta, só opacidade
    e translate (não conflita com o transform do layout do motion). */
 @keyframes row-in {
