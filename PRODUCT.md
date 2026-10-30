@@ -29,7 +29,7 @@ O site dá certo quando chegam workstations boas e quem visita abre as demos e v
 
 ## Operating Context
 
-- Submissão pelo formulário do site ou por Issue Form no repo público `eduardocaminha/dicom-viewer-challenge`, com as duas entrando na mesma fila.
+- Submissão pelo formulário do site ou por Issue Form no repo público `eduardocaminha/radiologic-challenge-submissions`, com as duas entrando na mesma fila.
 - Pré-moderação na primeira publicação e em cada imagem, feita no `/admin`.
 - Kit de dados com estudos públicos do NCI Imaging Data Commons, sob licença aberta.
 - Site trilíngue, pt, en e es.

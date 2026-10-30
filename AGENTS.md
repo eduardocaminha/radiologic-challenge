@@ -1,4 +1,4 @@
-# radiologic-viewers, instruções para agentes
+# radiologic-challenge, instruções para agentes
 
 ## Sobre
 
@@ -6,7 +6,7 @@ Site `challenge.radiologic.io`: showcase permanente e trilíngue (PT, EN e ES) d
 
 Repos relacionados:
 
-- `eduardocaminha/dicom-viewer-challenge` (público): Issue Form de submissão, regulamento, kit de dados e workflow de intake.
+- `eduardocaminha/radiologic-challenge-submissions` (público): Issue Form de submissão, regulamento, kit de dados e workflow de intake.
 - `eduardocaminha/radiologic-site` (privado): site de marca, origem da identidade visual (tokens, logo, padrões). A fonte é diferente da do site de marca.
 
 ## Stack

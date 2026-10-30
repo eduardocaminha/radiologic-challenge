@@ -1,4 +1,4 @@
-# Lições do radiologic-viewers
+# Lições do radiologic-challenge
 
 ## 2026-10-30, crítica antes de declarar o visual pronto
 

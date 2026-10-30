@@ -36,7 +36,7 @@ test.describe("páginas estáticas", () => {
       await expect(nav.getByRole("link", { name: locale === "pt" ? "Kit de dados" : "Data kit" })).toHaveAttribute("href", `/${locale}/kit`);
       await expect(footer.getByRole("link", { name: privacyTitle })).toHaveAttribute("href", `/${locale}/privacy`);
       await expect(footer.getByRole("link", { name: locale === "pt" ? "Contato" : "Contact" })).toHaveAttribute("href", "mailto:caminha@radiologic.io");
-      await expect(footer.getByRole("link", { name: locale === "pt" ? "Código-fonte" : "Source code" })).toHaveAttribute("href", "https://github.com/eduardocaminha/radiologic-viewers");
+      await expect(footer.getByRole("link", { name: locale === "pt" ? "Código-fonte" : "Source code" })).toHaveAttribute("href", "https://github.com/eduardocaminha/radiologic-challenge");
     });
   }
 });

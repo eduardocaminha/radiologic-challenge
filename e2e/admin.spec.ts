@@ -77,7 +77,7 @@ test("restringe a fila a admins e permite moderar a ficha e cada imagem", async 
   await page.goto("/admin");
   await expect(page.getByRole("heading", { name: "Fila de moderação" })).toBeVisible();
   await expect(page.locator("h2").filter({ hasText: /^Viewer da fila$/ })).toBeVisible();
-  await expect(page.getByRole("link", { name: "https://github.com/eduardocaminha/dicom-viewer-challenge/issues/42" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "https://github.com/eduardocaminha/radiologic-challenge-submissions/issues/42" })).toBeVisible();
   await expect(page.getByRole("img", { name: "Captura 1" }).first()).toBeVisible();
 
   const pending = page.getByRole("region", { name: "Pendências" }).getByRole("article").filter({ has: page.getByRole("heading", { name: "Viewer da fila" }) });

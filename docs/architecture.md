@@ -99,7 +99,7 @@ Edição em projeto aprovado segue direto ao ar, mas grava evento (`approved_url
 
 `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, `SUPABASE_SECRET_KEY`, `GITHUB_INTAKE_SECRET`, `CRON_SECRET`, `RESEND_API_KEY`, `ADMIN_EMAIL`.
 
-No repo público `eduardocaminha/dicom-viewer-challenge`, o mesmo valor de `GITHUB_INTAKE_SECRET` fica no segredo `RADIOLOGIC_INTAKE_SECRET`, porque o GitHub não aceita nome de segredo começando com `GITHUB_`. A URL do endpoint fica na variável `RADIOLOGIC_INTAKE_URL`. O conteúdo publicado lá é o de `docs/public-repo/`.
+No repo público `eduardocaminha/radiologic-challenge-submissions`, o mesmo valor de `GITHUB_INTAKE_SECRET` fica no segredo `RADIOLOGIC_INTAKE_SECRET`, porque o GitHub não aceita nome de segredo começando com `GITHUB_`. A URL do endpoint fica na variável `RADIOLOGIC_INTAKE_URL`. O conteúdo publicado lá é o de `docs/public-repo/`.
 
 ## Supabase local
 
