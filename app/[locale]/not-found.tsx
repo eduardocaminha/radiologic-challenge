@@ -12,7 +12,7 @@ export default function NotFound() {
   const current = isLocale(locale) ? locale : "pt";
   const copy = STATUS_COPY[current];
   return (
-    <StatusScreen code="404" title={copy.notFound} nonClinical={copy.nonClinical}>
+    <StatusScreen code="404" title={copy.notFound}>
       <Button size="lg" render={<Link href={`/${current}`} />}>{copy.back}</Button>
     </StatusScreen>
   );

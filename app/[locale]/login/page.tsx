@@ -32,7 +32,7 @@ export default async function Login({ params, searchParams }: PageProps) {
   const month = new Intl.DateTimeFormat(intlLocales[locale], { month: "short", year: "numeric", timeZone: "America/Sao_Paulo" }).format(new Date());
 
   return (
-    <StatusScreen code={month} title={dictionary.auth.loginTitle} nonClinical={dictionary.footer.nonClinical}>
+    <StatusScreen code={month} title={dictionary.auth.loginTitle}>
       <LoginButtons
         locale={locale}
         next={next}
