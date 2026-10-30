@@ -102,3 +102,12 @@ _No response_`);
     }
   });
 });
+
+describe("corpo hostil", () => {
+  it("processa espaços repetidos em tempo linear", () => {
+    const body = `### ${" ".repeat(19_000)}x\n- [x] ${" ".repeat(900)}`;
+    const startedAt = performance.now();
+    parseGithubIssueBody(body);
+    expect(performance.now() - startedAt).toBeLessThan(100);
+  });
+});

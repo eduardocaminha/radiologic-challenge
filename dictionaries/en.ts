@@ -200,6 +200,8 @@ const dictionary: Dictionary = {
       SUB07: "This submission is not a draft.",
       SUB08: "Complete the required fields before sending.",
       SUB09: "Only rejected submissions can be resent.",
+      SUB10: "Removed projects cannot be edited.",
+      SUB11: "Projects under review or approved must keep the required fields.",
       SUB23: "This status transition is not allowed.",
       SUB24: "The submission needs an approved image.",
       SUB42: "You reached the limit of five images.",

@@ -51,7 +51,7 @@ Transições válidas: `draft` para `pending` (envio pelo dono, com ficha comple
 
 `id uuid`, `submission_id` (FK, `on delete cascade`), `path text` (objeto no Storage), `status` em (`pending`, `approved`, `rejected`), `position int`, `created_at`. Até 5 por submissão, limite aplicado no banco. Só imagem `approved` aparece em página pública.
 
-Storage: bucket público `screenshots`, objeto em `{uid}/{submission_id}/{uuid}.{ext}`, MIME `image/png`, `image/jpeg` ou `image/webp`, até 2 MB, sem policy de listagem, `cacheControl` curto. Excluir a linha remove o objeto.
+Storage: bucket privado `screenshots`, objeto em `{uid}/{submission_id}/{uuid}.{ext}`, MIME `image/png`, `image/jpeg` ou `image/webp`, até 2 MB, sem policy de listagem, `cacheControl` curto. Excluir a linha remove o objeto.
 
 ### `votes`
 
@@ -92,6 +92,8 @@ Todas `security definer`, `search_path = ''`, com erro tipado.
 - Primeira publicação e toda imagem passam por aprovação. Aprovar uma submissão exige ao menos uma imagem aprovada.
 - Edição de texto em viewer aprovado entra direto. Mudança de URL em viewer aprovado entra direto e grava evento.
 - `GET /api/cron/digest` roda uma vez por dia pelo cron da Vercel, exige `Authorization: Bearer $CRON_SECRET`, consulta pendências e envia um e-mail por `fetch` à API do Resend. Sem `RESEND_API_KEY` vira no-op logado. A consulta diária também mantém o projeto Supabase ativo.
+
+Edição em projeto aprovado segue direto ao ar, mas grava evento (`approved_url_changed` com as URLs, `approved_content_changed` com os campos) e entra no resumo diário. Projeto em moderação ou aprovado não perde campo obrigatório, e projeto removido não é editado.
 
 ## Variáveis de ambiente
 

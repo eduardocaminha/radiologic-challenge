@@ -10,6 +10,7 @@ const digestSchema = z.object({
   pending_key: z.string().min(1),
   submissions_count: z.number().int().nonnegative(),
   screenshots_count: z.number().int().nonnegative(),
+  changes_count: z.number().int().nonnegative(),
 });
 
 const digestDateFormatter = new Intl.DateTimeFormat("en-CA", {
@@ -35,7 +36,7 @@ function hasValidAuthorization(request: Request, secret: string | undefined) {
   return timingSafeEqual(authorizationBytes, expectedBytes);
 }
 
-function responseBody(count: number, screenshots: number) {
+function responseBody(count: number, screenshots: number, changes: number) {
   const adminUrl = "https://challenge.radiologic.io/admin";
   return {
     text: [
@@ -43,12 +44,13 @@ function responseBody(count: number, screenshots: number) {
       "",
       `Submissões pending: ${count}`,
       `Imagens pending: ${screenshots}`,
+      `Projetos aprovados alterados: ${changes}`,
       "",
       `Acesse ${adminUrl}`,
     ].join("\n"),
     html: [
       "<p>Há pendências de moderação no Radiologic Workstation.</p>",
-      `<p>Submissões pending: ${count}<br />Imagens pending: ${screenshots}</p>`,
+      `<p>Submissões pending: ${count}<br />Imagens pending: ${screenshots}<br />Projetos aprovados alterados: ${changes}</p>`,
       `<p><a href="${adminUrl}">Abrir a fila de moderação</a></p>`,
     ].join(""),
   };
@@ -87,7 +89,7 @@ export async function GET(request: Request) {
     return NextResponse.json({ ok: true, sent: false });
   }
 
-  const email = responseBody(digest.data.submissions_count, digest.data.screenshots_count);
+  const email = responseBody(digest.data.submissions_count, digest.data.screenshots_count, digest.data.changes_count);
   try {
     const resendResponse = await fetch("https://api.resend.com/emails", {
       method: "POST",

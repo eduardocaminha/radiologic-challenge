@@ -200,6 +200,8 @@ const dictionary: Dictionary = {
       SUB07: "Este envío no está en borrador.",
       SUB08: "Completa los campos obligatorios antes de enviar.",
       SUB09: "Solo los envíos rechazados se pueden reenviar.",
+      SUB10: "Un proyecto eliminado no se puede editar.",
+      SUB11: "Un proyecto en moderación o aprobado debe mantener los campos obligatorios.",
       SUB23: "Esta transición de estado no está permitida.",
       SUB24: "El envío necesita una imagen aprobada.",
       SUB42: "Alcanzaste el límite de cinco imágenes.",

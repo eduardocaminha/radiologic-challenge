@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 const payloadSchema = z.object({
   issue_number: z.number().int().positive(),
   github_user_id: z.union([z.string(), z.number()]).transform(String).pipe(z.string().min(1).max(100)),
-  body: z.string().max(100_000),
+  body: z.string().max(20_000),
 });
 
 function unauthorized() {
