@@ -54,7 +54,7 @@ export function SubmissionList({ locale, dictionary, submissions }: { locale: Lo
             <EmptyTitle>{dictionary.submission.noSubmissions}</EmptyTitle>
           </EmptyHeader>
           <EmptyContent>
-            <Button render={<Link href={`/${locale}/submit`} />}>{dictionary.home.submit}</Button>
+            <Button size="lg" render={<Link href={`/${locale}/submit`} />}>{dictionary.home.submit}</Button>
           </EmptyContent>
         </Empty>
       ) : null}

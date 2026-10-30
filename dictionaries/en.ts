@@ -161,7 +161,7 @@ const dictionary: Dictionary = {
     cancel: "Cancel",
     noSubmissions: "You do not have submissions yet.",
     incomplete: "Complete the description and add images before sending it for moderation.",
-    badgeCopy: "Copy README badge",
+    badgeCopy: "Copy badge",
     badgeCopied: "Badge copied",
     status: {
       draft: "Draft",

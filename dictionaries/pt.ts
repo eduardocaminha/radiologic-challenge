@@ -161,7 +161,7 @@ const dictionary: Dictionary = {
     cancel: "Cancelar",
     noSubmissions: "Você ainda não tem submissões.",
     incomplete: "Complete a descrição e adicione imagens antes de enviar para moderação.",
-    badgeCopy: "Copiar selo do README",
+    badgeCopy: "Copiar selo",
     badgeCopied: "Selo copiado",
     status: {
       draft: "Rascunho",

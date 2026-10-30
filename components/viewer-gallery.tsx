@@ -123,7 +123,7 @@ export function ViewerGallery({
           ) : null}
           {viewers.length > 0 ? <SortTabs label={copy.sort} options={sortOptions} value={sort} onChange={setSort} /> : null}
           {filtered ? (
-            <Button variant="ghost" size="sm" className="mb-3 ms-auto text-muted-foreground" onClick={() => setFilters(NO_FILTERS)}>{copy.clearFilters}</Button>
+            <Button variant="ghost" className="mb-3 ms-auto text-muted-foreground" onClick={() => setFilters(NO_FILTERS)}>{copy.clearFilters}</Button>
           ) : null}
         </div>
 
@@ -135,7 +135,7 @@ export function ViewerGallery({
               <EmptyTitle>{copy.noResultsTitle}</EmptyTitle>
             </EmptyHeader>
             <EmptyContent>
-              <Button variant="outline" onClick={() => setFilters(NO_FILTERS)}>{copy.clearFilters}</Button>
+              <Button size="lg" variant="outline" onClick={() => setFilters(NO_FILTERS)}>{copy.clearFilters}</Button>
             </EmptyContent>
           </Empty>
         ) : (
@@ -230,7 +230,7 @@ function GalleryEmpty({ locale, title, action }: { locale: Locale; title: string
         <EmptyTitle>{title}</EmptyTitle>
       </EmptyHeader>
       <EmptyContent>
-        <Button render={<Link href={`/${locale}/submit`} />}>{action}</Button>
+        <Button size="lg" render={<Link href={`/${locale}/submit`} />}>{action}</Button>
       </EmptyContent>
     </Empty>
   );
