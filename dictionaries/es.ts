@@ -32,6 +32,8 @@ const dictionary: Dictionary = {
     votes: "votos",
     position: "lugar",
     view: "Ver ficha",
+    monthTitle: "Destacados de {month}",
+    allMonths: "Todos los meses",
   },
   legal: {
     versionLabel: "Versión",
@@ -89,6 +91,8 @@ const dictionary: Dictionary = {
   },
   gallery: {
     title: "Galería de workstations",
+    badgeNew: "Nuevo",
+    badgeUpdated: "Actualizado",
     filtersLabel: "Filtros de la galería",
     sort: "Ordenar",
     sortTotal: "Más votados",
@@ -101,6 +105,7 @@ const dictionary: Dictionary = {
     noResultsTitle: "Ninguna workstation coincide con estos filtros",
     votes: "votos",
     clearFilters: "Limpiar filtros",
+    showMore: "Ver más",
     parts: "Partes",
     allPlatforms: "Todas",
     aiShare: {

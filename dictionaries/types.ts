@@ -30,6 +30,8 @@ export interface Dictionary {
     votes: string;
     position: string;
     view: string;
+    monthTitle: string;
+    allMonths: string;
   };
   legal: {
     versionLabel: string;
@@ -81,6 +83,8 @@ export interface Dictionary {
   };
   gallery: {
     title: string;
+    badgeNew: string;
+    badgeUpdated: string;
     filtersLabel: string;
     sort: string;
     sortTotal: string;
@@ -93,6 +97,7 @@ export interface Dictionary {
     noResultsTitle: string;
     votes: string;
     clearFilters: string;
+    showMore: string;
     parts: string;
     allPlatforms: string;
     aiShare: Record<string, string>;

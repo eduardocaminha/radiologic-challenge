@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { AgentSubmit } from "@/components/agent-submit";
 import { Button } from "@/components/ui/button";
-import { MonthlyHighlights } from "@/components/monthly-highlights";
+import { LatestHighlights } from "@/components/monthly-highlights";
 import { ViewerGallery, ViewerGalleryWithParams } from "@/components/viewer-gallery";
 import { getDictionary } from "@/dictionaries";
 import { getPublicHighlights } from "@/lib/highlights/public";
@@ -35,7 +35,7 @@ export default async function Home({ params }: PageProps) {
   const [dictionary, viewers, months] = await Promise.all([getDictionary(locale), getPublicViewers(), getPublicHighlights()]);
 
   return (
-    <main data-sticky-header className="mx-auto flex min-h-screen max-w-6xl flex-col gap-16 px-6 py-12 sm:gap-20 sm:py-16">
+    <main data-sticky-header className="mx-auto flex min-h-screen max-w-6xl flex-col gap-20 px-6 py-12 sm:gap-32 sm:py-16">
       <JsonLd
         data={{
           "@context": "https://schema.org",
@@ -54,15 +54,7 @@ export default async function Home({ params }: PageProps) {
           <AgentSubmit copy={dictionary.home.agent} variant="outline" size="lg" />
         </div>
       </section>
-      {months[0] ? (
-        <section className="flex flex-col gap-5" aria-labelledby="latest-highlights-heading">
-          <div className="flex flex-wrap items-end justify-between gap-4">
-            <h2 id="latest-highlights-heading" className="text-title-lg">{dictionary.highlights.title}</h2>
-            <Button variant="ghost" size="sm" className="-me-2.5 text-muted-foreground" render={<Link href={`/${locale}/highlights`} />}>{dictionary.nav.highlights}</Button>
-          </div>
-          <MonthlyHighlights locale={locale} dictionary={dictionary} months={[months[0]]} />
-        </section>
-      ) : null}
+      {months[0] ? <LatestHighlights locale={locale} dictionary={dictionary} month={months[0]} /> : null}
       <Suspense fallback={<ViewerGallery locale={locale} dictionary={dictionary} viewers={viewers} />}>
         <ViewerGalleryWithParams locale={locale} dictionary={dictionary} viewers={viewers} />
       </Suspense>

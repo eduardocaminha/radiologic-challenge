@@ -32,6 +32,8 @@ const dictionary: Dictionary = {
     votes: "votes",
     position: "place",
     view: "View page",
+    monthTitle: "Highlights for {month}",
+    allMonths: "All months",
   },
   legal: {
     versionLabel: "Version",
@@ -89,6 +91,8 @@ const dictionary: Dictionary = {
   },
   gallery: {
     title: "Workstation gallery",
+    badgeNew: "New",
+    badgeUpdated: "Updated",
     filtersLabel: "Gallery filters",
     sort: "Sort by",
     sortTotal: "Most voted",
@@ -101,6 +105,7 @@ const dictionary: Dictionary = {
     noResultsTitle: "No workstations match these filters",
     votes: "votes",
     clearFilters: "Clear filters",
+    showMore: "Show more",
     parts: "Parts",
     allPlatforms: "All",
     aiShare: {
