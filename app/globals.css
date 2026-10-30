@@ -348,8 +348,15 @@ body:has([data-sticky-header]) > header::before {
   font-weight: 500;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
-  transition: scale 220ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition: scale 220ms cubic-bezier(0.22, 1, 0.36, 1), background-color 200ms ease, color 200ms ease;
   letter-spacing: -0.01em;
+}
+
+/* Invertido só depois do voto: o branco marca o seu voto, e a galeria não vira uma parede de botões primários. */
+.lk[data-voted] {
+  background: var(--foreground);
+  box-shadow: none;
+  color: var(--background);
 }
 
 .lk:active {
@@ -402,6 +409,10 @@ body:has([data-sticky-header]) > header::before {
   border-radius: 50%;
   border: 17px solid var(--foreground);
   animation: lk-bloom 560ms cubic-bezier(0.25, 0.8, 0.35, 1) both;
+}
+
+.lk[data-voted] .lk-bloom {
+  border-color: var(--background);
 }
 
 /* seven spokes, each a pair of dots, thrown as the ring opens */
