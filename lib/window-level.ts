@@ -14,6 +14,7 @@ export type WindowLevel = typeof WINDOW_LEVEL_REST;
 export function pointerFraction(event: React.PointerEvent<HTMLElement>) {
   if (event.pointerType !== "mouse" || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return null;
   const box = event.currentTarget.getBoundingClientRect();
+  if (!box.width || !box.height) return null;
   return { x: (event.clientX - box.left) / box.width, y: (event.clientY - box.top) / box.height };
 }
 

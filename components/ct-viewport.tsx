@@ -17,7 +17,7 @@ export function CtViewport({ study, title, month, className, canvasClassName, al
   const [windowLevel, setWindowLevel] = useState(CT_WINDOW_LEVEL_REST);
   return (
     <div
-      className="contents"
+      className="size-full"
       onPointerMove={(event) => {
         const next = ctWindowLevelFromPointer(event);
         if (next) setWindowLevel(next);
