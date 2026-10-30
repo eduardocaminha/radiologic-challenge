@@ -29,7 +29,16 @@ export interface GithubIssueFields {
   author_profile?: SubmissionFormValues["author_profile"];
   country?: string;
   dicomweb?: boolean;
-  rules_accepted?: boolean;
+  description?: string;
+  limitations?: string;
+  stack?: string;
+  features?: SubmissionFormValues["features"];
+  modalities?: SubmissionFormValues["modalities"];
+  ai_tools?: SubmissionFormValues["ai_tools"];
+  ai_code_share?: SubmissionFormValues["ai_code_share"];
+  prompts_url?: string;
+  time_spent?: SubmissionFormValues["time_spent"];
+  cost?: SubmissionFormValues["cost"];
 }
 
 const fieldLabels: Record<IntakeField, { pt: string; en: string }> = {
@@ -113,8 +122,25 @@ const aliases: Record<string, IntakeField> = {
   country: "country",
   "usa dicomweb": "dicomweb",
   "uses dicomweb": "dicomweb",
-  "aceite do regulamento": "rules_accepted",
-  "rules acceptance": "rules_accepted",
+  descricao: "description",
+  description: "description",
+  limitacoes: "limitations",
+  limitations: "limitations",
+  stack: "stack",
+  recursos: "features",
+  features: "features",
+  modalidades: "modalities",
+  modalities: "modalities",
+  "ferramentas de ia": "ai_tools",
+  "ai tools": "ai_tools",
+  "participacao de codigo de ia": "ai_code_share",
+  "ai code share": "ai_code_share",
+  "url dos prompts": "prompts_url",
+  "prompts url": "prompts_url",
+  "tempo investido": "time_spent",
+  "time spent": "time_spent",
+  custo: "cost",
+  cost: "cost",
 };
 
 const workflowPartValues: Record<string, NonNullable<SubmissionFormValues["workflow_parts"]>[number]> = {
@@ -182,6 +208,20 @@ function firstLine(value: string) {
     .at(0) ?? "";
 }
 
+function textValue(value: string) {
+  const text = value.trim();
+  return text.toLowerCase() === "_no response_" ? "" : text;
+}
+
+// Uma ferramenta por linha, no formato "nome, versão".
+function aiTools(value: string) {
+  const tools = textValue(value).split("\n").flatMap((line) => {
+    const [name, ...version] = line.replace(/^\s*-\s/, "").split(",");
+    return name?.trim() ? [{ name: name.trim(), version: version.join(",").trim() }] : [];
+  });
+  return tools.length > 0 ? tools : undefined;
+}
+
 function checkedValues(value: string) {
   return value.split(/\r?\n/).flatMap((line) => {
     const item = line.trim();
@@ -214,12 +254,18 @@ function parseFields(body: string): Record<string, unknown> {
       result[field] = checkedValues(raw).map((item) => platformValues[normalize(item)]).filter(Boolean);
     } else if (field === "workflow_parts") {
       result[field] = checkedValues(raw).map((item) => workflowPartValues[normalize(item)]).filter(Boolean);
-    } else if (["requires_install", "external_api", "dicomweb", "rules_accepted"].includes(field)) {
+    } else if (field === "features" || field === "modalities") {
+      result[field] = checkedValues(raw).map((item) => normalize(item).replace(/\s+/g, "_"));
+    } else if (field === "ai_tools") {
+      result[field] = aiTools(raw);
+    } else if (field === "description" || field === "limitations") {
+      result[field] = textValue(raw);
+    } else if (["requires_install", "external_api", "dicomweb"].includes(field)) {
       result[field] = booleanValue(raw);
     } else if (field === "lang") {
       const selected = normalize(value);
       result[field] = selected === "pt" || selected.startsWith("portugues") ? "pt" : selected === "en" || selected.startsWith("english") || selected.startsWith("ingles") ? "en" : selected === "es" || selected.startsWith("espanol") || selected.startsWith("espanhol") || selected.startsWith("spanish") ? "es" : value;
-    } else if (field === "base_tech" || field === "author_profile") {
+    } else if (["base_tech", "author_profile", "ai_code_share", "time_spent", "cost"].includes(field)) {
       result[field] = optionValue(value);
     } else {
       result[field] = value;
@@ -238,8 +284,10 @@ export function parseGithubIssueBody(body: string) {
   const values = parseFields(body);
   const parsed = githubSubmissionSchema.safeParse(values);
   if (parsed.success) {
-    const { intent, ...fields } = parsed.data;
+    // O aceite do regulamento nunca vem da issue: quem escreve pode ser um agente, e quem aceita é a pessoa, no site.
+    const { intent, rules_accepted, ...fields } = parsed.data;
     void intent;
+    void rules_accepted;
     return { success: true as const, fields: fields as GithubIssueFields };
   }
 

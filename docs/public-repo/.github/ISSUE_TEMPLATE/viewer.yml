@@ -18,6 +18,18 @@ body:
       description: Explique o projeto em uma frase curta.
     validations:
       required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Descrição
+      description: O que o projeto faz e como foi pensado. Até 2.000 caracteres.
+    validations:
+      required: true
+  - type: textarea
+    id: limitations
+    attributes:
+      label: Limitações
+      description: O que ainda não funciona. Até 500 caracteres.
   - type: input
     id: differential
     attributes:
@@ -165,11 +177,87 @@ body:
       label: Usa DICOMweb
       options:
         - label: Sim
-  - type: checkboxes
-    id: rules_accepted
+  - type: input
+    id: stack
     attributes:
-      label: Aceite do regulamento
-      description: Leia o regulamento em https://challenge.radiologic.io/pt/rules antes de enviar.
+      label: Stack
+  - type: checkboxes
+    id: features
+    attributes:
+      label: Recursos
       options:
-        - label: Li e aceito o regulamento vigente.
-          required: true
+        - label: 2d
+        - label: 3d
+        - label: mpr
+        - label: measurements
+        - label: annotations
+        - label: segmentation
+        - label: fusion
+        - label: cine
+        - label: hanging_protocols
+        - label: ai
+        - label: export
+        - label: comparison
+        - label: windowing
+        - label: collaboration
+        - label: other
+  - type: checkboxes
+    id: modalities
+    attributes:
+      label: Modalidades
+      options:
+        - label: ct
+        - label: mr
+        - label: us
+        - label: xr
+        - label: nm
+        - label: pt
+        - label: mg
+        - label: cr
+        - label: dx
+        - label: rf
+        - label: xa
+        - label: sc
+        - label: ot
+        - label: other
+  - type: textarea
+    id: ai_tools
+    attributes:
+      label: Ferramentas de IA
+      description: Uma por linha, no formato "nome, versão". Até 10.
+  - type: dropdown
+    id: ai_code_share
+    attributes:
+      label: Participação de código de IA
+      options:
+        - none
+        - lt25
+        - 25to75
+        - gt75
+        - all
+  - type: input
+    id: prompts_url
+    attributes:
+      label: URL dos prompts
+      placeholder: https://...
+  - type: dropdown
+    id: time_spent
+    attributes:
+      label: Tempo investido
+      options:
+        - lt1d
+        - 1to7d
+        - 1to4w
+        - gt1m
+  - type: dropdown
+    id: cost
+    attributes:
+      label: Custo
+      options:
+        - lt10
+        - 10to100
+        - 100to1000
+        - gt1000
+  - type: markdown
+    attributes:
+      value: Depois de enviar, entre no site com a mesma conta do GitHub para adicionar as imagens, aceitar o regulamento e mandar para moderação.

@@ -85,7 +85,7 @@ Todas `security definer`, `search_path = ''`, com erro tipado.
 2. O workflow `on: issues [opened, edited]` envia o corpo cru, o número e o `issue.user.id` para `POST /api/intake/github`, com assinatura HMAC-SHA256 e timestamp. O workflow não interpola `github.event.issue.*` em `run:` e fixa actions por SHA.
 3. O app valida a assinatura e a janela de tempo, faz o parse dos blocos `### Rótulo`, valida com o mesmo schema Zod do formulário (parte que cabe no form) e chama `intake_github_issue`. A função cria ou atualiza linha `draft` com `owner_id` nulo. Nunca toca linha com dono ou fora de `draft`.
 4. A resposta (aceito ou lista de erros) vira comentário do workflow na issue.
-5. Quando o autor entra no site com GitHub, `claim_github_submissions()` casa o `provider_id` de `auth.identities` com `github_user_id` e atribui a posse. O autor completa descrição longa e screenshots no site e envia para moderação.
+5. Quando o autor entra no site com GitHub, `claim_github_submissions()` casa o `provider_id` de `auth.identities` com `github_user_id` e atribui a posse. O autor adiciona as imagens, aceita o regulamento e envia para moderação no site. A issue pode ter sido escrita por um agente, então nunca registra o aceite: agente prepara, pessoa envia.
 
 ## Moderação e aviso
 

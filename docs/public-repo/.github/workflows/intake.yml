@@ -43,7 +43,7 @@ jobs:
           fi
           comment=$(jq -r '
             if .ok then
-              "Submissão recebida. Entre no site com GitHub para completar descrição e imagens.\n\nSubmission received. Sign in with GitHub on the site to complete the description and images."
+              "Rascunho recebido. Entre em https://challenge.radiologic.io/pt/me com esta conta do GitHub para adicionar as imagens, aceitar o regulamento e mandar para moderação.\n\nDraft received. Sign in at https://challenge.radiologic.io/en/me with this GitHub account to add the images, accept the rules and send it for moderation."
             else
               "Revise os campos da issue:\n" + (.errors.pt | map("* " + .) | join("\n")) + "\n\nReview the issue fields:\n" + (.errors.en | map("* " + .) | join("\n"))
             end' response.json)

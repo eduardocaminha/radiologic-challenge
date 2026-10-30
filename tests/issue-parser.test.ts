@@ -1,3 +1,5 @@
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { parseGithubIssueBody } from "@/lib/intake/github";
 
@@ -41,10 +43,7 @@ Dados sintéticos
 CC0
 
 ### Usa API externa
-Não
-
-### Aceite do regulamento
-- [x] Li e aceito o regulamento vigente.`;
+Não`;
 
 describe("GitHub issue parser", () => {
   it("extrai os blocos e normaliza opções do Issue Form", () => {
@@ -59,7 +58,6 @@ describe("GitHub issue parser", () => {
         workflow_parts: ["viewer", "agent"],
         requires_install: false,
         base_tech: "cornerstone3d",
-        rules_accepted: true,
       });
     }
   });
@@ -74,6 +72,83 @@ describe("GitHub issue parser", () => {
 
     expect(parsed.success).toBe(true);
     if (parsed.success) expect(parsed.fields.lang).toBe(expected);
+  });
+
+  it("ignora um aceite do regulamento marcado na issue", () => {
+    const parsed = parseGithubIssueBody(`${validBody}
+
+### Aceite do regulamento
+- [x] Li e aceito o regulamento vigente.`);
+
+    expect(parsed.success).toBe(true);
+    if (parsed.success) expect(parsed.fields).not.toHaveProperty("rules_accepted");
+  });
+
+  it("lê os campos completos que um agente pode enviar", () => {
+    const parsed = parseGithubIssueBody(`${validBody}
+
+### Descrição
+Primeira linha.
+
+Segunda linha.
+
+### Limitações
+Só CT.
+
+### Stack
+Next.js
+
+### Recursos
+- [x] mpr
+- [x] Hanging protocols
+- [ ] 3d
+
+### Modalidades
+- [x] CT
+- [ ] MR
+
+### Ferramentas de IA
+- Claude Code, 2.1
+Cursor
+
+### Participação de código de IA
+gt75
+
+### URL dos prompts
+https://example.test/prompts
+
+### Tempo investido
+1to7d
+
+### Custo
+10to100`);
+
+    expect(parsed.success).toBe(true);
+    if (parsed.success) {
+      expect(parsed.fields).toMatchObject({
+        description: "Primeira linha.\n\nSegunda linha.",
+        limitations: "Só CT.",
+        stack: "Next.js",
+        features: ["mpr", "hanging_protocols"],
+        modalities: ["ct"],
+        ai_tools: [{ name: "Claude Code", version: "2.1" }, { name: "Cursor" }],
+        ai_code_share: "gt75",
+        prompts_url: "https://example.test/prompts",
+        time_spent: "1to7d",
+        cost: "10to100",
+      });
+    }
+  });
+
+  it("aceita o exemplo publicado para agentes", () => {
+    const guide = readFileSync(join(process.cwd(), "docs", "public-repo", "AGENTS.md"), "utf8");
+    const example = guide.split("```markdown\n")[1]?.split("\n```")[0] ?? "";
+    const parsed = parseGithubIssueBody(example);
+
+    expect(parsed.success).toBe(true);
+    if (parsed.success) {
+      expect(parsed.fields).toMatchObject({ workflow_parts: ["viewer"], base_tech: "cornerstone3d", ai_tools: [{ name: "Claude Code", version: "2.1" }] });
+    }
   });
 
   it("retorna a lista de erros em português e inglês", () => {

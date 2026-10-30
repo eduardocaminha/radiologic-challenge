@@ -1,6 +1,6 @@
 begin;
 
-select plan(23);
+select plan(28);
 
 select has_function('public'::name, 'intake_github_issue'::name, array['integer'::name, 'text'::name, 'jsonb'::name]);
 select has_function('public'::name, 'claim_github_submissions'::name, array[]::name[]);
@@ -62,6 +62,17 @@ select is(public.claim_github_submissions(), 1, 'claim assigns matching GitHub d
 select is((select owner_id from public.submissions where github_issue_number = 1002), '99999999-9999-9999-9999-999999999999'::uuid, 'claim assigns the logged-in user');
 select is((select status from public.submissions where github_issue_number = 1002), 'draft', 'claim keeps the draft status');
 select is((select slug from public.submissions where github_issue_number = 1002), 'claim-me', 'claim generates the slug');
+
+select public.intake_github_issue(
+  1003,
+  'github-intake-user',
+  '{"name":"Agente","description":"Descrição longa","features":["mpr"],"ai_tools":[{"name":"Claude Code","version":"2.1"}],"rules_accepted":true}'::jsonb
+);
+select is((select description from public.submissions where github_issue_number = 1003), 'Descrição longa', 'intake stores the description');
+select is((select features from public.submissions where github_issue_number = 1003), array['mpr'], 'intake stores the features');
+select is((select ai_tools -> 0 ->> 'name' from public.submissions where github_issue_number = 1003), 'Claude Code', 'intake stores the AI tools');
+select is((select rules_version from public.submissions where github_issue_number = 1003), null, 'intake never records a rules acceptance');
+select is((select rules_accepted_at from public.submissions where github_issue_number = 1003), null, 'intake never records an acceptance date');
 
 select * from finish();
 rollback;
