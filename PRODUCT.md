@@ -15,7 +15,7 @@ O site serve dois públicos com o mesmo peso:
 
 ## Product Purpose
 
-O challenge.radiologic.io é um desafio de criatividade aberto, mantido pela Radiologic, para mostrar como o trabalho de laudar deveria ser: viewer, pilha de exames, IA no fluxo e agente que conversa com a pilha. Vale vibecodar, porque o que importa é a experiência. É um showcase permanente, sem prazo e sem prêmio. O ranking vem só do voto popular, um voto por conta por projeto. Todo mês os três mais votados entram nos destaques.
+O challenge.radiologic.io é um desafio de criatividade aberto, mantido pela Radiologic, para mostrar como o trabalho de laudar deveria ser: viewer, pilha de exames, IA no fluxo e agente que conversa com a pilha. Pode ser construído com IA, porque o que importa é a experiência. É um showcase permanente, sem prazo e sem prêmio. O ranking vem só do voto popular, um voto por conta por projeto. Todo mês os três mais votados entram nos destaques.
 
 O site dá certo quando chegam workstations boas e quem visita abre as demos e vota.
 

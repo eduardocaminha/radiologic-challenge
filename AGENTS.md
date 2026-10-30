@@ -54,7 +54,7 @@ Valem para copy, dicionários, docs, comentários e commits.
 
 ## Identidade visual
 
-- Fonte única Inter 4.1 (SIL OFL 1.1, licença em `assets/fonts/OFL.txt`). Variável em `public/fonts/InterVariable.woff2` (wght 100 a 900, opsz automático) para o site. TTF estático em `assets/fonts/` para a imagem Open Graph, em subconjunto latino para caber no limite de 500 KB. Sem fonte mono. A Saans do `radiologic-site` não entra neste repo.
+- Fonte única Inter 4.1 (SIL OFL 1.1, licença em `assets/fonts/OFL.txt`). Variável em `public/fonts/InterVariable.woff2` (wght 100 a 900, opsz automático) para o site. TTF estático em `assets/fonts/` para a imagem Open Graph, em subconjunto latino para caber no limite de 500 KB. Sem fonte mono, com uma exceção: a matriz de caracteres do wordmark do rodapé usa a mono do sistema dentro do canvas, porque a grade exige largura fixa. A Saans do `radiologic-site` não entra neste repo.
 - `font-feature-settings` só com `calt`. Os conjuntos `ss01` e `ss07` da referência eram da Saans e ativam outras formas na Inter.
 - Tokens OKLCH herdados. Cor nova só em `oklch()`. Primary é monocromático. O verde (`--success`) fica reservado a estado de sucesso. `--accent` é o fundo neutro de hover dos componentes, não cor.
 - Componentes do COSS UI em `components/ui/`, instalados pelo registry `@coss` de `components.json` (`pnpm dlx shadcn add @coss/<nome>`), sobre `@base-ui/react`. O tema do COSS é mapeado à mão nos tokens de `app/globals.css`; não aplicar `@coss/style`. Controle novo usa o componente COSS, nunca Tailwind escrito à mão. Instalar só o que for usado.

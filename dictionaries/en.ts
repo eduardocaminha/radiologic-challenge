@@ -4,7 +4,7 @@ const dictionary: Dictionary = {
   home: {
     title: "Radiologic Workstation",
     headline: "Show us the workstation you wish you had for reading.",
-    headlineNote: "Vibecoded is fine. The experience is what counts.",
+    headlineNote: "The experience is what counts.",
     tagline: "Showcase of radiology workstations: viewer, exam worklist, AI, agent and reporting.",
     submit: "Submit a workstation",
     rules: "Rules",

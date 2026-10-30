@@ -2,7 +2,7 @@
 
 [English below](#radiologic-workstation-1)
 
-Showcase público e permanente de workstations de radiologia criadas por qualquer pessoa: viewer, pilha de exames, IA, agente para conversar com a pilha e laudo. Vale vibecodar: o que importa é a experiência. Não há prazo nem prêmio. O ranking vem do voto de quem entra com Google ou GitHub em [challenge.radiologic.io](https://challenge.radiologic.io).
+Showcase público e permanente de workstations de radiologia criadas por qualquer pessoa: viewer, pilha de exames, IA, agente para conversar com a pilha e laudo. Pode ser construído com IA: o que importa é a experiência. Não há prazo nem prêmio. O ranking vem do voto de quem entra com Google ou GitHub em [challenge.radiologic.io](https://challenge.radiologic.io).
 
 ## Como participar
 
@@ -33,7 +33,7 @@ caminha@radiologic.io. Veja também a [política de privacidade](https://challen
 
 # Radiologic Workstation
 
-A public, permanent showcase of radiology workstations built by anyone: viewer, exam worklist, AI, an agent to talk to the worklist, reporting. Vibecoded is fine, the experience is what counts. There is no deadline and no prize. The ranking comes from the votes of people who sign in with Google or GitHub at [challenge.radiologic.io](https://challenge.radiologic.io/en).
+A public, permanent showcase of radiology workstations built by anyone: viewer, exam worklist, AI, an agent to talk to the worklist, reporting. It can be built with AI: the experience is what counts. There is no deadline and no prize. The ranking comes from the votes of people who sign in with Google or GitHub at [challenge.radiologic.io](https://challenge.radiologic.io/en).
 
 ## How to take part
 
