@@ -37,7 +37,8 @@ export function Header({ locale, dictionary }: HeaderProps) {
         </Suspense>
         <AuthStatus
           locale={locale}
-          signedInLabel={dictionary.auth.me}
+          accountLabel={dictionary.auth.me}
+          submissionsLabel={dictionary.auth.meTitle}
           signInLabel={dictionary.auth.signIn}
           signOutLabel={dictionary.auth.signOut}
         />
