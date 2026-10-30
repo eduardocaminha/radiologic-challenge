@@ -42,6 +42,11 @@ export interface Dictionary {
     installTitle: string;
     installDescription: string;
     studiesTitle: string;
+    allTitle: string;
+    totals: string;
+    comparison: string;
+    daysAfter: string;
+    collection: string;
     modality: string;
     bodyPart: string;
     uid: string;

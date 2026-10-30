@@ -1,7 +1,7 @@
 {
   "source": "NCI Imaging Data Commons",
-  "idc_index_version": "0.10.2",
-  "install": "pip install idc-index",
+  "idc_index_version": "0.13.4",
+  "install": "pip install idc-index==0.13.4",
   "idc_citation": "Fedorov, A., Longabaugh, W. J. R., Pot, D., Clunie, D. A., Pieper, S. D., Gibbs, D. L., Bridge, C., Herrmann, M. D., Homeyer, A., Lewis, R., Aerts, H. J. W. L., Krishnaswamy, D., Thiriveedhi, V. K., Ciausu, C., Schacherer, D. P., Bontempi, D., Pihl, T., Wagner, U., Farahani, K., et al. (2023). National Cancer Institute Imaging Data Commons: Toward Transparency, Reproducibility, and Scalability in Imaging Artificial Intelligence. RadioGraphics, 43(12). https://doi.org/10.1148/rg.230180",
   "studies": [
     {
@@ -20,42 +20,9 @@
         "Armato III, Samuel G., McLennan, G., Bidaut, L., McNitt-Gray, M. F., Meyer, C. R., Reeves, A. P., Zhao, B., Aberle, D. R., Henschke, C. I., Hoffman, E. A., Kazerooni, E. A., MacMahon, H., Van Beek, E. J. R., Yankelevitz, D., Biancardi, A. M., Bland, P. H., Brown, M. S., Engelmann, R. M., Laderach, G. E., … Clarke, L. P. (2015). Data From LIDC-IDRI (Version 4) [Dataset]. The Cancer Imaging Archive. https://doi.org/10.7937/K9/TCIA.2015.LO9QL9SX",
         "Fedorov, A., Hancock, M., Clunie, D., Brochhausen, M., Bona, J., Kirby, J., Freymann, J., Aerts, H. J. W. L., Kikinis, R., & Prior, F. (2018). Standardized representation of the TCIA LIDC-IDRI annotations using DICOM (Version 3) [Dataset]. The Cancer Imaging Archive. https://doi.org/10.7937/TCIA.2018.H7UMFURQ"
       ],
-      "download": "idc download 1.3.6.1.4.1.14519.5.2.1.6279.6001.210460865401632134346677582159"
-    },
-    {
-      "collection": "NSCLC Radiogenomics",
-      "collection_id": "nsclc_radiogenomics",
-      "modality": [
-        "CT",
-        "PT",
-        "SEG"
-      ],
-      "body_part": "LUNG",
-      "study_instance_uid": "1.3.6.1.4.1.14519.5.2.1.4334.1501.653360657532172299935692201400",
-      "license": "CC BY 3.0, CC BY 4.0",
-      "size_mb": 103,
-      "citation": [
-        "Bakr, S., Gevaert, O., Echegaray, S., Ayers, K., Zhou, M., Shafiq, M., Zheng, H., Zhang, W., Leung, A., Kadoch, M., Shrager, J., Quon, A., Rubin, D., Plevritis, S., & Napel, S. (2017). Data for NSCLC Radiogenomics Collection (Version 4) [Dataset]. The Cancer Imaging Archive. https://doi.org/10.7937/K9/TCIA.2017.7HS46ERV",
-        "Van Oss, J., Murugesan, G. K., McCrumb, D., & Soni, R. (2024). Image segmentations produced by BAMF under the AIMI Annotations initiative (Version v2.0.2) [Dataset]. Zenodo. https://doi.org/10.5281/ZENODO.8345959"
-      ],
-      "download": "idc download 1.3.6.1.4.1.14519.5.2.1.4334.1501.653360657532172299935692201400"
-    },
-    {
-      "collection": "UPENN-GBM",
-      "collection_id": "upenn_gbm",
-      "modality": [
-        "MR",
-        "SEG"
-      ],
-      "body_part": "BRAIN",
-      "study_instance_uid": "1.3.6.1.4.1.14519.5.2.1.81896212790030501983260473507558407939",
-      "license": "CC BY 4.0",
-      "size_mb": 20,
-      "citation": [
-        "Bakas, S., Sako, C., Akbari, H., Bilello, M., Sotiras, A., Shukla, G., Rudie, J. D., Flores Santamaria, N., Fathi Kazerooni, A., Pati, S., Rathore, S., Mamourian, E., Ha, S. M., Parker, W., Doshi, J., Baid, U., Bergman, M., Binder, Z. A., Verma, R., … Davatzikos, C. (2021). Multi-parametric magnetic resonance imaging (mpMRI) scans for de novo Glioblastoma (GBM) patients from the University of Pennsylvania Health System (UPENN-GBM) (Version 2) [Dataset]. The Cancer Imaging Archive. https://doi.org/10.7937/TCIA.709X-DN49",
-        "Van Oss, J., Murugesan, G. K., McCrumb, D., & Soni, R. (2024). Image segmentations produced by BAMF under the AIMI Annotations initiative (Version v2.0.2) [Dataset]. Zenodo. https://doi.org/10.5281/ZENODO.8345959"
-      ],
-      "download": "idc download 1.3.6.1.4.1.14519.5.2.1.81896212790030501983260473507558407939"
+      "download": "idc download 1.3.6.1.4.1.14519.5.2.1.6279.6001.210460865401632134346677582159",
+      "patient_id": "LIDC-IDRI-0957",
+      "study_date": "2000-01-01"
     },
     {
       "collection": "Prostate-MRI-US-Biopsy",
@@ -73,22 +40,456 @@
         "Ciausu, C., Clunie, D., & Fedorov, A. (2023). DICOM converted annotations for the Prostate-MRI-US-Biopsy collection [Dataset]. Zenodo. https://doi.org/10.5281/ZENODO.10069910",
         "Natarajan, S., Priester, A., Margolis, D., Huang, J., & Marks, L. (2020). Prostate MRI and Ultrasound With Pathology and Coordinates of Tracked Biopsy (Prostate-MRI-US-Biopsy) (Version 2) [Dataset]. The Cancer Imaging Archive. https://doi.org/10.7937/TCIA.2020.A61IOC1A"
       ],
-      "download": "idc download 1.3.6.1.4.1.14519.5.2.1.153613283546503819934885929827859483069"
+      "download": "idc download 1.3.6.1.4.1.14519.5.2.1.153613283546503819934885929827859483069",
+      "patient_id": "Prostate-MRI-US-Biopsy-1074",
+      "study_date": "2010-01-18"
     },
     {
-      "collection": "CBIS-DDSM",
-      "collection_id": "cbis_ddsm",
+      "collection": "NLST",
+      "collection_id": "nlst",
+      "modality": [
+        "CT",
+        "SEG",
+        "SR"
+      ],
+      "body_part": "CHEST",
+      "study_instance_uid": "1.2.840.113654.2.55.166325343327086082107350773926822706214",
+      "license": "CC BY 4.0",
+      "size_mb": 84,
+      "citation": [
+        "National Lung Screening Trial Research Team. (2013). National Lung Screening Trial (NLST) (Version 3) [Dataset]. The Cancer Imaging Archive. https://doi.org/10.7937/TCIA.HMQ8-J677",
+        "Thiriveedhi, V. K., Krishnaswamy, D., Clunie, D., & Fedorov, A. (2024). TotalSegmentator-CT-Segmentations: TotalSegmentator segmentations and radiomics features for NCI Imaging Data Commons CT images [Dataset]. Zenodo. https://doi.org/10.5281/ZENODO.8347011"
+      ],
+      "download": "idc download 1.2.840.113654.2.55.166325343327086082107350773926822706214",
+      "patient_id": "105834",
+      "study_date": "1999-01-02"
+    },
+    {
+      "collection": "NLST",
+      "collection_id": "nlst",
+      "modality": [
+        "CT",
+        "SEG",
+        "SR"
+      ],
+      "body_part": "CHEST",
+      "study_instance_uid": "1.2.840.113654.2.55.253496463398728700790255623005552104507",
+      "license": "CC BY 4.0",
+      "size_mb": 92,
+      "citation": [
+        "National Lung Screening Trial Research Team. (2013). National Lung Screening Trial (NLST) (Version 3) [Dataset]. The Cancer Imaging Archive. https://doi.org/10.7937/TCIA.HMQ8-J677",
+        "Thiriveedhi, V. K., Krishnaswamy, D., Clunie, D., & Fedorov, A. (2024). TotalSegmentator-CT-Segmentations: TotalSegmentator segmentations and radiomics features for NCI Imaging Data Commons CT images [Dataset]. Zenodo. https://doi.org/10.5281/ZENODO.8347011"
+      ],
+      "download": "idc download 1.2.840.113654.2.55.253496463398728700790255623005552104507",
+      "patient_id": "105834",
+      "study_date": "2001-01-02"
+    },
+    {
+      "collection": "HCC-TACE-Seg",
+      "collection_id": "hcc_tace_seg",
+      "modality": [
+        "CT",
+        "SEG"
+      ],
+      "body_part": "LIVER",
+      "study_instance_uid": "1.3.6.1.4.1.14519.5.2.1.1706.8374.286973555925378482459001848214",
+      "license": "CC BY 4.0",
+      "size_mb": 133,
+      "citation": [
+        "Moawad, A. W., Fuentes, D., Morshid, A., Khalaf, A. M., Elmohr, M. M., Abusaif, A., Hazle, J. D., Kaseb, A. O., Hassan, M., Mahvash, A., Szklaruk, J., Qayyom, A., & Elsayes, K. (2021). Multimodality annotated HCC cases with and without advanced imaging segmentation (Version 1) [Dataset]. The Cancer Imaging Archive. https://doi.org/10.7937/TCIA.5FNA-0924",
+        "Van Oss, J., Murugesan, G. K., McCrumb, D., & Soni, R. (2024). Image segmentations produced by BAMF under the AIMI Annotations initiative (Version v2.0.2) [Dataset]. Zenodo. https://doi.org/10.5281/ZENODO.8345959"
+      ],
+      "download": "idc download 1.3.6.1.4.1.14519.5.2.1.1706.8374.286973555925378482459001848214",
+      "patient_id": "HCC_043",
+      "study_date": "2000-12-19"
+    },
+    {
+      "collection": "HCC-TACE-Seg",
+      "collection_id": "hcc_tace_seg",
+      "modality": [
+        "CT",
+        "SEG"
+      ],
+      "body_part": "LIVER",
+      "study_instance_uid": "1.3.6.1.4.1.14519.5.2.1.1706.8374.296258771240978865543572355112",
+      "license": "CC BY 4.0",
+      "size_mb": 60,
+      "citation": [
+        "Moawad, A. W., Fuentes, D., Morshid, A., Khalaf, A. M., Elmohr, M. M., Abusaif, A., Hazle, J. D., Kaseb, A. O., Hassan, M., Mahvash, A., Szklaruk, J., Qayyom, A., & Elsayes, K. (2021). Multimodality annotated HCC cases with and without advanced imaging segmentation (Version 1) [Dataset]. The Cancer Imaging Archive. https://doi.org/10.7937/TCIA.5FNA-0924",
+        "Van Oss, J., Murugesan, G. K., McCrumb, D., & Soni, R. (2024). Image segmentations produced by BAMF under the AIMI Annotations initiative (Version v2.0.2) [Dataset]. Zenodo. https://doi.org/10.5281/ZENODO.8345959"
+      ],
+      "download": "idc download 1.3.6.1.4.1.14519.5.2.1.1706.8374.296258771240978865543572355112",
+      "patient_id": "HCC_043",
+      "study_date": "2001-01-26"
+    },
+    {
+      "collection": "ISPY1",
+      "collection_id": "ispy1",
+      "modality": [
+        "MR",
+        "SR"
+      ],
+      "body_part": "BREAST",
+      "study_instance_uid": "1.3.6.1.4.1.14519.5.2.1.7695.1700.154861064420914605360536542607",
+      "license": "CC BY 3.0",
+      "size_mb": 94,
+      "citation": [
+        "Clunie, D. A., Hickman, H., Ver Hoef, W., Hastak, S., Wagner, U., & Helton, E. (2019). DICOM SR of clinical data and measurement for breast cancer collections to TCIA (Version 1) [Dataset]. The Cancer Imaging Archive. https://doi.org/10.7937/TCIA.2019.WGLLSSG1",
+        "Newitt, D., & Hylton, N. (2016). Multi-center breast DCE-MRI data and segmentations from patients in the I-SPY 1/ACRIN 6657 trials (Version 2) [Dataset]. The Cancer Imaging Archive. https://doi.org/10.7937/K9/TCIA.2016.HDHPGJLK"
+      ],
+      "download": "idc download 1.3.6.1.4.1.14519.5.2.1.7695.1700.154861064420914605360536542607",
+      "patient_id": "ISPY1_1111",
+      "study_date": "1986-10-31"
+    },
+    {
+      "collection": "ISPY1",
+      "collection_id": "ispy1",
+      "modality": [
+        "MR",
+        "SEG",
+        "SR"
+      ],
+      "body_part": "BREAST",
+      "study_instance_uid": "1.3.6.1.4.1.14519.5.2.1.7695.1700.116234171748829149650543033402",
+      "license": "CC BY 3.0",
+      "size_mb": 98,
+      "citation": [
+        "Clunie, D. A., Hickman, H., Ver Hoef, W., Hastak, S., Wagner, U., & Helton, E. (2019). DICOM SR of clinical data and measurement for breast cancer collections to TCIA (Version 1) [Dataset]. The Cancer Imaging Archive. https://doi.org/10.7937/TCIA.2019.WGLLSSG1",
+        "Newitt, D., & Hylton, N. (2016). Multi-center breast DCE-MRI data and segmentations from patients in the I-SPY 1/ACRIN 6657 trials (Version 2) [Dataset]. The Cancer Imaging Archive. https://doi.org/10.7937/K9/TCIA.2016.HDHPGJLK"
+      ],
+      "download": "idc download 1.3.6.1.4.1.14519.5.2.1.7695.1700.116234171748829149650543033402",
+      "patient_id": "ISPY1_1111",
+      "study_date": "1987-03-05"
+    },
+    {
+      "collection": "Prostate-MRI-US-Biopsy",
+      "collection_id": "prostate_mri_us_biopsy",
+      "modality": [
+        "M3D",
+        "MR",
+        "SEG"
+      ],
+      "body_part": "PROSTATE",
+      "study_instance_uid": "1.3.6.1.4.1.14519.5.2.1.283370564087548569887390840456959159302",
+      "license": "CC BY 4.0",
+      "size_mb": 16,
+      "citation": [
+        "Ciausu, C., Clunie, D., & Fedorov, A. (2023). DICOM converted annotations for the Prostate-MRI-US-Biopsy collection [Dataset]. Zenodo. https://doi.org/10.5281/ZENODO.10069910",
+        "Natarajan, S., Priester, A., Margolis, D., Huang, J., & Marks, L. (2020). Prostate MRI and Ultrasound With Pathology and Coordinates of Tracked Biopsy (Prostate-MRI-US-Biopsy) (Version 2) [Dataset]. The Cancer Imaging Archive. https://doi.org/10.7937/TCIA.2020.A61IOC1A",
+        "Van Oss, J., Murugesan, G. K., McCrumb, D., & Soni, R. (2024). Image segmentations produced by BAMF under the AIMI Annotations initiative (Version v2.0.2) [Dataset]. Zenodo. https://doi.org/10.5281/ZENODO.8345959"
+      ],
+      "download": "idc download 1.3.6.1.4.1.14519.5.2.1.283370564087548569887390840456959159302",
+      "patient_id": "Prostate-MRI-US-Biopsy-0823",
+      "study_date": "2010-02-01"
+    },
+    {
+      "collection": "Prostate-MRI-US-Biopsy",
+      "collection_id": "prostate_mri_us_biopsy",
+      "modality": [
+        "M3D",
+        "MR",
+        "SEG"
+      ],
+      "body_part": "PROSTATE",
+      "study_instance_uid": "1.3.6.1.4.1.14519.5.2.1.111593682701647063703264401998891931895",
+      "license": "CC BY 4.0",
+      "size_mb": 12,
+      "citation": [
+        "Ciausu, C., Clunie, D., & Fedorov, A. (2023). DICOM converted annotations for the Prostate-MRI-US-Biopsy collection [Dataset]. Zenodo. https://doi.org/10.5281/ZENODO.10069910",
+        "Natarajan, S., Priester, A., Margolis, D., Huang, J., & Marks, L. (2020). Prostate MRI and Ultrasound With Pathology and Coordinates of Tracked Biopsy (Prostate-MRI-US-Biopsy) (Version 2) [Dataset]. The Cancer Imaging Archive. https://doi.org/10.7937/TCIA.2020.A61IOC1A",
+        "Van Oss, J., Murugesan, G. K., McCrumb, D., & Soni, R. (2024). Image segmentations produced by BAMF under the AIMI Annotations initiative (Version v2.0.2) [Dataset]. Zenodo. https://doi.org/10.5281/ZENODO.8345959"
+      ],
+      "download": "idc download 1.3.6.1.4.1.14519.5.2.1.111593682701647063703264401998891931895",
+      "patient_id": "Prostate-MRI-US-Biopsy-0823",
+      "study_date": "2010-10-07"
+    },
+    {
+      "collection": "QIN-BREAST",
+      "collection_id": "qin_breast",
+      "modality": [
+        "CT",
+        "PT",
+        "SEG"
+      ],
+      "body_part": "BREAST",
+      "study_instance_uid": "1.3.6.1.4.1.14519.5.2.1.8162.7003.817789013770200661154838516089",
+      "license": "CC BY 3.0, CC BY 4.0",
+      "size_mb": 47,
+      "citation": [
+        "Li, X., Abramson, R. G., Arlinghaus, L. R., Chakravarthy, A. B., Abramson, V. G., Sanders, M., & Yankeelov, T. E. (2016). Data From QIN-Breast (Version 2) [Dataset]. The Cancer Imaging Archive. https://doi.org/10.7937/K9/TCIA.2016.21JUEBH0",
+        "Van Oss, J., Murugesan, G. K., McCrumb, D., & Soni, R. (2024). Image segmentations produced by BAMF under the AIMI Annotations initiative (Version v2.0.2) [Dataset]. Zenodo. https://doi.org/10.5281/ZENODO.8345959"
+      ],
+      "download": "idc download 1.3.6.1.4.1.14519.5.2.1.8162.7003.817789013770200661154838516089",
+      "patient_id": "QIN-BREAST-01-0004",
+      "study_date": "1992-01-27"
+    },
+    {
+      "collection": "QIN-BREAST",
+      "collection_id": "qin_breast",
+      "modality": [
+        "CT",
+        "PT",
+        "SEG"
+      ],
+      "body_part": "BREAST",
+      "study_instance_uid": "1.3.6.1.4.1.14519.5.2.1.8162.7003.122900183814405474192688041194",
+      "license": "CC BY 3.0, CC BY 4.0",
+      "size_mb": 47,
+      "citation": [
+        "Li, X., Abramson, R. G., Arlinghaus, L. R., Chakravarthy, A. B., Abramson, V. G., Sanders, M., & Yankeelov, T. E. (2016). Data From QIN-Breast (Version 2) [Dataset]. The Cancer Imaging Archive. https://doi.org/10.7937/K9/TCIA.2016.21JUEBH0",
+        "Van Oss, J., Murugesan, G. K., McCrumb, D., & Soni, R. (2024). Image segmentations produced by BAMF under the AIMI Annotations initiative (Version v2.0.2) [Dataset]. Zenodo. https://doi.org/10.5281/ZENODO.8345959"
+      ],
+      "download": "idc download 1.3.6.1.4.1.14519.5.2.1.8162.7003.122900183814405474192688041194",
+      "patient_id": "QIN-BREAST-01-0004",
+      "study_date": "1992-02-24"
+    },
+    {
+      "collection": "EA1141",
+      "collection_id": "ea1141",
       "modality": [
         "MG"
       ],
       "body_part": "BREAST",
-      "study_instance_uid": "1.3.6.1.4.1.9590.100.1.2.251229393412385867941848541770264573557",
-      "license": "CC BY 3.0",
-      "size_mb": 10,
+      "study_instance_uid": "1.3.6.1.4.1.14519.5.2.1.1620.1225.266380472712016615459421160260",
+      "license": "CC BY 4.0",
+      "size_mb": 119,
       "citation": [
-        "Sawyer-Lee, R., Gimenez, F., Hoogi, A., & Rubin, D. (2016). Curated Breast Imaging Subset of Digital Database for Screening Mammography (CBIS-DDSM) (Version 1) [Dataset]. The Cancer Imaging Archive. https://doi.org/10.7937/K9/TCIA.2016.7O02S9CY"
+        "Comstock, C. E., Gatsonis, C., Newstead, G. M., Snyder, B. S., Gareen, I. F., Bergin, J. T., Rahbar, H., Sung, J. S., Jacobs, C., Harvey, J. A., Nicholson, M. H., Ward, R. C., Holt, J., Prather, A., Miller, K. D., Schnall, M. D., & Kuhl, C. K. (2023). Abbreviated Breast MRI and Digital Tomosynthesis Mammography in Screening Women With Dense Breasts (EA1141) (Version 2) [Dataset]. The Cancer Imaging Archive. https://doi.org/10.7937/2BAS-HR33"
       ],
-      "download": "idc download 1.3.6.1.4.1.9590.100.1.2.251229393412385867941848541770264573557"
+      "download": "idc download 1.3.6.1.4.1.14519.5.2.1.1620.1225.266380472712016615459421160260",
+      "patient_id": "EA1141-467450",
+      "study_date": "1942-07-15"
+    },
+    {
+      "collection": "EA1141",
+      "collection_id": "ea1141",
+      "modality": [
+        "MG"
+      ],
+      "body_part": "BREAST",
+      "study_instance_uid": "1.3.6.1.4.1.14519.5.2.1.1620.1225.114705634574209930247550294599",
+      "license": "CC BY 4.0",
+      "size_mb": 68,
+      "citation": [
+        "Comstock, C. E., Gatsonis, C., Newstead, G. M., Snyder, B. S., Gareen, I. F., Bergin, J. T., Rahbar, H., Sung, J. S., Jacobs, C., Harvey, J. A., Nicholson, M. H., Ward, R. C., Holt, J., Prather, A., Miller, K. D., Schnall, M. D., & Kuhl, C. K. (2023). Abbreviated Breast MRI and Digital Tomosynthesis Mammography in Screening Women With Dense Breasts (EA1141) (Version 2) [Dataset]. The Cancer Imaging Archive. https://doi.org/10.7937/2BAS-HR33"
+      ],
+      "download": "idc download 1.3.6.1.4.1.14519.5.2.1.1620.1225.114705634574209930247550294599",
+      "patient_id": "EA1141-467450",
+      "study_date": "1943-07-09"
+    },
+    {
+      "collection": "COVID-19-AR",
+      "collection_id": "covid_19_ar",
+      "modality": [
+        "DX"
+      ],
+      "body_part": "CHEST",
+      "study_instance_uid": "1.3.6.1.4.1.14519.5.2.1.9999.103.1262929361407482589230581189933",
+      "license": "CC BY 4.0",
+      "size_mb": 13,
+      "citation": [
+        "Desai, S., Baghal, A., Wongsurawat, T., Al-Shukri, S., Gates, K., Farmer, P., Rutherford, M., Blake, G. D., Nolan, T., Powell, T., Sexton, K., Bennett, W., & Prior, F. (2020). Chest Imaging with Clinical and Genomic Correlates Representing a Rural COVID-19 Positive Population (Version 1) [Dataset]. The Cancer Imaging Archive. https://doi.org/10.7937/TCIA.2020.PY71-5978"
+      ],
+      "download": "idc download 1.3.6.1.4.1.14519.5.2.1.9999.103.1262929361407482589230581189933",
+      "patient_id": "COVID-19-AR-16434361",
+      "study_date": "2012-02-25"
+    },
+    {
+      "collection": "COVID-19-AR",
+      "collection_id": "covid_19_ar",
+      "modality": [
+        "DX"
+      ],
+      "body_part": "CHEST",
+      "study_instance_uid": "1.3.6.1.4.1.14519.5.2.1.9999.103.9994589451636199731979010279629",
+      "license": "CC BY 4.0",
+      "size_mb": 11,
+      "citation": [
+        "Desai, S., Baghal, A., Wongsurawat, T., Al-Shukri, S., Gates, K., Farmer, P., Rutherford, M., Blake, G. D., Nolan, T., Powell, T., Sexton, K., Bennett, W., & Prior, F. (2020). Chest Imaging with Clinical and Genomic Correlates Representing a Rural COVID-19 Positive Population (Version 1) [Dataset]. The Cancer Imaging Archive. https://doi.org/10.7937/TCIA.2020.PY71-5978"
+      ],
+      "download": "idc download 1.3.6.1.4.1.14519.5.2.1.9999.103.9994589451636199731979010279629",
+      "patient_id": "COVID-19-AR-16434361",
+      "study_date": "2012-03-01"
+    },
+    {
+      "collection": "COVID-19-AR",
+      "collection_id": "covid_19_ar",
+      "modality": [
+        "CR"
+      ],
+      "body_part": "CHEST",
+      "study_instance_uid": "1.3.6.1.4.1.14519.5.2.1.9999.103.2880439728627595742664472225413",
+      "license": "CC BY 4.0",
+      "size_mb": 8,
+      "citation": [
+        "Desai, S., Baghal, A., Wongsurawat, T., Al-Shukri, S., Gates, K., Farmer, P., Rutherford, M., Blake, G. D., Nolan, T., Powell, T., Sexton, K., Bennett, W., & Prior, F. (2020). Chest Imaging with Clinical and Genomic Correlates Representing a Rural COVID-19 Positive Population (Version 1) [Dataset]. The Cancer Imaging Archive. https://doi.org/10.7937/TCIA.2020.PY71-5978"
+      ],
+      "download": "idc download 1.3.6.1.4.1.14519.5.2.1.9999.103.2880439728627595742664472225413",
+      "patient_id": "COVID-19-AR-16406517",
+      "study_date": "2012-01-05"
+    },
+    {
+      "collection": "COVID-19-AR",
+      "collection_id": "covid_19_ar",
+      "modality": [
+        "CR"
+      ],
+      "body_part": "CHEST",
+      "study_instance_uid": "1.3.6.1.4.1.14519.5.2.1.9999.103.6864021682088556421426123389543",
+      "license": "CC BY 4.0",
+      "size_mb": 6,
+      "citation": [
+        "Desai, S., Baghal, A., Wongsurawat, T., Al-Shukri, S., Gates, K., Farmer, P., Rutherford, M., Blake, G. D., Nolan, T., Powell, T., Sexton, K., Bennett, W., & Prior, F. (2020). Chest Imaging with Clinical and Genomic Correlates Representing a Rural COVID-19 Positive Population (Version 1) [Dataset]. The Cancer Imaging Archive. https://doi.org/10.7937/TCIA.2020.PY71-5978"
+      ],
+      "download": "idc download 1.3.6.1.4.1.14519.5.2.1.9999.103.6864021682088556421426123389543",
+      "patient_id": "COVID-19-AR-16406517",
+      "study_date": "2012-01-08"
+    },
+    {
+      "collection": "C4KC-KiTS",
+      "collection_id": "c4kc_kits",
+      "modality": [
+        "CT",
+        "SEG"
+      ],
+      "body_part": "ABDOMEN",
+      "study_instance_uid": "1.3.6.1.4.1.14519.5.2.1.6919.4624.302745941156575459719896057873",
+      "license": "CC BY 3.0",
+      "size_mb": 79,
+      "citation": [
+        "Heller, N., Sathianathen, N., Kalapara, A., Walczak, E., Moore, K., Kaluzniak, H., Rosenberg, J., Blake, P., Rengel, Z., Oestreich, M., Dean, J., Tradewell, M., Shah, A., Tejpaul, R., Edgerton, Z., Peterson, M., Raza, S., Regmi, S., Papanikolopoulos, N., & Weight, C. (2019). C4KC KiTS Challenge Kidney Tumor Segmentation Dataset (C4KC-KiTS) (Version 3) [Dataset]. The Cancer Imaging Archive. https://doi.org/10.7937/TCIA.2019.IX49E8NX"
+      ],
+      "download": "idc download 1.3.6.1.4.1.14519.5.2.1.6919.4624.302745941156575459719896057873",
+      "patient_id": "KiTS-00094",
+      "study_date": "2001-04-04"
+    },
+    {
+      "collection": "TCGA-LIHC",
+      "collection_id": "tcga_lihc",
+      "modality": [
+        "MR",
+        "SEG"
+      ],
+      "body_part": "LIVER",
+      "study_instance_uid": "1.3.6.1.4.1.14519.5.2.1.3344.4008.145656991997959479709688809690",
+      "license": "CC BY 3.0, CC BY 4.0",
+      "size_mb": 134,
+      "citation": [
+        "Erickson, B. J., Kirk, S., Lee, Y., Bathe, O., Kearns, M., Gerdes, C., Rieger-Christ, K., & Lemmerman, J. (2016). The Cancer Genome Atlas Liver Hepatocellular Carcinoma Collection (TCGA-LIHC) (Version 5) [Dataset]. The Cancer Imaging Archive. https://doi.org/10.7937/K9/TCIA.2016.IMMQW8UQ",
+        "Van Oss, J., Murugesan, G. K., McCrumb, D., & Soni, R. (2024). Image segmentations produced by BAMF under the AIMI Annotations initiative (Version v2.0.2) [Dataset]. Zenodo. https://doi.org/10.5281/ZENODO.8345959"
+      ],
+      "download": "idc download 1.3.6.1.4.1.14519.5.2.1.3344.4008.145656991997959479709688809690",
+      "patient_id": "TCGA-DD-A4NH",
+      "study_date": "2004-05-27"
+    },
+    {
+      "collection": "PROSTATEx",
+      "collection_id": "prostatex",
+      "modality": [
+        "MR",
+        "SEG",
+        "SR"
+      ],
+      "body_part": "PROSTATE",
+      "study_instance_uid": "1.3.6.1.4.1.14519.5.2.1.7311.5101.160597034171638402654689737915",
+      "license": "CC BY 3.0, CC BY 4.0",
+      "size_mb": 51,
+      "citation": [
+        "Krishnaswamy, D., Clunie, D. A., & Fedorov, A. (2025). PROSTATEx-Targets: Point annotations of lesion targets for the PROSTATEx collection [Dataset]. Zenodo. https://doi.org/10.5281/ZENODO.15643312",
+        "Litjens, G., Debats, O., Barentsz, J., Karssemeijer, N., & Huisman, H. (2017). SPIE-AAPM PROSTATEx Challenge Data (Version 2) [Dataset]. The Cancer Imaging Archive. https://doi.org/10.7937/K9TCIA.2017.MURS5CL",
+        "Van Oss, J., Murugesan, G. K., McCrumb, D., & Soni, R. (2024). Image segmentations produced by BAMF under the AIMI Annotations initiative (Version v2.0.2) [Dataset]. Zenodo. https://doi.org/10.5281/ZENODO.8345959"
+      ],
+      "download": "idc download 1.3.6.1.4.1.14519.5.2.1.7311.5101.160597034171638402654689737915",
+      "patient_id": "ProstateX-0100",
+      "study_date": "2012-01-05"
+    },
+    {
+      "collection": "StageII-Colorectal-CT",
+      "collection_id": "stageii_colorectal_ct",
+      "modality": [
+        "CT"
+      ],
+      "body_part": "ABDOMEN",
+      "study_instance_uid": "1.3.6.1.4.1.14519.5.2.1.237334662056606199951179337742622665961",
+      "license": "CC BY 4.0",
+      "size_mb": 32,
+      "citation": [
+        "Tong, T., & Li, M. (2022). Abdominal or pelvic enhanced CT images within 10 days before surgery of 230 patients with stage II colorectal cancer (Version 2) [Dataset]. The Cancer Imaging Archive. https://doi.org/10.7937/P5K5-TG43"
+      ],
+      "download": "idc download 1.3.6.1.4.1.14519.5.2.1.237334662056606199951179337742622665961",
+      "patient_id": "StageII-Colorectal-CT-091",
+      "study_date": "2006-03-15"
+    },
+    {
+      "collection": "CPTAC-AML",
+      "collection_id": "cptac_aml",
+      "modality": [
+        "US"
+      ],
+      "body_part": "ABDOMEN",
+      "study_instance_uid": "1.3.6.1.4.1.14519.5.2.1.1427.3349.201637117272799642032372555047",
+      "license": "CC BY 4.0",
+      "size_mb": 55,
+      "citation": [
+        "National Cancer Institute Clinical Proteomic Tumor Analysis Consortium (CPTAC). (2019). The Clinical Proteomic Tumor Analysis Consortium Acute Myeloid Leukemia Collection (CPTAC-AML) (Version 5) [Dataset]. The Cancer Imaging Archive. https://doi.org/10.7937/TCIA.2019.B6FOE619"
+      ],
+      "download": "idc download 1.3.6.1.4.1.14519.5.2.1.1427.3349.201637117272799642032372555047",
+      "patient_id": "C3L-05678",
+      "study_date": "2012-10-05"
+    },
+    {
+      "collection": "CPTAC-UCEC",
+      "collection_id": "cptac_ucec",
+      "modality": [
+        "US"
+      ],
+      "body_part": "PELVIS",
+      "study_instance_uid": "1.3.6.1.4.1.14519.5.2.1.7085.2626.149644418574806774239324529564",
+      "license": "CC BY 4.0",
+      "size_mb": 30,
+      "citation": [
+        "National Cancer Institute Clinical Proteomic Tumor Analysis Consortium (CPTAC). (2019). The Clinical Proteomic Tumor Analysis Consortium Uterine Corpus Endometrial Carcinoma Collection (CPTAC-UCEC) (Version 13) [Dataset]. The Cancer Imaging Archive. https://doi.org/10.7937/K9/TCIA.2018.3R3JUISW"
+      ],
+      "download": "idc download 1.3.6.1.4.1.14519.5.2.1.7085.2626.149644418574806774239324529564",
+      "patient_id": "C3N-02436",
+      "study_date": "2010-07-11"
+    },
+    {
+      "collection": "TCGA-BRCA",
+      "collection_id": "tcga_brca",
+      "modality": [
+        "MG",
+        "SR"
+      ],
+      "body_part": "BREAST",
+      "study_instance_uid": "1.3.6.1.4.1.14519.5.2.1.1869.4002.216192212057343433620283048159",
+      "license": "CC BY 3.0",
+      "size_mb": 68,
+      "citation": [
+        "Clunie, D. A., Hickman, H., Ver Hoef, W., Hastak, S., Wagner, U., & Helton, E. (2019). DICOM SR of clinical data and measurement for breast cancer collections to TCIA (Version 1) [Dataset]. The Cancer Imaging Archive. https://doi.org/10.7937/TCIA.2019.WGLLSSG1",
+        "Lingle, W., Erickson, B. J., Zuley, M. L., Jarosz, R., Bonaccio, E., Filippini, J., Net, J. M., Levi, L., Morris, E. A., Figler, G. G., Elnajjar, P., Kirk, S., Lee, Y., Giger, M., & Gruszauskas, N. (2016). The Cancer Genome Atlas Breast Invasive Carcinoma Collection (TCGA-BRCA) (Version 3) [Dataset]. The Cancer Imaging Archive. https://doi.org/10.7937/K9/TCIA.2016.AB2NAZRP"
+      ],
+      "download": "idc download 1.3.6.1.4.1.14519.5.2.1.1869.4002.216192212057343433620283048159",
+      "patient_id": "TCGA-EW-A423",
+      "study_date": "2003-12-26"
+    },
+    {
+      "collection": "RIDER Pilot",
+      "collection_id": "rider_pilot",
+      "modality": [
+        "DX"
+      ],
+      "body_part": "CHEST",
+      "study_instance_uid": "1.3.6.1.4.1.9328.50.2.125851",
+      "license": "CC BY 4.0",
+      "size_mb": 32,
+      "citation": [
+        "Lung Image Database Consortium (LIDC). (2023). RIDER Pilot (Version 1) [Dataset]. The Cancer Imaging Archive. https://doi.org/10.7937/M87F-MZ83"
+      ],
+      "download": "idc download 1.3.6.1.4.1.9328.50.2.125851",
+      "patient_id": "1.3.6.1.4.1.9328.50.2.0072",
+      "study_date": "2000-01-01"
     }
-  ]
+  ],
+  "download_all": "idc download \"1.3.6.1.4.1.14519.5.2.1.6279.6001.210460865401632134346677582159,1.3.6.1.4.1.14519.5.2.1.153613283546503819934885929827859483069,1.2.840.113654.2.55.166325343327086082107350773926822706214,1.2.840.113654.2.55.253496463398728700790255623005552104507,1.3.6.1.4.1.14519.5.2.1.1706.8374.286973555925378482459001848214,1.3.6.1.4.1.14519.5.2.1.1706.8374.296258771240978865543572355112,1.3.6.1.4.1.14519.5.2.1.7695.1700.154861064420914605360536542607,1.3.6.1.4.1.14519.5.2.1.7695.1700.116234171748829149650543033402,1.3.6.1.4.1.14519.5.2.1.283370564087548569887390840456959159302,1.3.6.1.4.1.14519.5.2.1.111593682701647063703264401998891931895,1.3.6.1.4.1.14519.5.2.1.8162.7003.817789013770200661154838516089,1.3.6.1.4.1.14519.5.2.1.8162.7003.122900183814405474192688041194,1.3.6.1.4.1.14519.5.2.1.1620.1225.266380472712016615459421160260,1.3.6.1.4.1.14519.5.2.1.1620.1225.114705634574209930247550294599,1.3.6.1.4.1.14519.5.2.1.9999.103.1262929361407482589230581189933,1.3.6.1.4.1.14519.5.2.1.9999.103.9994589451636199731979010279629,1.3.6.1.4.1.14519.5.2.1.9999.103.2880439728627595742664472225413,1.3.6.1.4.1.14519.5.2.1.9999.103.6864021682088556421426123389543,1.3.6.1.4.1.14519.5.2.1.6919.4624.302745941156575459719896057873,1.3.6.1.4.1.14519.5.2.1.3344.4008.145656991997959479709688809690,1.3.6.1.4.1.14519.5.2.1.7311.5101.160597034171638402654689737915,1.3.6.1.4.1.14519.5.2.1.237334662056606199951179337742622665961,1.3.6.1.4.1.14519.5.2.1.1427.3349.201637117272799642032372555047,1.3.6.1.4.1.14519.5.2.1.7085.2626.149644418574806774239324529564,1.3.6.1.4.1.14519.5.2.1.1869.4002.216192212057343433620283048159,1.3.6.1.4.1.9328.50.2.125851\""
 }

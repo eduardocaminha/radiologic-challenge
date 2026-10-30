@@ -12,6 +12,7 @@ import { Select, SelectItem, SelectPopup, SelectTrigger, SelectValue } from "@/c
 import { ViewportFrame } from "@/components/viewport-frame";
 import type { Dictionary } from "@/dictionaries";
 import { intlLocales, type Locale } from "@/lib/i18n";
+import type { WorklistRow } from "@/lib/kit";
 import { spring } from "@/lib/springs";
 import { WORKFLOW_PARTS } from "@/lib/submissions/constants";
 import type { PublicViewer } from "@/lib/viewers/public";
@@ -55,6 +56,7 @@ interface GalleryProps {
   locale: Locale;
   dictionary: Dictionary;
   viewers: PublicViewer[];
+  worklist: WorklistRow[];
 }
 
 // Filtros e ordenação vivem na URL: sobrevivem ao voltar da ficha e podem ser compartilhados.
@@ -80,6 +82,7 @@ export function ViewerGallery({
   locale,
   dictionary,
   viewers,
+  worklist,
   params = {},
   onParamsChange,
 }: GalleryProps & {
@@ -130,7 +133,7 @@ export function ViewerGallery({
   const sortOptions: [Sort, string][] = [["total", copy.sortTotal], ["month", copy.sortMonth], ["recent", copy.sortRecent]];
 
   if (viewers.length === 0) {
-    return <GalleryEmpty locale={locale} dictionary={dictionary} />;
+    return <GalleryEmpty locale={locale} dictionary={dictionary} worklist={worklist} />;
   }
 
   return (
@@ -241,7 +244,7 @@ function IndexItem({ option, pressed, dimmed, onSelect }: { option: IndexOption;
   );
 }
 
-function GalleryEmpty({ locale, dictionary }: { locale: Locale; dictionary: Dictionary }) {
+function GalleryEmpty({ locale, dictionary, worklist }: { locale: Locale; dictionary: Dictionary; worklist: WorklistRow[] }) {
   const copy = dictionary.gallery;
   const month = new Intl.DateTimeFormat(intlLocales[locale], { month: "short", year: "numeric", timeZone: "America/Sao_Paulo" }).format(new Date());
   return (
@@ -255,6 +258,9 @@ function GalleryEmpty({ locale, dictionary }: { locale: Locale; dictionary: Dict
       >
         <span aria-hidden="true" className="absolute inset-x-0 top-1/2 h-px bg-foreground/8" />
         <span aria-hidden="true" className="absolute inset-y-0 left-1/2 w-px bg-foreground/8" />
+        <ol aria-hidden="true" className="absolute left-3 top-12 hidden flex-col gap-1.5 text-xs tabular-nums text-muted-foreground lg:flex">
+          {worklist.map((row) => <li key={row.uid}>{row.modality} {row.bodyPart} {row.collection}</li>)}
+        </ol>
         <div className="relative flex flex-col items-center gap-6 bg-page-bg px-6 py-4 text-center">
           <h2 id="gallery-heading" className="max-w-md text-title-lg text-balance">{copy.emptyTitle}</h2>
           <div className="flex flex-wrap items-center justify-center gap-2">

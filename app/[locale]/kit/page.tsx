@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
+import { ChevronDownIcon } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getDictionary } from "@/dictionaries";
 import { isLocale } from "@/lib/i18n";
-import { KIT } from "@/lib/kit";
+import { daysSincePrior, KIT, KIT_TOTAL_MB, primaryModality } from "@/lib/kit";
 import { getLegalDocument } from "@/lib/legal";
 
 interface PageProps {
@@ -64,28 +65,55 @@ export default async function KitPage({ params }: PageProps) {
       </section>
 
       <section className="flex min-w-0 flex-col gap-6" aria-labelledby="kit-studies-heading">
-        <h2 id="kit-studies-heading" className="text-title-lg">{t.studiesTitle}</h2>
-        <ol className="flex flex-col divide-y divide-border">
-          {KIT.studies.map((study) => (
-            <li key={study.study_instance_uid} className="flex min-w-0 flex-col gap-4 py-6" data-testid="kit-study">
-              <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
-                <h3 className="text-title-md">{study.collection}</h3>
-                <p className="text-sm text-muted-foreground">
-                  {study.modality.join(", ")} · {study.body_part} · {study.size_mb} MB · {study.license}
-                </p>
-              </div>
-              <dl className="grid grid-cols-1 gap-x-6 gap-y-2 text-sm sm:grid-cols-4">
-                <dt className="text-muted-foreground">{t.uid}</dt>
-                <dd className="break-all sm:col-span-3">{study.study_instance_uid}</dd>
-                <dt className="text-muted-foreground">{t.citation}</dt>
-                <dd className="flex max-w-prose flex-col gap-2 text-muted-foreground wrap-anywhere sm:col-span-3">
-                  {study.citation.map((citation) => <p key={citation}>{citation}</p>)}
-                </dd>
-              </dl>
-              <Command>{study.download}</Command>
-            </li>
-          ))}
-        </ol>
+        <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
+          <h2 id="kit-studies-heading" className="text-title-lg">{t.studiesTitle}</h2>
+          <p className="text-sm tabular-nums text-muted-foreground">{t.totals.replace("{n}", String(KIT.studies.length)).replace("{mb}", String(KIT_TOTAL_MB))}</p>
+        </div>
+        <details className="group/all rounded-2xl bg-surface p-4">
+          <summary className="flex cursor-pointer list-none items-center gap-2 text-label-md outline-none focus-visible:ring-2 focus-visible:ring-ring [&::-webkit-details-marker]:hidden">
+            <ChevronDownIcon aria-hidden="true" className="size-4 text-muted-foreground transition-transform duration-150 group-open/all:rotate-180" />
+            {t.allTitle}
+          </summary>
+          <div className="pt-3"><Command>{KIT.download_all}</Command></div>
+        </details>
+        <div>
+          <div aria-hidden="true" className="hidden grid-cols-6 gap-4 border-b border-border px-1 pb-2 text-xs text-muted-foreground sm:grid">
+            <span>{t.modality}</span>
+            <span>{t.bodyPart}</span>
+            <span className="col-span-2">{t.collection}</span>
+            <span>{t.comparison}</span>
+            <span className="text-right">{t.size}</span>
+          </div>
+          <ol className="flex flex-col divide-y divide-border border-b border-border">
+            {KIT.studies.map((study) => {
+              const days = daysSincePrior(study);
+              return (
+                <li key={study.study_instance_uid} className="min-w-0" data-testid="kit-study">
+                  <details className="group/row">
+                    <summary className="grid cursor-pointer list-none grid-cols-2 gap-x-4 gap-y-1 rounded-sm px-1 py-3 text-sm outline-none transition-colors duration-150 hover:bg-accent focus-visible:ring-2 focus-visible:ring-ring sm:grid-cols-6 [&::-webkit-details-marker]:hidden">
+                      <span className="font-medium">{primaryModality(study)}</span>
+                      <span className="text-muted-foreground">{study.body_part}</span>
+                      <span className="truncate sm:col-span-2">{study.collection}</span>
+                      <span className="text-muted-foreground">{days === null ? null : t.daysAfter.replace("{n}", String(days))}</span>
+                      <span className="text-muted-foreground tabular-nums sm:text-right">{study.size_mb} MB</span>
+                    </summary>
+                    <dl className="grid grid-cols-1 gap-x-6 gap-y-2 px-1 pb-4 pt-2 text-sm sm:grid-cols-6">
+                      <dt className="text-muted-foreground">{t.uid}</dt>
+                      <dd className="break-all sm:col-span-5">{study.study_instance_uid}</dd>
+                      <dt className="text-muted-foreground">{t.license}</dt>
+                      <dd className="sm:col-span-5">{study.license}</dd>
+                      <dt className="text-muted-foreground">{t.citation}</dt>
+                      <dd className="flex max-w-prose flex-col gap-2 text-muted-foreground wrap-anywhere sm:col-span-5">
+                        {study.citation.map((citation) => <p key={citation}>{citation}</p>)}
+                      </dd>
+                      <dd className="min-w-0 sm:col-span-6"><Command>{study.download}</Command></dd>
+                    </dl>
+                  </details>
+                </li>
+              );
+            })}
+          </ol>
+        </div>
       </section>
 
       <section className="flex max-w-3xl flex-col gap-2" aria-labelledby="kit-idc-heading">
