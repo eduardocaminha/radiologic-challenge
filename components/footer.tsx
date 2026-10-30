@@ -1,6 +1,6 @@
 import Link from "next/link";
+import { AsciiWake } from "@/components/ascii-wake";
 import { FluidNav } from "@/components/fluid-nav";
-import { FooterWordmark } from "@/components/footer-wordmark";
 import { GithubIcon } from "@/components/github-icon";
 import { Logo } from "@/components/logo";
 import type { Dictionary } from "@/dictionaries";
@@ -17,7 +17,7 @@ interface FooterProps {
 export function Footer({ locale, dictionary }: FooterProps) {
   return (
     <footer className="mx-auto w-full max-w-6xl px-6 pt-20">
-      <FooterWordmark />
+      <AsciiWake />
       <div className="grid grid-cols-2 gap-x-6 gap-y-8 py-10 text-sm text-muted-foreground sm:grid-cols-3">
         <div className="flex flex-col gap-3">
           <Link href={`/${locale}`} aria-label={dictionary.home.title} className="w-fit text-foreground">
