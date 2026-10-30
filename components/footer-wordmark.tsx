@@ -7,6 +7,7 @@ const WORD = "Radiologic";
 const RAMP = " .:-=+*#%@";
 const REVEAL_MS = 800;
 const MEASURE_SIZE = 200;
+const DISSOLVE_SHARE = 0.45;
 
 interface Cell {
   x: number;
@@ -56,8 +57,10 @@ function buildCells(width: number, height: number) {
       const coverage = samples ? total / samples / 255 : 0;
       if (coverage < 0.08) continue;
       const shade = 0.6 + 0.4 * (1 - y / height);
+      // No desktop a palavra é cortada embaixo: a rampa dissolve até o fim em vez de terminar em linha reta.
+      const dissolve = mobile ? 1 : Math.min(1, (height - y) / (height * DISSOLVE_SHARE));
       const grain = 0.92 + (((column * 7 + row * 13) % 11) / 11) * 0.16;
-      cells.push({ x, y, row, value: Math.min(1, coverage * shade * grain) });
+      cells.push({ x, y, row, value: Math.min(1, coverage * shade * grain * dissolve) });
     }
   }
   return { cells, cellHeight };
