@@ -11,9 +11,13 @@ El controlador es Radiologic, marca de MEDLABZ CONSULTORIA LTDA, CNPJ 62.761.039
 - **Al iniciar sesión con Google o GitHub:** correo electrónico, nombre, foto de perfil y el identificador de la cuenta en el proveedor. No recibimos tu contraseña.
 - **Al votar:** qué cuenta votó por qué proyecto y cuándo.
 - **Al enviar un proyecto:** los datos de la ficha, las capturas de pantalla y, si el envío llega por un issue en GitHub, el número del issue y el identificador de tu cuenta de GitHub.
-- **Al navegar:** métricas agregadas de acceso y de rendimiento de la página (Vercel Analytics y Speed Insights), sin cookies de publicidad.
+- **Al navegar:** nada. El sitio no usa herramientas de métricas, de publicidad ni de rastreo. Vercel registra datos técnicos de cada acceso, como la dirección IP, para entregar la página y proteger el sitio.
 
 No recopilamos datos de salud. El reglamento prohíbe el envío de estudios de pacientes reales fuera de bases públicas.
+
+## Cookies
+
+Solo usamos cookies cuando inicias sesión. Mantienen tu sesión y son necesarias para que el inicio de sesión funcione. Por eso no pedimos consentimiento ni mostramos un aviso de cookies. Si no inicias sesión, no recibes ninguna cookie.
 
 ## Para qué los usamos
 
@@ -33,7 +37,7 @@ Tu correo electrónico y la lista de proyectos por los que votaste no son públi
 
 ## Con quién compartimos
 
-Usamos proveedores para operar el sitio: Supabase (base de datos, inicio de sesión y archivos), Vercel (alojamiento y métricas), Google y GitHub (inicio de sesión) y Resend (correo electrónico). Ellos tratan los datos en nuestro nombre y pueden almacenarlos fuera de Brasil. No vendemos datos ni los usamos para publicidad.
+Usamos proveedores para operar el sitio: Supabase (base de datos, inicio de sesión y archivos), Vercel (alojamiento), Google y GitHub (inicio de sesión) y Resend (correo electrónico). Ellos tratan los datos en nuestro nombre y pueden almacenarlos fuera de Brasil. No vendemos datos ni los usamos para publicidad.
 
 ## Por cuánto tiempo
 
@@ -44,7 +48,7 @@ Usamos proveedores para operar el sitio: Supabase (base de datos, inicio de sesi
 
 ## Tus derechos
 
-Puedes solicitar el acceso, la corrección, la exportación o la eliminación de tus datos, y puedes eliminar tu cuenta. Al eliminar la cuenta, tus votos se borran y tus envíos se retiran del sitio. Para ejercer estos derechos, escribe a caminha@radiologic.io. También puedes presentar una reclamación ante la Autoridade Nacional de Proteção de Dados (ANPD).
+Puedes solicitar el acceso, la corrección, la exportación o la eliminación de tus datos y de tu cuenta. Al eliminar la cuenta, tus votos se borran y tus envíos se retiran del sitio. Para ejercer estos derechos, escribe a caminha@radiologic.io. También puedes presentar una reclamación ante la Autoridade Nacional de Proteção de Dados (ANPD).
 
 ## Cambios
 
