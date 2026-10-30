@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 160" role="img" aria-label="Viewer no Radiologic">
+  <title>Viewer no Radiologic</title>
+  <rect x="16" y="16" width="608" height="128" rx="28" fill="#f7f7f4"/>
+  <path d="M62.5 0C83.2107 0 100 16.7893 100 37.5C100 54.4227 88.7896 68.7241 73.3906 73.3906L100 100H0V0H62.5Z" transform="translate(40 48) scale(.64)" fill="#191919"/>
+  <g fill="none" stroke="#191919" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round">
+    <defs>
+      <path id="V" d="M2 2v26l16 12 16-12V2"/>
+      <path id="I" d="M2 2h32M18 2v38M2 40h32"/>
+      <path id="E" d="M34 2H2v38h32M2 21h25"/>
+      <path id="W" d="M2 2l7 38 9-20 9 20 7-38"/>
+      <path id="R" d="M2 40V2h19c15 0 15 20 0 20H2m18 0 14 18"/>
+      <path id="O" d="M18 2C-4 2-4 40 18 40s22-38 0-38Z"/>
+      <path id="N" d="M2 40V2l32 38V2"/>
+      <path id="A" d="M2 40 18 2l16 38M8 27h20"/>
+      <path id="D" d="M2 40V2h15c22 0 22 38 0 38Z"/>
+      <path id="L" d="M2 2v38h32"/>
+      <path id="G" d="M34 9C28-2 2-2 2 21s26 23 32 10v-9H19"/>
+      <path id="C" d="M34 7C28-2 2-2 2 21s26 23 32 14"/>
+    </defs>
+    <use href="#V" x="126" y="28"/><use href="#I" x="162" y="28"/><use href="#E" x="198" y="28"/><use href="#W" x="234" y="28"/><use href="#E" x="270" y="28"/><use href="#R" x="306" y="28"/>
+    <use href="#N" x="354" y="28"/><use href="#O" x="390" y="28"/>
+    <use href="#R" x="126" y="86"/><use href="#A" x="162" y="86"/><use href="#D" x="198" y="86"/><use href="#I" x="234" y="86"/><use href="#O" x="270" y="86"/><use href="#L" x="306" y="86"/><use href="#O" x="342" y="86"/><use href="#G" x="378" y="86"/><use href="#I" x="414" y="86"/><use href="#C" x="450" y="86"/>
+  </g>
+</svg>

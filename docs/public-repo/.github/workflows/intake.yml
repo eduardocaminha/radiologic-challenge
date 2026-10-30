@@ -1,0 +1,54 @@
+name: Encaminhar submissão
+
+on:
+  issues:
+    types: [opened, edited]
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  intake:
+    if: startsWith(github.event.issue.title, '[Viewer]')
+    runs-on: ubuntu-latest
+    env:
+      ISSUE_BODY: ${{ github.event.issue.body }}
+      ISSUE_NUMBER: ${{ github.event.issue.number }}
+      GITHUB_USER_ID: ${{ github.event.issue.user.id }}
+      INTAKE_URL: ${{ vars.RADIOLOGIC_INTAKE_URL }}
+      GITHUB_INTAKE_SECRET: ${{ secrets.RADIOLOGIC_INTAKE_SECRET }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - name: Enviar o intake ao site
+        id: intake
+        shell: bash
+        run: |
+          set -euo pipefail
+          timestamp=$(date +%s)
+          payload=$(jq -cn \
+            --arg body "$ISSUE_BODY" \
+            --arg issue_number "$ISSUE_NUMBER" \
+            --arg github_user_id "$GITHUB_USER_ID" \
+            '{issue_number: ($issue_number | tonumber), github_user_id: $github_user_id, body: $body}')
+          signature=$(printf '%s' "$payload" | openssl dgst -sha256 -hmac "$GITHUB_INTAKE_SECRET" -hex | awk '{print $2}')
+          status=$(curl --silent --show-error --output response.json --write-out '%{http_code}' \
+            --request POST "$INTAKE_URL" \
+            --header 'content-type: application/json' \
+            --header "x-github-event-timestamp: $timestamp" \
+            --header "x-hub-signature-256: sha256=$signature" \
+            --data "$payload")
+          if [[ "$status" != 2* && "$status" != "422" ]]; then
+            exit 1
+          fi
+          comment=$(jq -r '
+            if .ok then
+              "Submissão recebida. Entre no site com GitHub para completar descrição e imagens.\n\nSubmission received. Sign in with GitHub on the site to complete the description and images."
+            else
+              "Revise os campos da issue:\n" + (.errors.pt | map("* " + .) | join("\n")) + "\n\nReview the issue fields:\n" + (.errors.en | map("* " + .) | join("\n"))
+            end' response.json)
+          curl --silent --show-error --fail \
+            --request POST "${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/issues/${ISSUE_NUMBER}/comments" \
+            --header "authorization: Bearer $GITHUB_TOKEN" \
+            --header 'content-type: application/json' \
+            --data "$(jq -cn --arg body "$comment" '{body: $body}')"

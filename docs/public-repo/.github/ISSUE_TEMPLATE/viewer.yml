@@ -1,0 +1,161 @@
+name: Submeter um DICOM viewer
+description: Envie um viewer para o showcase Radiologic.
+title: "[Viewer] "
+labels:
+  - submissão
+body:
+  - type: input
+    id: name
+    attributes:
+      label: Nome do viewer
+      description: Use o nome público do seu viewer.
+    validations:
+      required: true
+  - type: input
+    id: tagline
+    attributes:
+      label: Frase de apresentação
+      description: Explique o viewer em uma frase curta.
+    validations:
+      required: true
+  - type: input
+    id: differential
+    attributes:
+      label: Diferencial
+      description: O que torna este viewer diferente?
+    validations:
+      required: true
+  - type: dropdown
+    id: lang
+    attributes:
+      label: Idioma do viewer
+      options:
+        - pt
+        - en
+    validations:
+      required: true
+  - type: checkboxes
+    id: platforms
+    attributes:
+      label: Plataformas
+      description: Selecione pelo menos uma opção.
+      options:
+        - label: web
+        - label: desktop
+        - label: mobile
+        - label: xr
+    validations:
+      required: true
+  - type: dropdown
+    id: requires_install
+    attributes:
+      label: Exige instalação
+      options:
+        - "Sim"
+        - "Não"
+    validations:
+      required: true
+  - type: input
+    id: repo_url
+    attributes:
+      label: Repositório público
+      placeholder: https://github.com/...
+    validations:
+      required: true
+  - type: input
+    id: license
+    attributes:
+      label: Licença SPDX
+      placeholder: MIT
+    validations:
+      required: true
+  - type: dropdown
+    id: base_tech
+    attributes:
+      label: Tecnologia base
+      options:
+        - scratch
+        - ohif
+        - cornerstone3d
+        - vtkjs
+        - dwv
+        - niivue
+        - volview
+        - other
+    validations:
+      required: true
+  - type: input
+    id: data_source
+    attributes:
+      label: Fonte dos dados
+    validations:
+      required: true
+  - type: input
+    id: data_license
+    attributes:
+      label: Licença dos dados
+    validations:
+      required: true
+  - type: dropdown
+    id: external_api
+    attributes:
+      label: Usa API externa
+      options:
+        - "Não"
+        - "Sim"
+    validations:
+      required: true
+  - type: input
+    id: external_api_detail
+    attributes:
+      label: Detalhes da API externa
+  - type: input
+    id: demo_url
+    attributes:
+      label: URL da demonstração
+      placeholder: https://...
+  - type: input
+    id: download_url
+    attributes:
+      label: URL do download
+      placeholder: https://...
+  - type: input
+    id: video_url
+    attributes:
+      label: URL do vídeo
+      placeholder: https://...
+  - type: input
+    id: author_name
+    attributes:
+      label: Nome do autor
+  - type: dropdown
+    id: author_profile
+    attributes:
+      label: Perfil do autor
+      options:
+        - radiologist
+        - resident
+        - physician
+        - developer
+        - student
+        - physicist
+        - team
+  - type: input
+    id: country
+    attributes:
+      label: País
+      description: Use o código ISO 3166-1 alfa-2, por exemplo BR.
+  - type: checkboxes
+    id: dicomweb
+    attributes:
+      label: Usa DICOMweb
+      options:
+        - label: Sim
+  - type: checkboxes
+    id: rules_accepted
+    attributes:
+      label: Aceite do regulamento
+      description: Leia o regulamento em https://challenge.radiologic.io/pt/rules antes de enviar.
+      options:
+        - label: Li e aceito o regulamento vigente.
+          required: true

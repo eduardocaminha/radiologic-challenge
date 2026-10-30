@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Enviar pelo site
+    url: https://challenge.radiologic.io/pt/submit
+    about: Formulário completo, com descrição longa e capturas de tela.
+  - name: Regulamento
+    url: https://challenge.radiologic.io/pt/rules
+    about: Quem pode participar, o que pode ser submetido, moderação e votação.
+  - name: Contato
+    url: mailto:caminha@radiologic.io
+    about: Remoção de viewer, denúncia de dado de paciente ou outro problema.
