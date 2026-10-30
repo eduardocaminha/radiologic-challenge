@@ -90,7 +90,7 @@ function paint(canvas: HTMLCanvasElement, cells: Cell[], cellHeight: number, win
     else buckets.set(index, [cell]);
   }
   for (const [index, bucket] of buckets) {
-    const alpha = (index / (RAMP.length - 1)) * (restAlpha + narrowing * 0.5);
+    const alpha = (index / (RAMP.length - 1)) * (restAlpha + narrowing * 0.06);
     context.fillStyle = `oklch(1 0 0 / ${alpha})`;
     const glyph = RAMP[index] ?? " ";
     for (const cell of bucket) context.fillText(glyph, cell.x, cell.y);

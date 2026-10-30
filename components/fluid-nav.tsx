@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, MotionConfig, motion } from "motion/react";
+import { MotionConfig, motion } from "motion/react";
 import Link from "next/link";
 import { useState, type ReactNode } from "react";
 import { Button } from "@/components/ui/button";
@@ -16,32 +16,38 @@ interface FluidNavLink {
 // Um único fundo desliza entre os links, no lugar de um hover isolado em cada botão.
 export function FluidNav({ id, label, links, className }: { id: string; label: string; links: FluidNavLink[]; className?: string }) {
   const [active, setActive] = useState<string | null>(null);
+  const [visible, setVisible] = useState(false);
+
+  function show(href: string) {
+    setActive(href);
+    setVisible(true);
+  }
 
   return (
     <MotionConfig reducedMotion="user">
-      <nav aria-label={label} onPointerLeave={() => setActive(null)} className={cn("flex items-center gap-0.5", className)}>
+      <nav aria-label={label} onPointerLeave={() => setVisible(false)} className={cn("flex items-center gap-0.5", className)}>
         {links.map((link) => (
           <span
             key={link.href}
             className="relative"
             onPointerEnter={(event) => {
-              if (event.pointerType === "mouse") setActive(link.href);
+              if (event.pointerType === "mouse") show(link.href);
             }}
-            onFocus={() => setActive(link.href)}
-            onBlur={() => setActive(null)}
+            onFocus={() => show(link.href)}
+            onBlur={() => setVisible(false)}
           >
-            <AnimatePresence initial={false}>
-              {active === link.href ? (
-                <motion.span
-                  layoutId={`${id}-hover`}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0, transition: spring.moderate.exit }}
-                  transition={spring.moderate}
-                  className="absolute inset-0 rounded-full bg-accent"
-                />
-              ) : null}
-            </AnimatePresence>
+            {active === link.href ? (
+              <motion.span
+                layoutId={`${id}-hover`}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: visible ? 1 : 0 }}
+                transition={spring.moderate}
+                onAnimationComplete={() => {
+                  if (!visible) setActive(null);
+                }}
+                className="absolute inset-0 rounded-full bg-accent"
+              />
+            ) : null}
             <Button
               variant="ghost"
               size="sm"
