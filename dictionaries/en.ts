@@ -3,8 +3,8 @@ import type { Dictionary } from "./types";
 const dictionary: Dictionary = {
   home: {
     title: "Radiologic Workstation",
-    headline: "Show us the workstation you wish you had for reading.",
-    headlineNote: "The experience is what counts.",
+    headline: "Show us the workstation",
+    headlineNote: "you wish you had for reading.",
     tagline: "Showcase of radiology workstations: viewer, exam worklist, AI, agent and reporting.",
     submit: "Submit a workstation",
     rules: "Rules",
