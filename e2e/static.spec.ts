@@ -48,3 +48,18 @@ test.describe("páginas estáticas", () => {
     });
   }
 });
+
+test("a camada de entrada remonta ao navegar", async ({ page }) => {
+  await page.goto("/pt/highlights");
+  const reveal = page.locator(".page-reveal");
+  await reveal.evaluate((node: HTMLElement) => { node.dataset.seen = "true"; });
+  await page.getByRole("link", { name: "Regulamento" }).first().click();
+  await expect(page).toHaveURL(/\/pt\/rules$/);
+  await expect(reveal).not.toHaveAttribute("data-seen", "true");
+});
+
+test("a entrada da página some com movimento reduzido", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/pt");
+  await expect(page.locator(".page-reveal")).toHaveCSS("display", "none");
+});

@@ -156,7 +156,7 @@ export function ViewerGallery({
 
         {viewers.length >= INDEX_MIN_VIEWERS ? (
           <>
-            <nav aria-label={copy.filtersLabel} className="block-in block-in-2 hidden gap-x-6 sm:grid sm:grid-cols-3">
+            <nav aria-label={copy.filtersLabel} className="hidden gap-x-6 sm:grid sm:grid-cols-3">
               {index.map(({ facet, title, options }) => (
                 <IndexColumn key={facet} title={title} options={options} active={filterOf(facet)} onSelect={(value) => toggleFilter(facet, value)} />
               ))}
@@ -177,7 +177,7 @@ export function ViewerGallery({
           </>
         ) : null}
 
-        <div className="block-in block-in-3 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between sm:gap-8">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between sm:gap-8">
           <div className="flex items-end justify-between gap-4">
             <LineTabs id="sort" label={copy.sort} options={sortOptions} value={sort} onChange={(value) => onParamsChange?.({ sort: value === "month" ? null : value })} />
             {filtered && filteredViewers.length > 0 ? <Button variant="ghost" size="sm" className="mb-2 text-muted-foreground" onClick={clearFilters}>{copy.clearFilters}</Button> : null}
@@ -197,12 +197,11 @@ export function ViewerGallery({
             </EmptyContent>
           </Empty>
         ) : (
-          <ol className="block-in block-in-4 grid gap-4 sm:grid-cols-2">
+          <ol className="grid gap-4 sm:grid-cols-2">
             <AnimatePresence initial={false}>
-              {visibleViewers.map((viewer, position) => (
+              {visibleViewers.map((viewer) => (
                 <ViewerCard
                   key={viewer.id}
-                  position={position}
                   locale={locale}
                   viewer={viewer}
                   rank={sort === "recent" || votesOf(viewer) === 0 ? null : filteredViewers.findIndex((other) => votesOf(other) === votesOf(viewer)) + 1}
@@ -265,7 +264,7 @@ function IndexItem({ option, pressed, dimmed, onSelect }: { option: IndexOption;
 function GalleryEmpty({ locale, dictionary }: { locale: Locale; dictionary: Dictionary }) {
   const month = new Intl.DateTimeFormat(intlLocales[locale], { month: "short", year: "numeric", timeZone: "America/Sao_Paulo" }).format(new Date());
   return (
-    <section aria-labelledby="gallery-heading" className="block-in block-in-1">
+    <section aria-labelledby="gallery-heading">
       <CtViewport
         study="chest"
         title={dictionary.home.title}
@@ -279,15 +278,14 @@ function GalleryEmpty({ locale, dictionary }: { locale: Locale; dictionary: Dict
   );
 }
 
-function ViewerCard({ position, locale, viewer, rank, votes, copy, voteCopy, shareCopy, meta }: { position: number; locale: Locale; viewer: PublicViewer; rank: number | null; votes: number; voteCopy: Dictionary["vote"]; shareCopy: Dictionary["share"]; copy: Dictionary["gallery"]; meta: string }) {
+function ViewerCard({ locale, viewer, rank, votes, copy, voteCopy, shareCopy, meta }: { locale: Locale; viewer: PublicViewer; rank: number | null; votes: number; voteCopy: Dictionary["vote"]; shareCopy: Dictionary["share"]; copy: Dictionary["gallery"]; meta: string }) {
   const screenshot = viewer.screenshots[0];
   return (
     <motion.li
       layout="position"
       exit={{ opacity: 0, transition: spring.moderate.exit }}
       transition={spring.slow}
-      style={{ "--i": position } as React.CSSProperties}
-      className="reveal-item relative min-w-0"
+      className="relative min-w-0"
     >
       <Link href={`/${locale}/v/${viewer.slug}`} className="group flex h-full flex-col gap-4 rounded-2xl bg-surface p-2 outline-none transition-colors duration-150 hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring">
         <span className="relative aspect-card overflow-hidden rounded-lg bg-page-bg">
