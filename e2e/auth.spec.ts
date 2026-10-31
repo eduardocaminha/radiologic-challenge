@@ -1,7 +1,7 @@
 import { execFileSync } from "node:child_process";
 import { createServerClient } from "@supabase/ssr";
 import { createClient } from "@supabase/supabase-js";
-import { expect, test } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
 
 function getLocalSupabaseEnv() {
   if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY) {
@@ -83,4 +83,27 @@ test("usuário local com identidade github consegue usar uma rota privada", asyn
   await page.getByRole("menuitem", { name: "Sign out" }).click();
   await expect(page).toHaveURL(/\/en$/);
   await context.close();
+});
+
+async function canvasChanges(page: Page) {
+  await page.goto("/pt/login");
+  const canvas = page.getByRole("main").locator("canvas");
+  await expect.poll(() => canvas.evaluate((node: HTMLCanvasElement) => node.toDataURL().length)).toBeGreaterThan(5000);
+  await page.waitForTimeout(1000);
+  const before = await canvas.evaluate((node: HTMLCanvasElement) => node.toDataURL());
+  await page.waitForTimeout(1500);
+  return before !== await canvas.evaluate((node: HTMLCanvasElement) => node.toDataURL());
+}
+
+test("login anima o corte só no celular", async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 800 });
+  expect(await canvasChanges(page)).toBe(true);
+  await page.setViewportSize({ width: 1280, height: 900 });
+  expect(await canvasChanges(page)).toBe(false);
+});
+
+test("login respeita movimento reduzido no celular", async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.setViewportSize({ width: 375, height: 800 });
+  expect(await canvasChanges(page)).toBe(false);
 });

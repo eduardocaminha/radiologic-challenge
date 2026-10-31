@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { ctWindowLevelFromPointer } from "@/lib/window-level";
+import { CT_WINDOW_LEVEL_REST, ctWindowLevelAt, ctWindowLevelFromPointer } from "@/lib/window-level";
 
 function pointer(box: { left: number; top: number; width: number; height: number }, clientX: number, clientY: number) {
   return {
@@ -25,5 +25,20 @@ describe("janela e nível pelo ponteiro", () => {
 
   it("ignora elemento sem tamanho em vez de gerar infinito", () => {
     expect(ctWindowLevelFromPointer(pointer({ left: 0, top: 0, width: 0, height: 0 }, 50, 50))).toBeNull();
+  });
+});
+
+describe("ctWindowLevelAt", () => {
+  it("começa na janela de repouso", () => {
+    expect(ctWindowLevelAt(0)).toEqual(CT_WINDOW_LEVEL_REST);
+  });
+
+  it("fica numa faixa que preserva a anatomia", () => {
+    for (let seconds = 0; seconds < 120; seconds += 0.1) {
+      const { window, level } = ctWindowLevelAt(seconds);
+      expect(window).toBeGreaterThanOrEqual(400);
+      expect(window).toBeLessThanOrEqual(1000);
+      expect(Math.abs(level - CT_WINDOW_LEVEL_REST.level)).toBeLessThanOrEqual(90);
+    }
   });
 });
