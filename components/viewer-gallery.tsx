@@ -269,10 +269,10 @@ function GalleryEmpty({ locale, dictionary }: { locale: Locale; dictionary: Dict
         study="chest"
         title={dictionary.home.title}
         month={month}
-        className="flex min-h-120 items-end px-6 pb-14 pt-16 sm:aspect-video sm:min-h-0 sm:pb-16"
+        className="flex min-h-120 items-end justify-center px-6 pb-26 pt-16 sm:aspect-video sm:min-h-0 sm:justify-start sm:pb-16"
         canvasClassName="absolute inset-x-0 top-0 bottom-32 sm:inset-0"
       >
-        <h2 id="gallery-heading" className="relative max-w-xs text-title-lg text-balance">{dictionary.gallery.emptyTitle}</h2>
+        <h2 id="gallery-heading" className="relative max-w-xs text-center text-title-lg text-balance sm:text-start">{dictionary.gallery.emptyTitle}</h2>
       </CtViewport>
     </section>
   );
