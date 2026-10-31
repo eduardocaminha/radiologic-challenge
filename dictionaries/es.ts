@@ -83,6 +83,7 @@ const dictionary: Dictionary = {
     signIn: "Iniciar sesión",
     signOut: "Cerrar sesión",
     loginTitle: "Iniciar sesión en Radiologic Workstation",
+    loginTitleLead: "Iniciar sesión en",
     google: "Iniciar sesión con Google",
     github: "Iniciar sesión con GitHub",
     providerError: "No se pudo iniciar sesión. Inténtalo de nuevo.",

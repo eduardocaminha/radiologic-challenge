@@ -48,7 +48,7 @@ export default async function Login({ params, searchParams }: PageProps) {
             <Link href={`/${locale}`} aria-label={dictionary.home.title} className="w-fit">
               <Logo className="size-6" aria-hidden="true" />
             </Link>
-            <h1 className="max-w-xs text-display-sm sm:text-display-md">{dictionary.auth.loginTitle}</h1>
+            <h1 className="max-w-xs text-display-sm sm:text-display-md"><span className="text-muted-foreground">{dictionary.auth.loginTitleLead}</span> {dictionary.home.title}</h1>
             <LoginButtons
               locale={locale}
               next={next}

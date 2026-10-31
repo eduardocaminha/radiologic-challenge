@@ -83,6 +83,7 @@ const dictionary: Dictionary = {
     signIn: "Sign in",
     signOut: "Sign out",
     loginTitle: "Sign in to Radiologic Workstation",
+    loginTitleLead: "Sign in to",
     google: "Continue with Google",
     github: "Continue with GitHub",
     providerError: "We could not sign you in. Please try again.",
