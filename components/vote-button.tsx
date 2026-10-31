@@ -220,7 +220,7 @@ export function VoteButton({
     <div className={cn("flex flex-col gap-2", className)}>
       <button
         type="button"
-        className="lk"
+        className={cn("lk", showLabel && "lk-lg")}
         onClick={() => void toggleVote()}
         disabled={pending || !ready}
         data-voted={voted || undefined}

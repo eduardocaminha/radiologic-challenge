@@ -68,10 +68,10 @@ const RING_S = 2.2;
 
 /* ── the shape: the word ────────────────────────────────────
    Rasterises the word and returns how much of it sits under one
-   cell, so the halftone is dense right to the outline. On desktop
-   the word is cut at the bottom: the dots shrink away over the last
+   cell, so the halftone is dense right to the outline. The word
+   is cut at the bottom: the dots shrink away over the last
    stretch instead of ending in a straight line. */
-function wordCoverage(width: number, height: number, mobile: boolean) {
+function wordCoverage(width: number, height: number) {
   const mask = document.createElement("canvas");
   mask.width = Math.ceil(width);
   mask.height = Math.ceil(height);
@@ -89,7 +89,7 @@ function wordCoverage(width: number, height: number, mobile: boolean) {
   const fontSize = MEASURE_SIZE * width / (measured.actualBoundingBoxLeft + measured.actualBoundingBoxRight);
   setFont(fontSize);
   const left = measured.actualBoundingBoxLeft * fontSize / MEASURE_SIZE;
-  context.fillText(WORD, left, mobile ? height - 0.24 * fontSize : 0.78 * fontSize);
+  context.fillText(WORD, left, 0.78 * fontSize);
   const { data } = context.getImageData(0, 0, mask.width, mask.height);
 
   return (x: number, y: number, cellWidth: number, cellHeight: number) => {
@@ -105,7 +105,7 @@ function wordCoverage(width: number, height: number, mobile: boolean) {
     }
     const coverage = samples ? total / samples / 255 : 0;
     if (coverage < 0.08) return 0;
-    const dissolve = mobile ? 1 : Math.min(1, (height - y) / (height * DISSOLVE_SHARE));
+    const dissolve = Math.min(1, (height - y) / (height * DISSOLVE_SHARE));
     return Math.min(1, coverage * dissolve);
   };
 }
@@ -164,8 +164,7 @@ export function AsciiWake({
       s.h = height;
       canvas.width = Math.round(width * r);
       canvas.height = Math.round(height * r);
-      const mobile = width < 500;
-      const size = mobile ? 5 : 10;
+      const size = width < 500 ? 5 : 10;
       /* rows a little tighter than the face's own leading, so the
          resting dots sit on an even grid rather than in stripes */
       s.ch = size * 0.82;
@@ -177,7 +176,7 @@ export function AsciiWake({
       s.mask = new Float32Array(s.cols * s.rows);
       /* the grid centred in the block, whatever is left over split */
       const ox = (s.ox = (width - s.cols * s.cw) / 2), oy = (s.oy = (height - s.rows * s.ch) / 2);
-      const coverage = wordCoverage(width, height, mobile);
+      const coverage = wordCoverage(width, height);
       for (let j = 0; j < s.rows; j++) {
         for (let i = 0; i < s.cols; i++) {
           const x = ox + (i + 0.5 + (j & 1) * 0.5) * s.cw, y = oy + (j + 0.5) * s.ch;
@@ -369,7 +368,7 @@ export function AsciiWake({
 
   return (
     <div
-      className="asc aspect-wordmark-full overflow-clip sm:aspect-wordmark"
+      className="asc aspect-wordmark overflow-clip"
       onPointerEnter={(e) => { st.current.lx = NaN; move(e); }}
       onPointerMove={move}
       onPointerLeave={() => { const s = st.current; s.inside = false; s.lx = NaN; motion.current.wake(); }}

@@ -18,24 +18,26 @@ export function Footer({ locale, dictionary }: FooterProps) {
   return (
     <footer className="mx-auto w-full max-w-6xl px-6 pt-20">
       <AsciiWake />
-      <div className="grid grid-cols-2 gap-x-6 gap-y-8 py-10 text-sm text-muted-foreground sm:grid-cols-3">
+      <div className="grid grid-cols-2 gap-x-6 py-10 text-sm text-muted-foreground">
         <div className="flex flex-col gap-3">
           <Link href={`/${locale}`} aria-label={dictionary.home.title} className="-m-2 w-fit p-2 text-foreground">
             <Logo className="size-5" aria-hidden="true" />
           </Link>
-          <span>© {new Date().getFullYear()} Radiologic</span>
+          <div className="flex flex-col gap-0.5">
+            <span>© {new Date().getFullYear()} Radiologic</span>
+            <span>{dictionary.footer.nonClinical}</span>
+          </div>
         </div>
         <FluidNav
           id="footer"
           label={dictionary.nav.footerLabel}
-          className="-ms-2.5 flex-col items-start"
+          className="-me-2.5 flex-col items-end justify-self-end"
           links={[
             { href: `/${locale}/privacy`, label: dictionary.footer.privacy },
             { href: `mailto:${CONTACT_EMAIL}`, label: dictionary.footer.contact },
             { href: SOURCE_URL, label: dictionary.footer.source, icon: <GithubIcon /> },
           ]}
         />
-        <span className="max-sm:col-span-2 sm:text-end">{dictionary.footer.nonClinical}</span>
       </div>
     </footer>
   );

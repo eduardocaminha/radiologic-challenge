@@ -41,3 +41,16 @@ test("seletor de idioma troca o locale preservando o caminho", async ({ page }) 
   await expect(page).toHaveURL(/\/es$/);
   await expect(page.locator("html")).toHaveAttribute("lang", "es");
 });
+
+test("no celular o idioma fica no menu, que fecha ao navegar", async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 800 });
+  await page.goto("/pt/kit?x=1");
+  await expect(page.getByRole("combobox", { name: "Idioma" })).toBeHidden();
+  await page.getByRole("button", { name: "Menu" }).click();
+  await page.getByRole("button", { name: "English" }).click();
+  await expect(page).toHaveURL(/\/en\/kit\?x=1$/);
+  await page.getByRole("button", { name: "Menu" }).click();
+  await page.getByRole("navigation", { name: "Menu" }).getByRole("link", { name: "Rules" }).click();
+  await expect(page).toHaveURL(/\/en\/rules$/);
+  await expect(page.getByRole("navigation", { name: "Menu" })).toBeHidden();
+});

@@ -176,7 +176,6 @@
   --radius-2xl: var(--radius-2xl);
   --aspect-card: 16 / 10;
   --aspect-wordmark: 7.6;
-  --aspect-wordmark-full: 3.2;
   --color-destructive-foreground: var(--destructive-foreground);
 
   /* Escala tipográfica por papel (display, headline, title, body, label), no
@@ -378,6 +377,19 @@ body:has([data-sticky-header]) > header::before {
   -webkit-tap-highlight-color: transparent;
   transition: scale 220ms cubic-bezier(0.22, 1, 0.36, 1), background-color 200ms ease, color 200ms ease;
   letter-spacing: -0.01em;
+}
+
+/* Ao lado de um Button lg: mesma altura e mesmo corpo de texto. */
+.lk-lg {
+  height: 40px;
+  font-size: 16px;
+}
+
+@media (min-width: 40rem) {
+  .lk-lg {
+    height: 36px;
+    font-size: 14px;
+  }
 }
 
 /* Invertido só depois do voto: o branco marca o seu voto, e a galeria não vira uma parede de botões primários. */
