@@ -22,7 +22,7 @@ function IntegrityAction({ account, action }: { account: VoteIntegrityAccount; a
       <input type="hidden" name="userId" value={account.user_id} />
       <label className="flex min-w-56 flex-1 flex-col gap-1 text-sm">
         <span>Motivo</span>
-        <Textarea name="reason" required maxLength={500} rows={2} placeholder="Registre o motivo da decisão" />
+        <Textarea name="reason" required maxLength={500} rows={2} placeholder="O autor do projeto recebe este texto por e-mail" />
       </label>
       <Button type="submit" variant="destructive" disabled={pending}>
         {pending ? "Aplicando..." : action === "void" ? "Anular votos" : "Banir conta"}

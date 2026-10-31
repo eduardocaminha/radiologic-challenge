@@ -32,6 +32,7 @@ export interface AdminSubmission {
   created_at: string;
   updated_at: string;
   approved_at: string | null;
+  organizer_project: boolean;
   name: string | null;
   tagline: string | null;
   description: string | null;

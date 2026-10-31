@@ -11,6 +11,7 @@ Radiologic Workstation is a public, permanent showcase of radiology workstations
 - People aged 18 or older, from any country, alone or as a team.
 - Radiologists, residents, other physicians, developers, students, physicists and the curious.
 - A person or team may publish more than one project, as long as they are different projects.
+- The organizer may publish its own projects. They are marked as organizer projects and do not enter the monthly highlights.
 
 ## 3. What can be submitted
 
@@ -51,11 +52,12 @@ The projects published here are experimental, for education and research. They a
 - To vote you sign in with a Google or GitHub account. Each account gets one vote per project and may vote for as many projects as it likes. A vote can be withdrawn.
 - Authors may vote for their own project and may ask colleagues and discussion groups for votes.
 - Creating accounts only to vote, using automation, and buying or trading votes are not allowed. The organizer may void votes and block accounts when it finds these patterns, and logs every voided vote.
+- When votes are voided, the author of the affected project receives the number and the reason by email, and may appeal within 15 days by replying to that email. The highlights page shows the total of voided votes for each month.
 - The site shows vote counts. It does not show who voted for what.
 
 ## 8. Monthly highlights
 
-On the first day of each month, the three projects that received the most votes in the previous month join the highlights page. The month follows Brasília time. In a tie, the project approved earlier ranks first. The same project may be highlighted in more than one month. A highlight is public recognition and carries no prize.
+On the first day of each month, the three projects that received the most votes in the previous month join the highlights page. The month follows Brasília time. In a tie, the project approved most recently ranks first. The same project may be highlighted in more than one month. A highlight is public recognition and carries no prize.
 
 ## 9. Rights
 

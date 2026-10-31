@@ -21,6 +21,7 @@ const pendingDigest = {
   submissions_count: 2,
   screenshots_count: 3,
   changes_count: 1,
+  vote_alerts_count: 1,
 };
 
 describe("GET /api/cron/digest", () => {
@@ -70,6 +71,7 @@ describe("GET /api/cron/digest", () => {
     const body = JSON.parse(vi.mocked(fetch).mock.calls[0]?.[1]?.body as string);
     expect(body.to).toEqual(["admin@example.test"]);
     expect(body.text).toContain("Imagens pending: 3");
+    expect(body.text).toContain("pico de votos de contas novas: 1");
     expect(body.html).toContain("/admin");
     expect(rpc).toHaveBeenNthCalledWith(2, "record_moderation_digest_send", expect.objectContaining({
       p_pending_key: "pending-key",
@@ -95,7 +97,7 @@ describe("GET /api/cron/digest", () => {
 
     expect(response.status).toBe(200);
     expect(await response.json()).toEqual({ ok: true, sent: false });
-    expect(rpc).toHaveBeenCalledTimes(1);
+    expect(rpc).not.toHaveBeenCalledWith("record_moderation_digest_send", expect.anything());
   });
 
   it("não envia quando o banco já marcou a mesma fotografia do dia", async () => {
@@ -105,5 +107,44 @@ describe("GET /api/cron/digest", () => {
 
     expect(response.status).toBe(200);
     expect(fetch).not.toHaveBeenCalled();
+  });
+
+  it("avisa o autor no idioma do projeto e limpa a fila", async () => {
+    rpc.mockImplementation(async (name: string) => {
+      if (name === "get_moderation_digest") return { data: { ...pendingDigest, should_send: false }, error: null };
+      if (name === "pending_vote_void_notices") {
+        return {
+          data: [{ notice_ids: ["n1", "n2"], name: "Viewer", slug: "viewer", lang: "en", email: "autor@example.test", votes: 4, reasons: ["contas criadas em lote"] }],
+          error: null,
+        };
+      }
+      return { data: null, error: null };
+    });
+    vi.mocked(fetch).mockResolvedValue(new Response("{}", { status: 200 }));
+
+    await GET(request());
+
+    const body = JSON.parse(vi.mocked(fetch).mock.calls[0]?.[1]?.body as string);
+    expect(body.to).toEqual(["autor@example.test"]);
+    expect(body.reply_to).toBe("caminha@radiologic.io");
+    expect(body.subject).toBe("Votes voided on Viewer");
+    expect(body.text).toContain("Voided votes: 4");
+    expect(body.text).toContain("Reason: contas criadas em lote");
+    expect(rpc).toHaveBeenCalledWith("clear_vote_void_notices", { p_notice_ids: ["n1", "n2"] });
+  });
+
+  it("mantém o aviso na fila quando o Resend falha", async () => {
+    rpc.mockImplementation(async (name: string) => {
+      if (name === "get_moderation_digest") return { data: { ...pendingDigest, should_send: false }, error: null };
+      return {
+        data: [{ notice_ids: ["n1"], name: "Viewer", slug: "viewer", lang: "pt", email: "autor@example.test", votes: 1, reasons: ["motivo"] }],
+        error: null,
+      };
+    });
+    vi.mocked(fetch).mockResolvedValue(new Response("erro", { status: 500 }));
+
+    await GET(request());
+
+    expect(rpc).not.toHaveBeenCalledWith("clear_vote_void_notices", expect.anything());
   });
 });

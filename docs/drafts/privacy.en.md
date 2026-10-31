@@ -24,7 +24,7 @@ We only use cookies when you sign in. They keep your session and are required fo
 - Enforcing one vote per account and keeping the ranking.
 - Publishing the project and letting the author edit or delete their own submission.
 - Moderating submissions and investigating vote fraud.
-- Telling authors about the status of a submission and about relevant changes to the rules.
+- Telling authors about the status of a submission, voided votes on their project and relevant changes to the rules.
 
 The legal basis is providing the service you asked for by signing in and taking part, and the legitimate interest in keeping the vote sound.
 

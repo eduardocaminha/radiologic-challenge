@@ -61,7 +61,10 @@ export function MonthlyHighlights({
         const monthId = `highlights-${month.month}`;
         return (
           <section key={month.month} aria-labelledby={monthId} className="flex flex-col gap-4">
-            <h2 id={monthId} className="text-title-lg first-letter:uppercase">{formatMonth(month.month, locale)}</h2>
+            <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1">
+              <h2 id={monthId} className="text-title-lg first-letter:uppercase">{formatMonth(month.month, locale)}</h2>
+              {month.voided > 0 ? <p className="text-sm tabular-nums text-muted-foreground">{dictionary.highlights.voided} {month.voided}</p> : null}
+            </div>
             <ol className="flex flex-col">
               {month.entries.map((highlight) => (
                 <li key={`${month.month}-${highlight.rank}`} className="flex items-center gap-4 border-b border-border py-4 first:border-t">

@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useActionState, useState, useTransition } from "react";
-import { moderateAdminItem, withdrawAdminScreenshot, type AdminActionState } from "@/app/admin/actions";
+import { moderateAdminItem, setAdminOrganizerProject, withdrawAdminScreenshot, type AdminActionState } from "@/app/admin/actions";
 import { AdminHighlights } from "@/components/admin-highlights";
 import { AdminIntegrity } from "@/components/admin-integrity";
 import { ConfirmAction } from "@/components/confirm-action";
@@ -68,6 +68,20 @@ function ActionForm({
       ) : null}
       <Button type="submit" name="action" value={action} variant={action === "approve" || action === "restore" ? "default" : "outline"} disabled={pending}>
         {pending ? "Aplicando..." : label}
+      </Button>
+      {state.message ? <p role={state.ok ? "status" : "alert"} className={`basis-full text-sm ${state.ok ? "text-muted-foreground" : "text-destructive"}`}>{state.message}</p> : null}
+    </form>
+  );
+}
+
+function OrganizerProject({ submission }: { submission: AdminSubmission }) {
+  const [state, formAction, pending] = useActionState(setAdminOrganizerProject, initialActionState);
+  return (
+    <form action={formAction} className="flex flex-wrap items-center gap-2">
+      <input type="hidden" name="submissionId" value={submission.id} />
+      <input type="hidden" name="value" value={String(!submission.organizer_project)} />
+      <Button type="submit" variant="outline" size="sm" disabled={pending}>
+        {submission.organizer_project ? "Tirar marca do organizador" : "Marcar como projeto do organizador"}
       </Button>
       {state.message ? <p role={state.ok ? "status" : "alert"} className={`basis-full text-sm ${state.ok ? "text-muted-foreground" : "text-destructive"}`}>{state.message}</p> : null}
     </form>
@@ -174,7 +188,10 @@ function SubmissionRecord({ submission }: { submission: AdminSubmission }) {
           <h2 className="mt-1 text-title-lg">{submission.name ?? "Viewer sem nome"}</h2>
           <p className="mt-1 text-sm text-muted-foreground">Recebida em {date(submission.created_at)}</p>
         </div>
-        <SubmissionActions submission={submission} />
+        <div className="flex flex-col items-start gap-3">
+          <SubmissionActions submission={submission} />
+          <OrganizerProject submission={submission} />
+        </div>
       </div>
 
       <div className="flex flex-col gap-3">

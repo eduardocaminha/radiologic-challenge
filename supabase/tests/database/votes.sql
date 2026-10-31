@@ -203,7 +203,7 @@ select throws_ok(
 select public.snapshot_month((date_trunc('month', timezone('America/Sao_Paulo', now())) - interval '1 month')::date);
 select is((select count(*) from public.monthly_highlights), 3::bigint, 'snapshot_month stores the top three');
 select is((select submission_id from public.monthly_highlights where rank = 1), '10000000-0000-0000-0000-000000000002'::uuid, 'snapshot rank one has the most votes');
-select is((select submission_id from public.monthly_highlights where rank = 2), '10000000-0000-0000-0000-000000000003'::uuid, 'snapshot breaks ties by older approval');
+select is((select submission_id from public.monthly_highlights where rank = 2), '10000000-0000-0000-0000-000000000004'::uuid, 'snapshot breaks ties by newer approval');
 select is((select votes from public.monthly_highlights where rank = 1), 3, 'snapshot stores the vote count');
 
 alter table public.submissions disable trigger submissions_guard_edit;

@@ -11,6 +11,7 @@ Radiologic Workstation es un showcase público y permanente de workstations de r
 - Personas de 18 años o más, de cualquier país, individualmente o en equipo.
 - Radiólogos, residentes, otros médicos, desarrolladores, estudiantes, físicos y curiosos.
 - Cada persona o equipo puede publicar más de un proyecto, siempre que sean proyectos diferentes.
+- El organizador puede publicar proyectos propios. Aparecen marcados como proyecto del organizador y no entran en los destacados mensuales.
 
 ## 3. Qué se puede enviar
 
@@ -51,11 +52,12 @@ Los proyectos publicados aquí son experimentales, con finalidad educativa y de 
 - Para votar es necesario iniciar sesión con una cuenta de Google o de GitHub. Cada cuenta da un voto por proyecto y puede votar por tantos proyectos como quiera. El voto se puede retirar.
 - El autor puede votar por su propio proyecto y puede pedir votos a colegas y en grupos de discusión.
 - Está prohibido crear cuentas solo para votar, usar automatización, comprar o intercambiar votos. El organizador puede anular votos y bloquear cuentas cuando encuentre estos patrones, y registra cada anulación.
+- Cuando se anulan votos, el autor del proyecto afectado recibe por correo la cantidad y el motivo, y puede impugnar en un plazo de 15 días respondiendo a ese correo. La página de destacados muestra el total de votos anulados de cada mes.
 - El sitio muestra el conteo de votos. No muestra quién votó por qué.
 
 ## 8. Destacados mensuales
 
-El primer día de cada mes, los tres proyectos que más votos recibieron en el mes anterior entran en la página de destacados. El mes sigue el horario de Brasilia. En caso de empate, queda adelante el proyecto aprobado hace más tiempo. El mismo proyecto puede ser destacado en más de un mes. El destacado es un reconocimiento público y no da derecho a premio.
+El primer día de cada mes, los tres proyectos que más votos recibieron en el mes anterior entran en la página de destacados. El mes sigue el horario de Brasilia. En caso de empate, queda adelante el proyecto aprobado más recientemente. El mismo proyecto puede ser destacado en más de un mes. El destacado es un reconocimiento público y no da derecho a premio.
 
 ## 9. Derechos
 

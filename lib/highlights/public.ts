@@ -12,6 +12,7 @@ export interface PublicHighlight {
 export interface PublicHighlightMonth {
   month: string;
   entries: PublicHighlight[];
+  voided: number;
 }
 
 interface HighlightRow {
@@ -26,18 +27,32 @@ function numberValue(value: number | string | null | undefined) {
   return typeof value === "number" ? value : Number(value ?? 0);
 }
 
-async function fetchHighlightRows(): Promise<HighlightRow[]> {
-  if (!hasSupabaseConfig()) return [];
+interface VoidedRow {
+  month: string;
+  votes: number | string;
+}
+
+interface HighlightData {
+  rows: HighlightRow[];
+  voided: VoidedRow[];
+}
+
+async function fetchHighlightRows(): Promise<HighlightData> {
+  const empty: HighlightData = { rows: [], voided: [] };
+  if (!hasSupabaseConfig()) return empty;
 
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
-  if (!url || !key) return [];
+  if (!url || !key) return empty;
 
   const supabase = createClient(url, key, { auth: { autoRefreshToken: false, persistSession: false } });
-  const result = await supabase.rpc("get_highlights");
-  if (result.error || !result.data) return [];
+  const [result, voided] = await Promise.all([supabase.rpc("get_highlights"), supabase.rpc("voided_votes_by_month")]);
+  if (result.error || !result.data) return empty;
 
-  return result.data as unknown as HighlightRow[];
+  return {
+    rows: result.data as unknown as HighlightRow[],
+    voided: (voided.data ?? []) as unknown as VoidedRow[],
+  };
 }
 
 const getCachedHighlightRows = unstable_cache(fetchHighlightRows, ["public-highlights"], {
@@ -45,7 +60,7 @@ const getCachedHighlightRows = unstable_cache(fetchHighlightRows, ["public-highl
 });
 
 export async function getPublicHighlights(): Promise<PublicHighlightMonth[]> {
-  const rows = process.env.NODE_ENV === "development"
+  const { rows, voided } = process.env.NODE_ENV === "development"
     ? await fetchHighlightRows()
     : await getCachedHighlightRows();
 
@@ -56,5 +71,6 @@ export async function getPublicHighlights(): Promise<PublicHighlightMonth[]> {
     months.set(row.month, entries);
   }
 
-  return [...months.entries()].map(([month, entries]) => ({ month, entries }));
+  const voidedByMonth = new Map(voided.map((row) => [row.month, numberValue(row.votes)]));
+  return [...months.entries()].map(([month, entries]) => ({ month, entries, voided: voidedByMonth.get(month) ?? 0 }));
 }

@@ -24,7 +24,7 @@ Só usamos cookies quando você entra na sua conta. Eles mantêm a sua sessão e
 - Garantir um voto por conta e manter o ranking.
 - Publicar o projeto e permitir que o autor edite ou exclua a própria submissão.
 - Moderar submissões e investigar fraude de voto.
-- Avisar autores sobre a situação da submissão e sobre mudanças relevantes no regulamento.
+- Avisar autores sobre a situação da submissão, votos anulados no projeto e mudanças relevantes no regulamento.
 
 A base legal é a execução do serviço que você pediu ao entrar e participar, e o legítimo interesse em manter a votação íntegra.
 

@@ -36,6 +36,11 @@ const voterIntegritySchema = z.object({
   reason: z.string().trim().min(1).max(500),
 });
 
+const organizerProjectSchema = z.object({
+  submissionId: z.string().uuid(),
+  value: z.enum(["true", "false"]),
+});
+
 function revalidateLocales(path = "") {
   for (const locale of locales) revalidatePath(`/${locale}${path}`);
 }
@@ -113,6 +118,25 @@ async function runVoterIntegrityAction(
   revalidatePath("/admin");
   revalidateLocales();
   return { ok: true, message: action === "void" ? "Votos anulados. A galeria foi atualizada." : "Conta banida. A galeria foi atualizada." };
+}
+
+export async function setAdminOrganizerProject(
+  _previousState: AdminActionState,
+  formData: FormData,
+): Promise<AdminActionState> {
+  const parsed = organizerProjectSchema.safeParse(Object.fromEntries(formData));
+  if (!parsed.success) return { ok: false, message: "Revise os dados e tente novamente." };
+
+  const supabase = await createServerSupabaseClient();
+  const { error } = await supabase.rpc("set_organizer_project", {
+    p_submission_id: parsed.data.submissionId,
+    p_organizer_project: parsed.data.value === "true",
+  });
+  if (error) return { ok: false, message: "Não foi possível atualizar o projeto." };
+
+  revalidatePath("/admin");
+  revalidateLocales();
+  return { ok: true, message: "Projeto atualizado." };
 }
 
 export async function voidAdminVotes(

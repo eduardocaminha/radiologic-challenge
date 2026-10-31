@@ -10,6 +10,7 @@ import { getDictionary } from "@/dictionaries";
 import { getPublicHighlights } from "@/lib/highlights/public";
 import { isLocale } from "@/lib/i18n";
 import { getPublicViewers } from "@/lib/viewers/public";
+import { rotationDay } from "@/lib/viewers/rotation";
 import { JsonLd } from "@/components/json-ld";
 import { pageMetadata, SITE_NAME, SITE_URL } from "@/lib/seo";
 
@@ -33,6 +34,7 @@ export default async function Home({ params }: PageProps) {
   if (!isLocale(locale)) notFound();
 
   const [dictionary, viewers, months] = await Promise.all([getDictionary(locale), getPublicViewers(), getPublicHighlights()]);
+  const day = rotationDay();
 
   return (
     <main data-sticky-header className="mx-auto flex min-h-screen max-w-6xl flex-col gap-20 px-6 py-12 sm:gap-32 sm:py-16">
@@ -55,8 +57,8 @@ export default async function Home({ params }: PageProps) {
         </div>
       </section>
       {months[0] ? <LatestHighlights locale={locale} dictionary={dictionary} month={months[0]} /> : null}
-      <Suspense fallback={<ViewerGallery locale={locale} dictionary={dictionary} viewers={viewers} />}>
-        <ViewerGalleryWithParams locale={locale} dictionary={dictionary} viewers={viewers} />
+      <Suspense fallback={<ViewerGallery locale={locale} dictionary={dictionary} viewers={viewers} rotationDay={day} />}>
+        <ViewerGalleryWithParams locale={locale} dictionary={dictionary} viewers={viewers} rotationDay={day} />
       </Suspense>
     </main>
   );
