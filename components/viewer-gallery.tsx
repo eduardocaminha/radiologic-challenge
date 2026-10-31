@@ -7,6 +7,7 @@ import { AnimatePresence, MotionConfig, motion } from "motion/react";
 import { useMemo } from "react";
 import { CtViewport } from "@/components/ct-viewport";
 import { LineTabs } from "@/components/line-tabs";
+import { ShareButton } from "@/components/share-button";
 import { VoteButton } from "@/components/vote-button";
 import { Button } from "@/components/ui/button";
 import { Empty, EmptyContent, EmptyHeader, EmptyTitle } from "@/components/ui/empty";
@@ -17,6 +18,7 @@ import { spring } from "@/lib/springs";
 import { WORKFLOW_PARTS } from "@/lib/submissions/constants";
 import { cn } from "@/lib/utils";
 import type { PublicViewer } from "@/lib/viewers/public";
+import { rotationKey } from "@/lib/viewers/rotation";
 
 const PAGE_SIZE = 12;
 
@@ -59,6 +61,7 @@ interface GalleryProps {
   locale: Locale;
   dictionary: Dictionary;
   viewers: PublicViewer[];
+  rotationDay: string;
 }
 
 // Filtros e ordenação vivem na URL: sobrevivem ao voltar da ficha e podem ser compartilhados.
@@ -86,6 +89,7 @@ export function ViewerGallery({
   locale,
   dictionary,
   viewers,
+  rotationDay,
   params = {},
   onParamsChange,
 }: GalleryProps & {
@@ -94,7 +98,7 @@ export function ViewerGallery({
 }) {
   const copy = dictionary.gallery;
   const select = dictionary.submission.select;
-  const sort: Sort = params.sort === "month" || params.sort === "recent" ? params.sort : "total";
+  const sort: Sort = params.sort === "total" || params.sort === "recent" ? params.sort : "month";
   const filterOf = (facet: Facet) => params[FACET_PARAM[facet]] ?? ALL;
   const setFilter = (facet: Facet, value: string) => onParamsChange?.({ [FACET_PARAM[facet]]: value === ALL ? null : value });
 
@@ -123,12 +127,14 @@ export function ViewerGallery({
       const value = params[FACET_PARAM[facet]];
       return !value || facetValues(viewer, facet).includes(value);
     }));
+    // Empate gira todo dia: nenhum projeto fica sempre na frente dos que têm os mesmos votos.
+    const rotation = (a: PublicViewer, b: PublicViewer) => rotationKey(a.id, rotationDay) - rotationKey(b.id, rotationDay);
     return [...filtered].sort((a, b) => {
-      if (sort === "month") return b.month_votes - a.month_votes || b.total_votes - a.total_votes;
+      if (sort === "month") return b.month_votes - a.month_votes || rotation(a, b);
       if (sort === "recent") return (b.approved_at ?? "").localeCompare(a.approved_at ?? "");
-      return b.total_votes - a.total_votes || b.month_votes - a.month_votes;
+      return b.total_votes - a.total_votes || rotation(a, b);
     });
-  }, [params, sort, viewers]);
+  }, [params, rotationDay, sort, viewers]);
 
   const limit = Math.max(PAGE_SIZE, Number.parseInt(params.limit ?? "", 10) || PAGE_SIZE);
   const visibleViewers = filteredViewers.slice(0, limit);
@@ -136,7 +142,8 @@ export function ViewerGallery({
   const toggleFilter = (facet: Facet, value: string) => setFilter(facet, filterOf(facet) === value ? ALL : value);
   const clearFilters = () => onParamsChange?.(Object.fromEntries(FACETS.map((facet) => [FACET_PARAM[facet], null])));
   const filtered = FACETS.some((facet) => filterOf(facet) !== ALL);
-  const sortOptions: [Sort, string][] = [["total", copy.sortTotal], ["month", copy.sortMonth], ["recent", copy.sortRecent]];
+  const sortOptions: [Sort, string][] = [["month", copy.sortMonth], ["total", copy.sortTotal], ["recent", copy.sortRecent]];
+  const votesOf = (viewer: PublicViewer) => (sort === "month" ? viewer.month_votes : viewer.total_votes);
 
   if (viewers.length === 0) {
     return <GalleryEmpty locale={locale} dictionary={dictionary} />;
@@ -172,7 +179,7 @@ export function ViewerGallery({
 
         <div className="block-in block-in-3 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between sm:gap-8">
           <div className="flex items-end justify-between gap-4">
-            <LineTabs id="sort" label={copy.sort} options={sortOptions} value={sort} onChange={(value) => onParamsChange?.({ sort: value === "total" ? null : value })} />
+            <LineTabs id="sort" label={copy.sort} options={sortOptions} value={sort} onChange={(value) => onParamsChange?.({ sort: value === "month" ? null : value })} />
             {filtered && filteredViewers.length > 0 ? <Button variant="ghost" size="sm" className="mb-2 text-muted-foreground" onClick={clearFilters}>{copy.clearFilters}</Button> : null}
           </div>
           {platforms.length > 1 ? (
@@ -198,11 +205,12 @@ export function ViewerGallery({
                   position={position}
                   locale={locale}
                   viewer={viewer}
-                  rank={sort === "recent" || (sort === "month" ? viewer.month_votes : viewer.total_votes) === 0 ? null : position + 1}
-                  votes={sort === "month" ? viewer.month_votes : viewer.total_votes}
+                  rank={sort === "recent" || votesOf(viewer) === 0 ? null : filteredViewers.findIndex((other) => votesOf(other) === votesOf(viewer)) + 1}
+                  votes={votesOf(viewer)}
                   copy={copy}
                   voteCopy={dictionary.vote}
-                  meta={[viewer.workflow_parts?.map((value) => dictionary.submission.part[value] ?? value).join(", "), viewer.modalities?.slice(0, 2).map((value) => dictionary.submission.modality[value] ?? value).join(", "), viewer.ai_code_share ? copy.aiShare[viewer.ai_code_share] : null, viewer.country].filter(Boolean).join(" · ")}
+                  shareCopy={dictionary.share}
+                  meta={[viewer.organizer_project ? dictionary.viewer.organizerProject : null, viewer.workflow_parts?.map((value) => dictionary.submission.part[value] ?? value).join(", "), viewer.modalities?.slice(0, 2).map((value) => dictionary.submission.modality[value] ?? value).join(", "), viewer.ai_code_share ? copy.aiShare[viewer.ai_code_share] : null, viewer.country].filter(Boolean).join(" · ")}
                 />
               ))}
             </AnimatePresence>
@@ -271,7 +279,7 @@ function GalleryEmpty({ locale, dictionary }: { locale: Locale; dictionary: Dict
   );
 }
 
-function ViewerCard({ position, locale, viewer, rank, votes, copy, voteCopy, meta }: { position: number; locale: Locale; viewer: PublicViewer; rank: number | null; votes: number; voteCopy: Dictionary["vote"]; copy: Dictionary["gallery"]; meta: string }) {
+function ViewerCard({ position, locale, viewer, rank, votes, copy, voteCopy, shareCopy, meta }: { position: number; locale: Locale; viewer: PublicViewer; rank: number | null; votes: number; voteCopy: Dictionary["vote"]; shareCopy: Dictionary["share"]; copy: Dictionary["gallery"]; meta: string }) {
   const screenshot = viewer.screenshots[0];
   return (
     <motion.li
@@ -295,7 +303,7 @@ function ViewerCard({ position, locale, viewer, rank, votes, copy, voteCopy, met
             </span>
           ) : null}
         </span>
-        <span className="flex items-start gap-3 px-2 pb-2 pe-24">
+        <span className="flex items-start gap-3 px-2 pb-2 pe-32">
           <span className="flex min-w-0 flex-1 flex-col gap-0.5">
             <span className="truncate font-medium">
               {rank !== null ? <span className="me-2 tabular-nums text-muted-foreground">{rank}</span> : null}
@@ -307,7 +315,10 @@ function ViewerCard({ position, locale, viewer, rank, votes, copy, voteCopy, met
         </span>
       </Link>
       {/* Fora do link: botão dentro de âncora não é HTML válido, e votar não pode abrir a ficha. */}
-      <VoteButton key={votes} locale={locale} submissionId={viewer.id} initialCount={votes} copy={voteCopy} className="absolute bottom-4 end-4 items-end" />
+      <div className="absolute bottom-4 end-4 flex items-start gap-1">
+        <ShareButton locale={locale} slug={viewer.slug} name={viewer.name} copy={shareCopy} iconOnly variant="ghost" size="icon" className="text-muted-foreground" />
+        <VoteButton key={votes} locale={locale} submissionId={viewer.id} initialCount={votes} copy={voteCopy} className="items-end" />
+      </div>
     </motion.li>
   );
 }

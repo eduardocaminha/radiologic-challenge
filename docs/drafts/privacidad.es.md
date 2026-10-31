@@ -24,7 +24,7 @@ Solo usamos cookies cuando inicias sesión. Mantienen tu sesión y son necesaria
 - Garantizar un voto por cuenta y mantener el ranking.
 - Publicar el proyecto y permitir que el autor edite o elimine su propio envío.
 - Moderar envíos e investigar fraude de votos.
-- Avisar a los autores sobre el estado del envío y sobre cambios relevantes en el reglamento.
+- Avisar a los autores sobre el estado del envío, votos anulados en el proyecto y cambios relevantes en el reglamento.
 
 La base legal es la ejecución del servicio que solicitaste al iniciar sesión y participar, y el interés legítimo en mantener la integridad de la votación.
 

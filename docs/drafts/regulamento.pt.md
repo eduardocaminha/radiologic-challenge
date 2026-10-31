@@ -11,6 +11,7 @@ O Radiologic Workstation é um showcase público e permanente de workstations de
 - Pessoas com 18 anos ou mais, de qualquer país, sozinhas ou em equipe.
 - Radiologistas, residentes, outros médicos, desenvolvedores, estudantes, físicos e curiosos.
 - Cada pessoa ou equipe pode publicar mais de um projeto, desde que sejam projetos diferentes.
+- O organizador pode publicar projetos próprios. Eles aparecem marcados como projeto do organizador e não entram nos destaques mensais.
 
 ## 3. O que pode ser submetido
 
@@ -51,11 +52,12 @@ Os projetos publicados aqui são experimentais, de finalidade educacional e de p
 - Para votar é preciso entrar com uma conta Google ou GitHub. Cada conta dá um voto por projeto e pode votar em quantos projetos quiser. O voto pode ser retirado.
 - O autor pode votar no próprio projeto e pode pedir votos a colegas e em grupos de discussão.
 - É proibido criar contas só para votar, usar automação, comprar ou trocar votos. O organizador pode anular votos e bloquear contas quando encontrar esses padrões, e registra cada anulação.
+- Quando há votos anulados, o autor do projeto afetado recebe por e-mail a quantidade e o motivo, e pode contestar em até 15 dias respondendo a esse e-mail. A página de destaques mostra o total de votos anulados em cada mês.
 - O site mostra a contagem de votos. Ele não mostra quem votou em quê.
 
 ## 8. Destaques mensais
 
-No primeiro dia de cada mês, os três projetos que mais receberam votos no mês anterior entram na página de destaques. O mês segue o horário de Brasília. Em caso de empate, fica à frente o projeto aprovado há mais tempo. O mesmo projeto pode ser destaque em mais de um mês. O destaque é reconhecimento público e não dá direito a prêmio.
+No primeiro dia de cada mês, os três projetos que mais receberam votos no mês anterior entram na página de destaques. O mês segue o horário de Brasília. Em caso de empate, fica à frente o projeto aprovado mais recentemente. O mesmo projeto pode ser destaque em mais de um mês. O destaque é reconhecimento público e não dá direito a prêmio.
 
 ## 9. Direitos
 

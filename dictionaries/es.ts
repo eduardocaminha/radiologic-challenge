@@ -34,6 +34,7 @@ const dictionary: Dictionary = {
     view: "Ver ficha",
     monthTitle: "Destacados de {month}",
     allMonths: "Todos los meses",
+    voided: "Votos anulados este mes:",
   },
   legal: {
     versionLabel: "Versión",
@@ -118,6 +119,7 @@ const dictionary: Dictionary = {
   },
   viewer: {
     back: "Volver a la galería",
+    organizerProject: "Proyecto del organizador",
     differential: "Diferencial",
     about: "Sobre el proyecto",
     links: "Enlaces",
@@ -153,6 +155,14 @@ const dictionary: Dictionary = {
     nonClinicalTitle: "Uso no clínico",
     nonClinicalDescription: "Este proyecto se presenta con fines educativos y experimentales. No lo uses para diagnóstico, para emitir un informe real ni para decisiones clínicas.",
     imageAlt: "Captura de pantalla",
+  },
+  share: {
+    label: "Compartir",
+    title: "Compartir proyecto",
+    copy: "Copiar enlace",
+    copied: "Enlace copiado",
+    more: "Más opciones",
+    message: "Vota por {name} en Radiologic Workstation: {url}",
   },
   vote: {
     vote: "Votar",

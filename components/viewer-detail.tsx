@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import type { Dictionary } from "@/dictionaries";
 import type { Locale } from "@/lib/i18n";
 import type { PublicViewer } from "@/lib/viewers/public";
+import { ShareButton } from "@/components/share-button";
 import { VoteButton } from "@/components/vote-button";
 
 export function ViewerDetail({ locale, dictionary, viewer }: { locale: Locale; dictionary: Dictionary; viewer: PublicViewer }) {
@@ -19,7 +20,7 @@ export function ViewerDetail({ locale, dictionary, viewer }: { locale: Locale; d
   const primary = viewer.demo_url ? [copy.demo, viewer.demo_url] as const : viewer.download_url ? [copy.download, viewer.download_url] as const : null;
   const secondary = links.filter(([, href]) => href && href !== primary?.[1]);
   const profile = viewer.author_profile ? (dictionary.submission.select[viewer.author_profile] ?? viewer.author_profile) : null;
-  const byline = [viewer.author_name, profile, viewer.country].filter(Boolean).join(" · ");
+  const byline = [viewer.organizer_project ? copy.organizerProject : null, viewer.author_name, profile, viewer.country].filter(Boolean).join(" · ");
   const [cover, ...rest] = viewer.screenshots.filter((screenshot) => screenshot.url);
 
   return (
@@ -42,6 +43,7 @@ export function ViewerDetail({ locale, dictionary, viewer }: { locale: Locale; d
             </Button>
           ) : null}
           <VoteButton locale={locale} submissionId={viewer.id} initialCount={viewer.total_votes} copy={dictionary.vote} showLabel className="items-start" />
+          <ShareButton locale={locale} slug={viewer.slug} name={viewer.name} copy={dictionary.share} variant="outline" size="lg" />
         </div>
       </header>
 

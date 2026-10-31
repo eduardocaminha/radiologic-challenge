@@ -45,6 +45,7 @@ export interface PublicViewer {
   country: string | null;
   limitations: string | null;
   approved_at: string | null;
+  organizer_project: boolean;
   recency: ViewerRecency;
   total_votes: number;
   month_votes: number;

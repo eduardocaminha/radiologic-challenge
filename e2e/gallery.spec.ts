@@ -72,10 +72,19 @@ test("gallery mostra o estado publicado em 375 px", async ({ page }) => {
 test("gallery guarda a ordenação na URL", async ({ page }) => {
   await page.goto("/pt?sort=recent");
   await expect(page.getByRole("button", { name: "Recentes" })).toHaveAttribute("aria-pressed", "true");
-  await page.getByRole("button", { name: "No mês" }).click();
-  await expect(page).toHaveURL(/\/pt\?sort=month$/);
   await page.getByRole("button", { name: "Mais votados" }).click();
+  await expect(page).toHaveURL(/\/pt\?sort=total$/);
+  await page.getByRole("button", { name: "No mês" }).click();
   await expect(page).toHaveURL(/\/pt$/);
+});
+
+test("ficha compartilha o link com a mensagem pedindo voto", async ({ page }) => {
+  await page.goto("/pt/v/galeria-viewer");
+  await page.getByRole("button", { name: "Compartilhar" }).click();
+  const whatsapp = await page.getByRole("link", { name: "WhatsApp" }).getAttribute("href");
+  expect(decodeURIComponent(whatsapp ?? "")).toContain("Vote em Galeria Viewer no Radiologic Workstation: https://challenge.radiologic.io/pt/v/galeria-viewer");
+  await page.getByRole("button", { name: "Copiar link" }).click();
+  await expect(page.getByRole("button", { name: "Link copiado" })).toBeVisible();
 });
 
 test("gallery mantém a ficha legível em 1280 px", async ({ page }) => {

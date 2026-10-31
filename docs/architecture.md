@@ -28,7 +28,7 @@ Aprovada pelo dono em 2026-10-03. Mudança de decisão passa por ele.
 | `POST /api/intake/github` | Intake assinado do Issue Form | dinâmica |
 | `GET /api/cron/digest` | E-mail diário de pendências | dinâmica |
 
-Galeria: a página entrega a lista inteira de viewers aprovados e o cliente ordena (votos totais, votos no mês, recentes) e filtra (plataforma, base tecnológica, país do autor). O estado "você votou" vem de uma ilha client que consulta os votos do usuário logado.
+Galeria: a página entrega a lista inteira de viewers aprovados e o cliente ordena (votos no mês por padrão, votos totais, recentes; empate gira por dia, com a chave vinda do servidor) e filtra (plataforma, base tecnológica, país do autor). O estado "você votou" vem de uma ilha client que consulta os votos do usuário logado.
 
 ## Modelo de dados
 
@@ -59,12 +59,13 @@ Storage: bucket privado `screenshots`, objeto em `{uid}/{submission_id}/{uuid}.{
 
 ### `monthly_highlights`
 
-`month date` (primeiro dia do mês em `America/Sao_Paulo`), `rank int` (1 a 3), `submission_id uuid null` (`on delete set null`), `name`, `slug`, `votes int`. PK `(month, rank)`. Desempate: viewer aprovado há mais tempo.
+`month date` (primeiro dia do mês em `America/Sao_Paulo`), `rank int` (1 a 3), `submission_id uuid null` (`on delete set null`), `name`, `slug`, `votes int`. PK `(month, rank)`. Desempate: viewer aprovado mais recentemente. Projeto com `organizer_project` fica fora.
 
 ### `admins`, `banned_voters`, `submission_events`
 
 - `admins(user_id)`: semeada por SQL.
 - `banned_voters(user_id, reason, created_at)`.
+- `vote_void_notices(id, submission_id, votes, reason, created_at)`: fila de avisos ao autor. `void_votes` grava uma linha por projeto afetado, e o cron apaga depois do envio.
 - `submission_events(id, submission_id null, actor_id null, kind text, detail jsonb, created_at)`: append-only. Registra transição de estado, mudança de URL em viewer aprovado, anulação de voto, banimento e recálculo de snapshot.
 
 ## Funções (única via de escrita)
@@ -72,7 +73,7 @@ Storage: bucket privado `screenshots`, objeto em `{uid}/{submission_id}/{uuid}.{
 Todas `security definer`, `search_path = ''`, com erro tipado.
 
 - **Voto:** `cast_vote(submission_id)`, `revoke_vote(submission_id)`, `my_votes()`. Exigem `auth.uid()`, identidade `google` ou `github` em `auth.identities`, usuário fora de `banned_voters`, viewer `approved`, e respeitam 30 operações por minuto por usuário.
-- **Leitura pública:** `ranking()` devolve viewers aprovados com contagem total e do mês corrente, sem expor `user_id`.
+- **Leitura pública:** `ranking()` devolve viewers aprovados com contagem total e do mês corrente, sem expor `user_id`. `voided_votes_by_month()` devolve só o total de votos anulados por mês encerrado.
 - **Snapshot:** `snapshot_month(month)` idempotente, agendada no `pg_cron` para o primeiro dia de cada mês.
 - **Submissão:** `create_submission` (cria `draft`), `update_submission`, `submit_submission` (`draft` para `pending`), `resubmit_submission` (`rejected` para `pending`), `delete_submission`. Teto de 3 submissões em `draft` ou `pending` por usuário.
 - **Moderação (só admin):** `moderate_submission(id, action, expected_status, reason, expected_updated_at)`, `moderate_screenshot(id, action)`, `withdraw_screenshot(id)`.
@@ -91,7 +92,7 @@ Todas `security definer`, `search_path = ''`, com erro tipado.
 
 - Primeira publicação e toda imagem passam por aprovação. Aprovar uma submissão exige ao menos uma imagem aprovada. A aprovação vale para a versão revisada: se ficha ou imagens mudaram, falha com `SUB25`. Imagem pode ser retirada a qualquer momento, sem remover o projeto: vira `rejected` e o arquivo é apagado.
 - Edição de texto em viewer aprovado entra direto. Mudança de URL em viewer aprovado entra direto e grava evento.
-- `GET /api/cron/digest` roda uma vez por dia pelo cron da Vercel, exige `Authorization: Bearer $CRON_SECRET`, consulta pendências e envia um e-mail por `fetch` à API do Resend. Sem `RESEND_API_KEY` vira no-op logado. A consulta diária também mantém o projeto Supabase ativo.
+- `GET /api/cron/digest` roda uma vez por dia pelo cron da Vercel, exige `Authorization: Bearer $CRON_SECRET`, consulta pendências, inclusive projetos com 5 ou mais votos em 24 horas de contas com menos de 24 horas, e envia um e-mail por `fetch` à API do Resend. O mesmo cron avisa autores sobre votos anulados, com resposta para `caminha@radiologic.io`. Sem `RESEND_API_KEY` vira no-op logado. A consulta diária também mantém o projeto Supabase ativo.
 
 Edição em projeto aprovado segue direto ao ar, mas grava evento (`approved_url_changed` com as URLs, `approved_content_changed` com os campos) e entra no resumo diário. Projeto em moderação ou aprovado não perde campo obrigatório, e projeto removido não é editado.
 

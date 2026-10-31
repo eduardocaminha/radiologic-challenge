@@ -10,6 +10,7 @@ import type { Dictionary } from "@/dictionaries";
 import type { Locale } from "@/lib/i18n";
 import { BadgeMarkdown } from "@/components/badge-markdown";
 import { ConfirmAction } from "@/components/confirm-action";
+import { ShareButton } from "@/components/share-button";
 import { Button } from "@/components/ui/button";
 import { Empty, EmptyContent, EmptyHeader, EmptyTitle } from "@/components/ui/empty";
 import { cn } from "@/lib/utils";
@@ -79,6 +80,7 @@ function SubmissionItem({ locale, dictionary, submission, transitionAction, dele
           {submission.status === "draft" ? <TransitionForm locale={locale} id={submission.id} intent="submit" label={dictionary.submission.send} action={transitionAction} disabled={disabled} /> : null}
           {submission.status === "rejected" ? <TransitionForm locale={locale} id={submission.id} intent="resubmit" label={dictionary.submission.resend} action={transitionAction} disabled={disabled} /> : null}
           {submission.status === "approved" && submission.slug ? <BadgeMarkdown locale={locale} dictionary={dictionary} name={submission.name ?? dictionary.submission.title} slug={submission.slug} /> : null}
+          {submission.status === "approved" && submission.slug ? <ShareButton locale={locale} slug={submission.slug} name={submission.name ?? dictionary.submission.title} copy={dictionary.share} variant="ghost" size="sm" className="text-muted-foreground" /> : null}
           {submission.status === "removed" ? null : <Button variant="ghost" size="sm" className="text-muted-foreground" render={<Link href={`/${locale}/submit?id=${submission.id}`} />}>{dictionary.submission.editTitle}</Button>}
           <form ref={deleteForm} action={deleteAction}>
             <input type="hidden" name="locale" value={locale} />

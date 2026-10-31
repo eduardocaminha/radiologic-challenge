@@ -32,6 +32,7 @@ export interface Dictionary {
     view: string;
     monthTitle: string;
     allMonths: string;
+    voided: string;
   };
   legal: {
     versionLabel: string;
@@ -104,6 +105,7 @@ export interface Dictionary {
   };
   viewer: {
     back: string;
+    organizerProject: string;
     differential: string;
     about: string;
     links: string;
@@ -139,6 +141,14 @@ export interface Dictionary {
     nonClinicalTitle: string;
     nonClinicalDescription: string;
     imageAlt: string;
+  };
+  share: {
+    label: string;
+    title: string;
+    copy: string;
+    copied: string;
+    more: string;
+    message: string;
   };
   vote: {
     vote: string;

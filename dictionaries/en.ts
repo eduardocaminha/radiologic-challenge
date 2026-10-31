@@ -34,6 +34,7 @@ const dictionary: Dictionary = {
     view: "View page",
     monthTitle: "Highlights for {month}",
     allMonths: "All months",
+    voided: "Votes voided this month:",
   },
   legal: {
     versionLabel: "Version",
@@ -118,6 +119,7 @@ const dictionary: Dictionary = {
   },
   viewer: {
     back: "Back to gallery",
+    organizerProject: "Organizer project",
     differential: "What sets it apart",
     about: "About the project",
     links: "Links",
@@ -153,6 +155,14 @@ const dictionary: Dictionary = {
     nonClinicalTitle: "Non-clinical use",
     nonClinicalDescription: "This project is presented for educational and experimental purposes. Do not use it for diagnosis, to issue a real report or for clinical decisions.",
     imageAlt: "Screenshot",
+  },
+  share: {
+    label: "Share",
+    title: "Share project",
+    copy: "Copy link",
+    copied: "Link copied",
+    more: "More options",
+    message: "Vote for {name} on Radiologic Workstation: {url}",
   },
   vote: {
     vote: "Vote",

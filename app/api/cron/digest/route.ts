@@ -2,6 +2,7 @@ import { timingSafeEqual } from "node:crypto";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { createSecretSupabaseClient } from "@/lib/supabase/secret";
+import { voteVoidEmail } from "@/lib/viewers/void-notice";
 
 export const dynamic = "force-dynamic";
 
@@ -11,7 +12,18 @@ const digestSchema = z.object({
   submissions_count: z.number().int().nonnegative(),
   screenshots_count: z.number().int().nonnegative(),
   changes_count: z.number().int().nonnegative(),
+  vote_alerts_count: z.number().int().nonnegative(),
 });
+
+const voidNoticesSchema = z.array(z.object({
+  notice_ids: z.array(z.string()),
+  name: z.string().nullable(),
+  slug: z.string().nullable(),
+  lang: z.string().nullable(),
+  email: z.string().nullable(),
+  votes: z.number().int().positive(),
+  reasons: z.array(z.string()),
+}));
 
 const digestDateFormatter = new Intl.DateTimeFormat("en-CA", {
   timeZone: "America/Sao_Paulo",
@@ -36,7 +48,7 @@ function hasValidAuthorization(request: Request, secret: string | undefined) {
   return timingSafeEqual(authorizationBytes, expectedBytes);
 }
 
-function responseBody(count: number, screenshots: number, changes: number) {
+function responseBody(count: number, screenshots: number, changes: number, voteAlerts: number) {
   const adminUrl = "https://challenge.radiologic.io/admin";
   return {
     text: [
@@ -45,15 +57,60 @@ function responseBody(count: number, screenshots: number, changes: number) {
       `Submissões pending: ${count}`,
       `Imagens pending: ${screenshots}`,
       `Projetos aprovados alterados: ${changes}`,
+      `Projetos com pico de votos de contas novas: ${voteAlerts}`,
       "",
       `Acesse ${adminUrl}`,
     ].join("\n"),
     html: [
       "<p>Há pendências de moderação no Radiologic Workstation.</p>",
-      `<p>Submissões pending: ${count}<br />Imagens pending: ${screenshots}<br />Projetos aprovados alterados: ${changes}</p>`,
+      `<p>Submissões pending: ${count}<br />Imagens pending: ${screenshots}<br />Projetos aprovados alterados: ${changes}<br />Projetos com pico de votos de contas novas: ${voteAlerts}</p>`,
       `<p><a href="${adminUrl}">Abrir a fila de moderação</a></p>`,
     ].join(""),
   };
+}
+
+// Aviso ao autor sobre votos anulados. O que falhar fica na fila para o próximo cron.
+async function sendVoteVoidNotices(client: ReturnType<typeof createSecretSupabaseClient>) {
+  const resendApiKey = process.env.RESEND_API_KEY;
+  if (!resendApiKey) return;
+
+  try {
+    const result = await client.rpc("pending_vote_void_notices");
+    if (result.error) {
+      console.error("[cron digest] consulta dos avisos falhou", result.error.message);
+      return;
+    }
+    const notices = voidNoticesSchema.parse(result.data);
+
+    for (const notice of notices) {
+      if (notice.email && notice.name && notice.slug) {
+        const email = voteVoidEmail({ ...notice, name: notice.name, slug: notice.slug });
+        const response = await fetch("https://api.resend.com/emails", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${resendApiKey}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            from: "Radiologic Workstation <noreply@radiologic.io>",
+            to: [notice.email],
+            reply_to: "caminha@radiologic.io",
+            subject: email.subject,
+            text: email.text,
+          }),
+        });
+        if (!response.ok) {
+          console.error("[cron digest] Resend falhou no aviso ao autor", response.status);
+          continue;
+        }
+      }
+
+      const cleared = await client.rpc("clear_vote_void_notices", { p_notice_ids: notice.notice_ids });
+      if (cleared.error) console.error("[cron digest] limpeza do aviso falhou", cleared.error.message);
+    }
+  } catch (error) {
+    console.error("[cron digest] erro nos avisos ao autor", error);
+  }
 }
 
 export async function GET(request: Request) {
@@ -62,6 +119,12 @@ export async function GET(request: Request) {
   }
 
   const client = createSecretSupabaseClient();
+  const response = await sendModerationDigest(client);
+  await sendVoteVoidNotices(client);
+  return response;
+}
+
+async function sendModerationDigest(client: ReturnType<typeof createSecretSupabaseClient>) {
   const digestDate = todayInSaoPaulo();
   const digestResult = await client.rpc("get_moderation_digest", {
     p_digest_date: digestDate,
@@ -89,7 +152,7 @@ export async function GET(request: Request) {
     return NextResponse.json({ ok: true, sent: false });
   }
 
-  const email = responseBody(digest.data.submissions_count, digest.data.screenshots_count, digest.data.changes_count);
+  const email = responseBody(digest.data.submissions_count, digest.data.screenshots_count, digest.data.changes_count, digest.data.vote_alerts_count);
   try {
     const resendResponse = await fetch("https://api.resend.com/emails", {
       method: "POST",
