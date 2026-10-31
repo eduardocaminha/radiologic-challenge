@@ -527,11 +527,8 @@ body:has([data-bare-page]) > :is(header, footer) {
   display: none;
 }
 
-/* Páginas de trabalho, como o formulário: o rodapé fica só com a linha de links. */
-body:has([data-compact-footer]) > footer {
-  padding-top: 0;
-}
-
-body:has([data-compact-footer]) .asc {
+/* Páginas de quem entrou (formulário e "minhas submissões"): sem rodapé. */
+body:has([data-no-footer]) > footer {
   display: none;
 }
+

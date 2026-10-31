@@ -59,8 +59,7 @@ test("salva rascunho, permite edição e envia para moderação", async ({ brows
   const page = await context.newPage();
 
   await page.goto("/pt/submit");
-  await expect(page.locator(".asc")).toBeHidden();
-  await expect(page.getByRole("contentinfo").getByRole("link", { name: "Privacidade" })).toBeVisible();
+  await expect(page.getByRole("contentinfo")).toBeHidden();
   const currentSection = page.locator('a[aria-current="true"]');
   await expect(currentSection).toHaveText("Ficha");
   await page.locator("#demo-heading").evaluate((heading) => window.scrollTo({ top: heading.getBoundingClientRect().top + window.scrollY - 150, behavior: "instant" }));
