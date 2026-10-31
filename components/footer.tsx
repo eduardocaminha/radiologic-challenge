@@ -23,8 +23,10 @@ export function Footer({ locale, dictionary }: FooterProps) {
           <Link href={`/${locale}`} aria-label={dictionary.home.title} className="-m-2 w-fit p-2 text-foreground">
             <Logo className="size-5" aria-hidden="true" />
           </Link>
-          <span>© {new Date().getFullYear()} Radiologic</span>
-          <span>{dictionary.footer.nonClinical}</span>
+          <div className="flex flex-col gap-0.5">
+            <span>© {new Date().getFullYear()} Radiologic</span>
+            <span>{dictionary.footer.nonClinical}</span>
+          </div>
         </div>
         <FluidNav
           id="footer"
