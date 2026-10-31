@@ -8,6 +8,14 @@ export const CT_WINDOW_LEVEL_REST = { window: 400, level: 40 };
 
 export type WindowLevel = typeof CT_WINDOW_LEVEL_REST;
 
+// Varredura sem mouse: sai da janela de repouso e oscila devagar sem perder a anatomia.
+export function ctWindowLevelAt(seconds: number): WindowLevel {
+  return {
+    window: Math.round(CT_WINDOW_LEVEL_REST.window + 300 * (1 - Math.cos(seconds * 0.7))),
+    level: Math.round(CT_WINDOW_LEVEL_REST.level + 90 * Math.sin(seconds * 0.45)),
+  };
+}
+
 export function pointerFraction(event: React.PointerEvent<HTMLElement>) {
   if (event.pointerType !== "mouse" || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return null;
   const box = event.currentTarget.getBoundingClientRect();
