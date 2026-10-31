@@ -75,6 +75,7 @@ export interface Dictionary {
     signIn: string;
     signOut: string;
     loginTitle: string;
+    loginTitleLead: string;
     google: string;
     github: string;
     providerError: string;

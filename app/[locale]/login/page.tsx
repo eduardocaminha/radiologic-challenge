@@ -44,11 +44,11 @@ export default async function Login({ params, searchParams }: PageProps) {
         canvasClassName="relative mb-8 min-h-0 flex-1 lg:my-10 lg:me-4"
       >
         <div className="relative flex shrink-0 flex-col gap-6 px-6 pb-6 pt-14 lg:w-1/2 lg:justify-center lg:px-16 lg:py-0">
-          <div className="mx-auto flex w-72 max-w-full flex-col gap-6 sm:contents">
+          <div className="mx-auto flex w-72 max-w-full flex-col gap-6 sm:w-fit">
             <Link href={`/${locale}`} aria-label={dictionary.home.title} className="w-fit">
               <Logo className="size-6" aria-hidden="true" />
             </Link>
-            <h1 className="max-w-xs text-display-sm sm:text-display-md">{dictionary.auth.loginTitle}</h1>
+            <h1 className="max-w-xs text-display-sm sm:text-display-md"><span className="text-muted-foreground">{dictionary.auth.loginTitleLead}</span> {dictionary.home.title}</h1>
             <LoginButtons
               locale={locale}
               next={next}

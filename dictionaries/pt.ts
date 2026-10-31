@@ -83,6 +83,7 @@ const dictionary: Dictionary = {
     signIn: "Entrar",
     signOut: "Sair",
     loginTitle: "Entrar no Radiologic Workstation",
+    loginTitleLead: "Entrar no",
     google: "Entrar com Google",
     github: "Entrar com GitHub",
     providerError: "Não foi possível entrar. Tente novamente.",
