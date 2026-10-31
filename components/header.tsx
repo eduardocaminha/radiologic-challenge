@@ -3,7 +3,7 @@ import { Suspense } from "react";
 import { FluidNav } from "@/components/fluid-nav";
 import { HeaderSubmit } from "@/components/header-submit";
 import { Logo } from "@/components/logo";
-import { LocaleSwitcher } from "@/components/locale-switcher";
+import { LocaleSwitcher, LocaleToggle } from "@/components/locale-switcher";
 import { SiteMenu } from "@/components/site-menu";
 import { AuthStatus } from "@/components/auth-status";
 import type { Locale } from "@/lib/i18n";
@@ -28,10 +28,10 @@ export function Header({ locale, dictionary }: HeaderProps) {
         <Link href={`/${locale}`} aria-label={dictionary.home.title} className="-m-3 flex items-center gap-2 p-3">
           <Logo className="size-5" aria-hidden="true" />
         </Link>
+        <SiteMenu label={dictionary.nav.menu} links={[...links, submit]} locale={<LocaleToggle locale={locale} label={dictionary.nav.languageLabel} />} />
         <FluidNav id="header" label={dictionary.nav.label} links={links} className="hidden lg:flex" />
       </div>
       <div className="flex items-center gap-2 whitespace-nowrap">
-        <SiteMenu label={dictionary.nav.menu} links={[...links, submit]} />
         <Suspense fallback={null}>
           <LocaleSwitcher locale={locale} label={dictionary.nav.languageLabel} />
         </Suspense>
