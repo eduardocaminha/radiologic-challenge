@@ -258,79 +258,51 @@
   color: var(--foreground);
 }
 
-/* Entrada dos cards da galeria na primeira carga: cascata curta, só opacidade
-   e translate (não conflita com o transform do layout do motion). */
-@keyframes row-in {
+/* Entrada de página: uma frente desfocada desce do topo até o fim da janela e revela
+   tudo num movimento só. Roda em cada navegação, porque `template.tsx` remonta a camada.
+   Faixa de cima: só blur. Faixa de baixo: o fundo da página cobre o que ainda não chegou. */
+@keyframes page-reveal {
   from {
-    opacity: 0;
-    translate: 0 6px;
+    visibility: visible;
+  }
+
+  to {
+    visibility: hidden;
+    translate: 0 calc(100lvh + var(--reveal-band));
   }
 }
 
-@keyframes row-fade {
-  from {
-    opacity: 0;
-  }
+.page-reveal {
+  --reveal-band: 45lvh;
+  position: fixed;
+  top: calc(var(--reveal-band) * -1);
+  inset-inline: 0;
+  z-index: 60;
+  height: calc(100lvh + var(--reveal-band));
+  pointer-events: none;
+  animation: page-reveal 1100ms cubic-bezier(0.45, 0.05, 0.55, 0.95) both;
 }
 
-.reveal-item {
-  animation: row-in 320ms var(--ease-out-strong) both;
-  animation-delay: calc(min(var(--i, 0), 8) * 40ms);
+.page-reveal::before {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: var(--reveal-band);
+  backdrop-filter: blur(10px);
+  mask-image: linear-gradient(to bottom, transparent, black 60%);
+}
+
+.page-reveal::after {
+  content: "";
+  position: absolute;
+  inset: calc(var(--reveal-band) * 0.4) 0 0;
+  background: linear-gradient(to bottom, transparent, var(--page-bg) calc(var(--reveal-band) * 0.6));
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .reveal-item {
-    animation-name: row-fade;
-  }
-}
-
-/* Entrada do hero: o texto sai de um blur leve. Só no carregamento, então pode durar mais que um elemento de interface. */
-@keyframes hero-in {
-  from {
-    opacity: 0;
-    filter: blur(8px);
-    translate: 0 8px;
-  }
-}
-
-.hero-in > * {
-  animation: hero-in 1400ms var(--ease-out-strong) both;
-}
-
-.hero-in > :nth-child(2) {
-  animation-delay: 160ms;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .hero-in > * {
-    animation-name: row-fade;
-  }
-}
-
-/* Blocos da landing: a mesma entrada do hero, com o mesmo passo de 160 ms, para a página ler como um movimento só. */
-.block-in {
-  animation: hero-in 1400ms var(--ease-out-strong) both;
-}
-
-.block-in-1 {
-  animation-delay: 320ms;
-}
-
-.block-in-2 {
-  animation-delay: 480ms;
-}
-
-.block-in-3 {
-  animation-delay: 640ms;
-}
-
-.block-in-4 {
-  animation-delay: 800ms;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .block-in {
-    animation-name: row-fade;
+  .page-reveal {
+    display: none;
   }
 }
 
