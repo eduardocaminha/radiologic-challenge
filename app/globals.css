@@ -175,7 +175,7 @@
   --radius-xl: var(--radius-xl);
   --radius-2xl: var(--radius-2xl);
   --aspect-card: 16 / 10;
-  --aspect-wordmark: 7.6;
+  --aspect-wordmark: 5.67;
   --color-destructive-foreground: var(--destructive-foreground);
 
   /* Escala tipográfica por papel (display, headline, title, body, label), no
