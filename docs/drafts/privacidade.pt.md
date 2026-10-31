@@ -11,7 +11,7 @@ O controlador é a Radiologic, marca da MEDLABZ CONSULTORIA LTDA, CNPJ 62.761.03
 - **Ao entrar com Google ou GitHub:** e-mail, nome, foto de perfil e o identificador da conta no provedor. Não recebemos a sua senha.
 - **Ao votar:** qual conta votou em qual projeto e quando.
 - **Ao submeter um projeto:** os dados da ficha, as capturas de tela e, se a submissão vier por issue no GitHub, o número da issue e o identificador da sua conta GitHub.
-- **Ao navegar:** métricas agregadas de acesso pelo Vercel Web Analytics, sem cookies e sem identificar quem visita. O site não usa ferramenta de publicidade ou de rastreamento entre sites. A Vercel também registra dados técnicos de cada acesso, como o endereço IP, para entregar a página e proteger o site.
+- **Ao navegar:** métricas agregadas de acesso e desempenho pelo Vercel Web Analytics e Speed Insights, sem cookies e sem identificar quem visita. O site não usa ferramenta de publicidade ou de rastreamento entre sites. A Vercel também registra dados técnicos de cada acesso, como o endereço IP, para entregar a página e proteger o site.
 
 Não coletamos dados de saúde. O regulamento proíbe o envio de exames de pacientes reais fora de bases públicas.
 
