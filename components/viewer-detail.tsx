@@ -37,7 +37,7 @@ export function ViewerDetail({ locale, dictionary, viewer }: { locale: Locale; d
         </div>
         <div className="flex flex-wrap items-start gap-2">
           {primary ? (
-            <Button size="lg" render={<a href={primary[1]} target="_blank" rel="noreferrer" />}>
+            <Button size="lg" className="max-sm:w-full" render={<a href={primary[1]} target="_blank" rel="noreferrer" />}>
               {primary[0]}
               <ArrowUpRightIcon aria-hidden="true" />
             </Button>

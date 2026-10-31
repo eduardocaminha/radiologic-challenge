@@ -25,12 +25,12 @@ export function Header({ locale, dictionary }: HeaderProps) {
   return (
     <header className="mx-auto flex w-full max-w-6xl items-center justify-between gap-3 px-6 py-4">
       <div className="flex items-center gap-4">
-        <Link href={`/${locale}`} aria-label={dictionary.home.title} className="-m-2 flex items-center gap-2 p-2">
+        <Link href={`/${locale}`} aria-label={dictionary.home.title} className="-m-3 flex items-center gap-2 p-3">
           <Logo className="size-5" aria-hidden="true" />
         </Link>
         <FluidNav id="header" label={dictionary.nav.label} links={links} className="hidden lg:flex" />
       </div>
-      <div className="flex items-center gap-1 whitespace-nowrap sm:gap-2">
+      <div className="flex items-center gap-2 whitespace-nowrap">
         <SiteMenu label={dictionary.nav.menu} links={[...links, submit]} />
         <Suspense fallback={null}>
           <LocaleSwitcher locale={locale} label={dictionary.nav.languageLabel} />

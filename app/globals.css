@@ -380,6 +380,19 @@ body:has([data-sticky-header]) > header::before {
   letter-spacing: -0.01em;
 }
 
+/* Ao lado de um Button lg: mesma altura e mesmo corpo de texto. */
+.lk-lg {
+  height: 40px;
+  font-size: 16px;
+}
+
+@media (min-width: 40rem) {
+  .lk-lg {
+    height: 36px;
+    font-size: 14px;
+  }
+}
+
 /* Invertido só depois do voto: o branco marca o seu voto, e a galeria não vira uma parede de botões primários. */
 .lk[data-voted] {
   background: var(--foreground);

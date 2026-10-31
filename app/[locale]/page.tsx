@@ -52,8 +52,8 @@ export default async function Home({ params }: PageProps) {
       <section className="hero-in flex flex-col gap-8">
         <h1 className="max-w-4xl text-display-sm text-balance sm:text-display-lg">{dictionary.home.headline} <span className="text-muted-foreground">{dictionary.home.headlineNote}</span></h1>
         <div className="flex flex-wrap gap-2">
-          <Button size="lg" render={<Link href={`/${locale}/submit`} />}>{dictionary.home.submit}</Button>
-          <AgentSubmit copy={dictionary.home.agent} variant="outline" size="lg" />
+          <Button size="lg" className="max-sm:flex-1 max-sm:px-2 max-sm:text-sm" render={<Link href={`/${locale}/submit`} />}>{dictionary.home.submit}</Button>
+          <AgentSubmit copy={dictionary.home.agent} variant="outline" size="lg" className="max-sm:flex-1 max-sm:px-2 max-sm:text-sm" />
         </div>
       </section>
       {months[0] ? <LatestHighlights locale={locale} dictionary={dictionary} month={months[0]} /> : null}

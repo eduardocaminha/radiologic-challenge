@@ -18,7 +18,7 @@ export function Footer({ locale, dictionary }: FooterProps) {
   return (
     <footer className="mx-auto w-full max-w-6xl px-6 pt-20">
       <AsciiWake />
-      <div className="grid grid-cols-2 gap-x-6 gap-y-8 py-10 text-sm text-muted-foreground sm:grid-cols-3">
+      <div className="flex flex-col gap-8 py-10 text-sm text-muted-foreground sm:grid sm:grid-cols-3 sm:gap-x-6">
         <div className="flex flex-col gap-3">
           <Link href={`/${locale}`} aria-label={dictionary.home.title} className="-m-2 w-fit p-2 text-foreground">
             <Logo className="size-5" aria-hidden="true" />
@@ -35,7 +35,7 @@ export function Footer({ locale, dictionary }: FooterProps) {
             { href: SOURCE_URL, label: dictionary.footer.source, icon: <GithubIcon /> },
           ]}
         />
-        <span className="max-sm:col-span-2 sm:text-end">{dictionary.footer.nonClinical}</span>
+        <span className="sm:text-end">{dictionary.footer.nonClinical}</span>
       </div>
     </footer>
   );

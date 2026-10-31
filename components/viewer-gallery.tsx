@@ -309,7 +309,7 @@ function ViewerCard({ position, locale, viewer, rank, votes, copy, voteCopy, sha
               {rank !== null ? <span className="me-2 tabular-nums text-muted-foreground">{rank}</span> : null}
               {viewer.name}
             </span>
-            <span title={viewer.tagline} className="truncate text-sm text-muted-foreground">{viewer.tagline}</span>
+            <span className="line-clamp-3 text-sm text-muted-foreground">{viewer.tagline}</span>
             {meta ? <span title={meta} className="truncate text-sm text-muted-foreground">{meta}</span> : null}
           </span>
         </span>
