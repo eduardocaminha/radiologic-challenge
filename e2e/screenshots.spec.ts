@@ -74,5 +74,29 @@ test("envia, reordena e exclui capturas de tela do rascunho", async ({ browser }
   await page.getByRole("button", { name: "Excluir imagem" }).nth(0).click();
   await page.getByRole("alertdialog").getByRole("button", { name: "Excluir imagem" }).click();
   await expect(page.locator('img[alt^="Capturas de tela"]')).toHaveCount(1);
+
+  // Print de tela cheia: sobe como WebP com no máximo 1600 px de largura.
+  const largePng = Buffer.from(
+    (await page.evaluate(() => {
+      const canvas = document.createElement("canvas");
+      canvas.width = 2400;
+      canvas.height = 1500;
+      const ctx = canvas.getContext("2d")!;
+      const gradient = ctx.createLinearGradient(0, 0, 2400, 1500);
+      gradient.addColorStop(0, "#111");
+      gradient.addColorStop(1, "#ddd");
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, 2400, 1500);
+      ctx.fillStyle = "#fff";
+      ctx.font = "48px sans-serif";
+      for (let y = 80; y < 1500; y += 120) ctx.fillText("Axial CT 1/65 · Lung", 80, y);
+      return canvas.toDataURL("image/png").split(",")[1];
+    })),
+    "base64",
+  );
+  await fileInput.setInputFiles({ name: "large.png", mimeType: "image/png", buffer: largePng });
+  const uploaded = page.locator('img[alt^="Capturas de tela"]').nth(1);
+  await expect(uploaded).toHaveAttribute("src", /\.webp/);
+  await expect.poll(() => uploaded.evaluate((img: HTMLImageElement) => img.naturalWidth)).toBe(1600);
   await context.close();
 });
