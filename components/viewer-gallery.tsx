@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { AnimatePresence, MotionConfig, motion } from "motion/react";
-import { useMemo } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { CtViewport } from "@/components/ct-viewport";
 import { LineTabs } from "@/components/line-tabs";
 import { ShareButton } from "@/components/share-button";
@@ -199,9 +199,10 @@ export function ViewerGallery({
         ) : (
           <ol className="grid gap-4 sm:grid-cols-2">
             <AnimatePresence initial={false}>
-              {visibleViewers.map((viewer) => (
+              {visibleViewers.map((viewer, position) => (
                 <ViewerCard
                   key={viewer.id}
+                  eager={position < 2}
                   locale={locale}
                   viewer={viewer}
                   rank={sort === "recent" || votesOf(viewer) === 0 ? null : filteredViewers.findIndex((other) => votesOf(other) === votesOf(viewer)) + 1}
@@ -278,8 +279,13 @@ function GalleryEmpty({ locale, dictionary }: { locale: Locale; dictionary: Dict
   );
 }
 
-function ViewerCard({ locale, viewer, rank, votes, copy, voteCopy, shareCopy, meta }: { locale: Locale; viewer: PublicViewer; rank: number | null; votes: number; voteCopy: Dictionary["vote"]; shareCopy: Dictionary["share"]; copy: Dictionary["gallery"]; meta: string }) {
+function ViewerCard({ locale, viewer, eager, rank, votes, copy, voteCopy, shareCopy, meta }: { locale: Locale; viewer: PublicViewer; eager: boolean; rank: number | null; votes: number; voteCopy: Dictionary["vote"]; shareCopy: Dictionary["share"]; copy: Dictionary["gallery"]; meta: string }) {
   const screenshot = viewer.screenshots[0];
+  const [loaded, setLoaded] = useState(false);
+  // A imagem pode terminar antes da hidratação, e aí o onLoad não dispara de novo.
+  const checkLoaded = useCallback((img: HTMLImageElement | null) => {
+    if (img?.complete && img.naturalWidth > 0) setLoaded(true);
+  }, []);
   return (
     <motion.li
       layout="position"
@@ -289,7 +295,7 @@ function ViewerCard({ locale, viewer, rank, votes, copy, voteCopy, shareCopy, me
     >
       <Link href={`/${locale}/v/${viewer.slug}`} className="group flex h-full flex-col gap-4 rounded-2xl bg-surface p-2 outline-none transition-colors duration-150 hover:bg-muted focus-visible:ring-2 focus-visible:ring-ring">
         <span className="relative aspect-card overflow-hidden rounded-lg bg-page-bg">
-          {screenshot?.url ? <Image src={screenshot.url} loader={imageLoader} unoptimized fill sizes="(min-width: 640px) 50vw, 100vw" alt="" className="object-cover transition-transform duration-500 ease-(--ease-out-strong) group-hover:scale-102" /> : (
+          {screenshot?.url ? <Image ref={checkLoaded} src={screenshot.url} loader={imageLoader} unoptimized fill sizes="(min-width: 640px) 50vw, 100vw" alt="" loading={eager ? "eager" : "lazy"} fetchPriority={eager ? "high" : "auto"} onLoad={() => setLoaded(true)} className={cn("object-cover transition duration-500 ease-(--ease-out-strong) group-hover:scale-102 motion-reduce:transition-none", loaded ? "opacity-100" : "opacity-0")} /> : (
             <>
               <span aria-hidden="true" className="absolute inset-x-0 top-1/2 h-px bg-foreground/8" />
               <span aria-hidden="true" className="absolute inset-y-0 left-1/2 w-px bg-foreground/8" />
