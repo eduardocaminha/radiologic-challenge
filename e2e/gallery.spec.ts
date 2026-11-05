@@ -69,6 +69,15 @@ test("gallery mostra o estado publicado em 375 px", async ({ page }) => {
   await expect(page.getByRole("heading", { name: "Uso não clínico" })).toBeVisible();
 });
 
+test("gallery mostra a imagem do card ao carregar e ao recarregar com cache", async ({ page }) => {
+  await page.goto("/pt");
+  const image = page.getByRole("link", { name: "Galeria Viewer" }).locator("img");
+  await expect(image).toHaveAttribute("fetchpriority", "high");
+  await expect(image).toHaveCSS("opacity", "1");
+  await page.reload();
+  await expect(image).toHaveCSS("opacity", "1");
+});
+
 test("gallery guarda a ordenação na URL", async ({ page }) => {
   await page.goto("/pt?sort=recent");
   await expect(page.getByRole("button", { name: "Recentes" })).toHaveAttribute("aria-pressed", "true");
