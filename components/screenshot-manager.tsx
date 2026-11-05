@@ -6,6 +6,7 @@ import Image from "next/image";
 import { ConfirmAction } from "@/components/confirm-action";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
+import { compressScreenshot } from "@/lib/storage/compress";
 import { createBrowserSupabaseClient } from "@/lib/supabase/browser";
 import { deleteScreenshot, registerScreenshot, reorderScreenshots } from "@/app/[locale]/submit/actions";
 import type { Dictionary } from "@/dictionaries";
@@ -69,11 +70,12 @@ export function ScreenshotManager({
     setUploading(true);
     let count = screenshots.length;
     try {
-      for (const file of files.slice(0, 5 - screenshots.length)) {
-        if (!ACCEPTED_TYPES.has(file.type)) {
+      for (const original of files.slice(0, 5 - screenshots.length)) {
+        if (!ACCEPTED_TYPES.has(original.type)) {
           setMessage(copy.invalidType);
           continue;
         }
+        const file = await compressScreenshot(original);
         if (file.size > MAX_SIZE) {
           setMessage(copy.invalidSize);
           continue;
